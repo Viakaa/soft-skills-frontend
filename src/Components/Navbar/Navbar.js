@@ -19,6 +19,9 @@ return(
           >
             <Nav.Link href="#action1">Home</Nav.Link>
             <Nav.Link href="#action2">Link</Nav.Link>
+
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/registration">Registration</Nav.Link>
            
             <Nav.Link href="#" disabled>
               Link
