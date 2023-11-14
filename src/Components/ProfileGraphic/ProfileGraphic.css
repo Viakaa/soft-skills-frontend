@@ -1,0 +1,71 @@
+.graphic_main{
+    padding: 25px;
+    padding-left: 5%;
+    padding-right: 5%;
+
+}
+
+.skillsCard{
+    background-color: #A8B3E3;
+    border:none;
+    border-width: 3px;
+    border-radius: 15px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='%238592D7FF' stroke-width='5' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
+    border-radius: 15px;
+    height: 350px;
+    font-size: 25px;
+    color:#000967 ;
+    display: flex;
+    padding:10px;
+
+}
+.graph_card{
+    background-color: #d2d8f0;
+    border:none;
+    border-width: 3px;
+    border-radius: 15px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='white' stroke-width='5' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
+    border-radius: 15px;
+    height: 350px;
+    font-size: 20px;
+    color:#3B468A ;
+    display: flex;
+    padding:10px;
+    text-align: center;
+
+}
+.graphic_main .card-header{
+    border: none;
+    background-color: transparent !important;
+}
+.skill_item{
+    margin:5px;
+    background-color: #A8B3E3;
+    border: none;
+    color:#000967 ;
+
+
+}
+
+@media only screen and (max-width: 600px) {
+    .skillsCard,.graph_card{
+        height: 360px;
+    }
+    .card-header{
+        font-size:25px !important;
+    }
+   
+}
+
+/* Medium devices (tablets) */
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+    .skillsCard,.graph_card{
+        height: 400px;
+    }
+}
+
+/* Large devices (desktops) */
+@media only screen and (min-width: 993px)and (max-width: 1405px) {
+   
+    
+}
