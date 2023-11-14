@@ -1,0 +1,35 @@
+.navbar_main{
+    padding: 25px;
+    padding-left: 5%;
+    padding-right: 5%;
+
+}
+.navbar{
+    border-radius: 20px;
+    background-color: #5061C5 !important;
+    font-weight: 500;
+    padding: 10px;
+    font-size: 20px;
+    
+    
+}
+Nav{
+    display: flex;
+}
+Nav .navbar_link
+{
+    margin-right:5% ;
+    width:100%;
+}
+.navbar_link_end,.navbar_link{
+    background-color: #07156524;
+    border-radius: 15px;
+    padding-left: 8px;
+    padding-right:8px;
+    color:#000967 !important;
+   
+
+
+}
+
+
