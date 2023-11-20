@@ -1,0 +1,57 @@
+.belbin_main{
+    background-color: #929DDB;
+    color:#384699;
+    padding:20px;
+    text-align: center;
+    border-radius: 20px;
+}  
+.theme_belbin{
+    font-family: 'Mitr' !important;
+
+}
+.questions_belbin{
+    font-family: 'Mitr' !important;
+    font-weight: 500 !important;
+}
+/* доріжка при активному повзунку */
+.slider .MuiSlider-track {
+    background-color: #384699; 
+    height: 8px; 
+    outline: none;
+
+  }
+  
+  /* повзунок */
+  .slider .MuiSlider-thumb {
+    height: 22px; 
+    width: 30px; 
+    background-color: #DDDFF6; 
+    border-radius:7px;
+    outline: none;
+
+  }
+  
+  /* доріжка при неактивному повзунку */
+  .slider .MuiSlider-rail {
+    background-color: #384699; 
+    height: 8px;
+    outline: none;
+
+  }
+  
+  /* маркери */
+  .slider .MuiSlider-mark {
+    background-color: #929DDB; 
+    height: 8px; 
+    width: 6px;
+    border-radius: 0;
+    outline: none;
+
+  }
+  
+  .slider .MuiSlider-markLabel {
+    font-family: 'Mitr' !important;
+    font-weight: 600;
+    color: #384699; 
+  }
+  
