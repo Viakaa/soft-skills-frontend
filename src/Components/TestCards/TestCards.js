@@ -11,7 +11,8 @@ import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
 export default function TestCards() {
     return (
         <>
-            <div className="cards_wrapper d-flex justify-content-center" style={{ gap: "290px" }}>
+        <div className='testcards_main'>
+            <div className="cards_wrapper d-flex justify-content-center" style={{ gap: "100px" }}>
                 <div className="firstCard">
                     <p style={{color: "#000F67", backgroundColor: "rgba(80, 97, 197, 0.65)", textAlign: "center", padding: "12px 0px", borderRadius: "12px", fontWeight: "bold", fontSize: "30px"}}>Test Finished: 4</p>
 
@@ -60,6 +61,7 @@ export default function TestCards() {
                         </Card.Body>
                     </Card>
                 </div>
+            </div>
             </div>
         </>
     );
