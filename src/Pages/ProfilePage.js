@@ -1,13 +1,9 @@
-import ProfileGraphic from "../Components/ProfileGraphic/ProfileGraphic.js";
-import TestCards from "../Components/TestCards/TestCards.js";
-import InformationCards from "../Components/InformationCards/InformationCards.js";
+import UserInfo from "../Components/UserInfo/UserInfo.js";
 
 export default function ProfilePage(){
     return(
-        <div style={{backgroundColor:'#C3CCED'}}>
-            <ProfileGraphic />
-            <TestCards />
-            <InformationCards />
+        <div>
+          <UserInfo/>
         </div>
     );
 }
