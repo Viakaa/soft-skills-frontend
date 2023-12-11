@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
+import "./LoginPage.css";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -27,7 +30,6 @@ function LoginForm() {
         body: JSON.stringify(formData),
       });
 
-      // Обробка відповіді з сервера, наприклад, перевірка статусу
       if (response.ok) {
         console.log('Successful auth!');
       } else {
@@ -39,33 +41,57 @@ function LoginForm() {
   };
 
   return (
-    <Form style={{ maxWidth: '250px' }} onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          placeholder="Email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </Form.Group>
+    <div className='wrapper'>
+      <p style={{ color: 'rgba(0, 15, 103, 1)', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
 
-      <Form.Group>
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          placeholder="Password"
-          name="password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </Form.Group>
+      <Form className='formWrapper' style={{ maxWidth: '250px' }} onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label className="emailLabel">Email</Form.Label>
+          <Form.Control
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            className='emailForm'
+          />
+        </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Login
-      </Button>
-    </Form>
+        <Form.Group>
+          <Form.Label className="passwordLabel">Password</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            className='passwordForm'
+          />
+        </Form.Group>
+
+        <div className='loginOptions'>
+          <Form>
+          {['checkbox'].map((type) => (
+            <div key={`default-${type}`}>
+              <Form.Check
+                type={type}
+                id={`default-${type}`}
+                label={`Remember me`}
+                className="checkbox"
+              />
+            </div>))}
+          </Form>
+
+          <Link to="/registration" className='forgotPassword'>Forgot password?</Link>
+        </div>
+
+        <Button variant="primary" type="submit" className='loginButton'>
+          Sign In
+        </Button>
+
+        <Button variant="primary" type="submit" className='registerButton'>
+          Register
+        </Button>
+      </Form>
+    </div>
   );
 }
 
