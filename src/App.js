@@ -8,6 +8,7 @@ import MainPage from './Pages/MainPage.js';
 import ProfilePage from './Pages/ProfilePage.js';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js"
+import DNDconstructor from './Components/DNDconstructor/DNDconstructor';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/registration" element={<RegistrationForm />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/test_constructor" element={<DNDconstructor />} />
 
         <Route path="/belbin" element={<BelbinTest />} />
 
