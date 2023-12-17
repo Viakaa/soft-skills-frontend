@@ -18,8 +18,8 @@ return(
             style={{ width:'100%' }}
             navbarScroll
           >
-            <Nav.Link className='navbar_link' href="#action1">Page 1</Nav.Link>
-            <Nav.Link className='navbar_link' href="#action2">Link</Nav.Link>
+            <Nav.Link className='navbar_link' href="/main">Main</Nav.Link>
+            <Nav.Link className='navbar_link' href="/test_constructor">Constructor</Nav.Link>
 
             <Nav.Link className='navbar_link' href="/login">Login</Nav.Link>
             <Nav.Link className='navbar_link' href="/registration">Registration</Nav.Link>
