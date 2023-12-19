@@ -1,6 +1,31 @@
 import "./UserInfo.css";
 import avatar from "../../Assets/Images/avatar.png";
-export default function TestCards() {
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserInfo } from '../../Redux/Actions/userActions.js';
+import axios from "axios";
+
+export default function UserInfo() {
+  const Skeleton = () => (
+    <div className="skeleton">
+    
+    </div>
+  );
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const isLoading = useSelector((state) => state.auth.loading);
+
+
+  useEffect(() => {
+      dispatch(getUserInfo());
+    
+  }, [dispatch]);
+
+  if (isLoading || !userInfo) {
+    return <Skeleton />;
+  }
+
+
   return (
     <>
       <div className="userinfo_main">
@@ -12,7 +37,7 @@ export default function TestCards() {
                   class="rounded-circle  "
                   src={avatar}
                 />
-                <span style={{marginTop:'10px'}} class="font-weight-bold">First name Second name</span>
+                <span style={{marginTop:'10px'}} class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
               </div>
             </div>
             <div class="col-md-4 border-right ">
@@ -21,15 +46,15 @@ export default function TestCards() {
 
                 <div class="row">
                   <div class="col-md-12">
-                    <label class="labels">Role in Team</label>
+                    <label class="labels">{userInfo.direction}</label>
                   
                   </div>
                   <div class="col-md-12">
-                    <label class="labels">Phone Number</label>
+                    <label class="labels">Course: {userInfo.course}</label>
              
                   </div>
                   <div class="col-md-12">
-                    <label class="labels">Email</label>
+                    <label class="labels">Sex: {userInfo.sex}</label>
              
                   </div>
                   <div class="col-md-12">
@@ -59,7 +84,7 @@ export default function TestCards() {
                 <div class="row">
                 
                   <div class="col-md-12">
-                    <label class="labels">emaildotcomesometxt@itstep.org</label>
+                    <label class="labels">{userInfo.email}</label>
                 
                   </div>
                 </div>
