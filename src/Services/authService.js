@@ -24,9 +24,16 @@ const login = async (formData) => {
 }
 };
 
+const logout = async (formData) => {
+
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userId');
+};
+
 export default {
   register,
-  login
+  login,
+  logout
 };
 
 

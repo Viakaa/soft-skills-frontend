@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import "./LoginPage.css";
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -31,7 +33,13 @@ function LoginForm() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userId', data._id); 
         console.log('Successful auth!');
+        navigate("/profile"); 
+
       } else {
         console.error('Error');
       }
