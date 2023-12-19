@@ -5,8 +5,13 @@ import { useHistory } from 'react-router';
 import {useNavigate } from "react-router-dom";
 import authService from '../../Services/authService.js'
 import "./Registration.css";
+import { connect } from 'react-redux';
+import { registerUser } from '../../Redux/Actions/userActions.js'; // Adjust the path as necessary
+import { useDispatch } from 'react-redux';
+
 function RegistrationForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -31,7 +36,7 @@ function RegistrationForm() {
     }
 
     try {
-      const response = await authService.register({
+      dispatch(registerUser({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -39,9 +44,8 @@ function RegistrationForm() {
         sex: formData.sex,
         course: parseInt(formData.course),
         direction: formData.direction,
-      });
-
-      console.log(response);
+      }));
+  
       alert('Registration Successful!');
       navigate("/login?redirect=registration"); 
     } catch (error) {
