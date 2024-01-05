@@ -1,28 +1,13 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import './DNDconstructor.css';
 
 const ItemTypes = {
   QUESTION: 'question',
   TEXT_AREA: 'textArea',
-
-};
-
-const ExampleTextArea = () => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.TEXT_AREA,
-    item: { type: 'textArea' },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
-
-  return (
-    <div ref={drag} className="draggable-text-area" style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <textarea placeholder='The description of test'></textarea>
-    </div>
-  );
 };
 
 // Draggable example question in the side panel
@@ -51,7 +36,7 @@ const DropArea = ({ onAddItem,items }) => {
       if (item.type === 'textArea') {
         onAddItem({ type: 'textArea', content: '' });
       } else {
-        onAddItem({ type: 'question', content: "Edit question" });
+        onAddItem({ type: 'question', content: "Enter the text of your question." });
       }
     },
   }), [onAddItem]);
@@ -87,10 +72,24 @@ const QuestionItem = ({ question, index, onDelete, onEdit }) => {
           onChange={(e) => setEditedText(e.target.value)}
         />
       ) : (
-        <span>{question}</span>
+        <>
+          <div className='fristWrapper'>
+            <p className='firstQuestion'>1</p>
+            <span className='fristQuestionText'>{question}</span>
+          </div>
+          <Slider className='questionSlider'
+            aria-label="Temperature"
+            defaultValue={30}
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={0}
+            max={4}
+            sx={{maxWidth: "500px", marginLeft: "22%"}}
+          />
+        </>
       )}
-      <button onClick={handleEdit}>{isEditing ? 'Save' : 'Edit'}</button>
-      <button onClick={() => onDelete(index)}>Delete</button>
+      
     </div>
   );
 };
@@ -149,7 +148,6 @@ function DNDconstructor() {
       <div className="app">
         <aside className="side-panel">
           <ExampleQuestion question="Drag this example question" />
-          <ExampleTextArea />
         </aside>
         <main className="main-content">
           <div className="item-list">
@@ -181,4 +179,3 @@ function DNDconstructor() {
   );
 }
 export default DNDconstructor;
-
