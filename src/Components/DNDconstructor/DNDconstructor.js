@@ -24,6 +24,9 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckIcon from "@mui/icons-material/Check";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SearchIcon from "@mui/icons-material/Search";
+import axios from 'axios';
+
+
 const ItemTypes = {
   QUESTION: "question",
   TEXT_AREA: "textArea",
@@ -807,6 +810,54 @@ function DNDconstructor() {
     );
   };
 
+
+
+  const [testTitle, setTestTitle] = useState('');
+
+  const handleCreateTest = async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+
+      // Filter for Yes/No questions only
+      const yesNoQuestions = items.filter(item => item.type === ItemTypes.YES_NO_QUESTION);
+
+      const questionPromises = yesNoQuestions.map(question =>
+        axios.post('http://ec2-34-239-91-8.compute-1.amazonaws.com/questions', {
+          question: "Question",
+          type: 'yes_no',
+          category: "communication",
+          points:3
+        },{
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        })
+      );
+
+      // Wait for all questions to be posted
+      const questionResponses = await Promise.all(questionPromises);
+
+      // Extract IDs from the responses
+      const questionIds = questionResponses.map(res => res.data._id);
+      console.log(questionIds);
+      // Create the test with the question IDs
+      const testResponse = await axios.post('http://ec2-34-239-91-8.compute-1.amazonaws.com/tests', {
+        title: testTitle,
+        questions: questionIds,
+      },{
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+
+      console.log('Test created:', testResponse.data);
+    } catch (error) {
+      console.error('Error creating test:', error);
+    }
+  };
+
+
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="app">
@@ -821,7 +872,11 @@ function DNDconstructor() {
           <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
           <DraggableSkillSelector content="Select and place the soft skill categories." />
         </aside>
+        
         <main className="main-content">
+        <input className='test_name' placeholder='Test title' value={testTitle}
+        onChange={e => setTestTitle(e.target.value)}/>
+
           <div className="item-list">
             {items.map((item, index) => {
               if (item.type === ItemTypes.YES_NO_QUESTION) {
@@ -891,7 +946,10 @@ function DNDconstructor() {
             })}
           </div>
           <DropArea onAddItem={addItem} items={items} />
+          <button onClick={handleCreateTest}>Create Test</button>
+
         </main>
+
       </div>
     </DndProvider>
   );

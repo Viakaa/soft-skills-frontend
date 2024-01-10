@@ -338,3 +338,22 @@
   position: relative;
   top: -15px;
 }
+
+.test_name{
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-size: 30px;
+  color:#384699;
+  font-weight: 700;
+}
+.test_name:focus{
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-size: 30px;
+  color:#384699;
+  font-weight: 700;
+  outline: none !important;
+
+}
