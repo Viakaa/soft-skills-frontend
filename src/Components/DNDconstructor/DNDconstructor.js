@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Slider from "@mui/material/Slider";
@@ -788,15 +788,23 @@ const TextAreaItem = ({ item, index, onDelete, onEdit }) => {
 function DNDconstructor() {
   const [items, setItems] = useState([]);
 
-  const addItem = (newItem) => {
-    setItems((prevItems) => [
-      ...prevItems,
-      { ...newItem, id: Math.random() }, // Assign a unique ID to each item
-    ]);
-  };
+  useEffect(() => {
+    const savedItems = JSON.parse(localStorage.getItem('dnd-items'));
+    if (savedItems) {
+      setItems(savedItems);
+    }
+  }, []);
 
+  const addItem = (newItem) => {
+    const updatedItems = [...items, { ...newItem, id: Math.random() }];
+    setItems(updatedItems);
+    localStorage.setItem('dnd-items', JSON.stringify(updatedItems));
+  };
+  
   const deleteItem = (index) => {
-    setItems(items.filter((_, idx) => idx !== index));
+    const updatedItems = items.filter((_, idx) => idx !== index);
+    setItems(updatedItems);
+    localStorage.setItem('dnd-items', JSON.stringify(updatedItems));
   };
 
   const editItem = (indexToEdit, newContent) => {
@@ -854,6 +862,8 @@ function DNDconstructor() {
     } catch (error) {
       console.error('Error creating test:', error);
     }
+    localStorage.removeItem('dnd-items');
+
   };
 
 
