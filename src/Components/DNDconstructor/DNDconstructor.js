@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Slider from "@mui/material/Slider";
@@ -24,8 +24,7 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckIcon from "@mui/icons-material/Check";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SearchIcon from "@mui/icons-material/Search";
-import axios from 'axios';
-
+import axios from "axios";
 
 const ItemTypes = {
   QUESTION: "question",
@@ -788,23 +787,16 @@ const TextAreaItem = ({ item, index, onDelete, onEdit }) => {
 function DNDconstructor() {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    const savedItems = JSON.parse(localStorage.getItem('dnd-items'));
-    if (savedItems) {
-      setItems(savedItems);
-    }
-  }, []);
-
   const addItem = (newItem) => {
     const updatedItems = [...items, { ...newItem, id: Math.random() }];
     setItems(updatedItems);
-    localStorage.setItem('dnd-items', JSON.stringify(updatedItems));
+    localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
-  
+
   const deleteItem = (index) => {
     const updatedItems = items.filter((_, idx) => idx !== index);
     setItems(updatedItems);
-    localStorage.setItem('dnd-items', JSON.stringify(updatedItems));
+    localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
 
   const editItem = (indexToEdit, newContent) => {
@@ -818,55 +810,128 @@ function DNDconstructor() {
     );
   };
 
-
-
-  const [testTitle, setTestTitle] = useState('');
+  const [testTitle, setTestTitle] = useState("");
 
   const handleCreateTest = async () => {
     try {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = localStorage.getItem("authToken");
+      const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
+
+      // Add each question to the database and collect their IDs
+      const questionPromises = savedItems.map((item) =>
+        axios.post(
+          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
+          {
+            question: "Question",
+            type: item.type,
+            category: "communication",
+            points: 3,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        )
+      );
+
+      // Wait for all questions to be added
+      const questionResponses = await Promise.all(questionPromises);
+
+      // Extract IDs from the responses
+      const questionIds = questionResponses.map((res) => res.data._id);
+
+      // Create the test with the question IDs
+      const testResponse = await axios.post(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/tests",
+        {
+          title: testTitle,
+          questions: questionIds,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      console.log("Test created:", testResponse.data);
+
+      // Remove items from local storage and clear them from the dragged area
+      localStorage.removeItem("dnd-items");
+      setItems([]); // This line clears the dragged area
+      setTestTitle("");
+    } catch (error) {
+      console.error("Error creating test:", error);
+    }
+  };
+
+
+
+  useEffect(() => {
+    const savedItems = JSON.parse(localStorage.getItem("dnd-items"));
+    //const savedTitle = localStorage.getItem("dnd-test-title");
+
+    if (savedItems) {
+      setItems(savedItems);
+    }
+    /*if (savedTitle) {
+      setTestTitle(savedTitle);
+    }*/
+  }, []);
+
+  /*const handleCreateTest1 = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
 
       // Filter for Yes/No questions only
-      const yesNoQuestions = items.filter(item => item.type === ItemTypes.YES_NO_QUESTION);
+      const yesNoQuestions = items.filter(
+        (item) => item.type === ItemTypes.YES_NO_QUESTION
+      );
 
-      const questionPromises = yesNoQuestions.map(question =>
-        axios.post('http://ec2-34-239-91-8.compute-1.amazonaws.com/questions', {
-          question: "Question",
-          type: 'yes_no',
-          category: "communication",
-          points:3
-        },{
-          headers: {
-            Authorization: `Bearer ${authToken}`
+      const questionPromises = yesNoQuestions.map((question) =>
+        axios.post(
+          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
+          {
+            question: "Question",
+            type: "yes_no",
+            category: "communication",
+            points: 3,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
           }
-        })
+        )
       );
 
       // Wait for all questions to be posted
       const questionResponses = await Promise.all(questionPromises);
 
       // Extract IDs from the responses
-      const questionIds = questionResponses.map(res => res.data._id);
+      const questionIds = questionResponses.map((res) => res.data._id);
       console.log(questionIds);
       // Create the test with the question IDs
-      const testResponse = await axios.post('http://ec2-34-239-91-8.compute-1.amazonaws.com/tests', {
-        title: testTitle,
-        questions: questionIds,
-      },{
-        headers: {
-          Authorization: `Bearer ${authToken}`
+      const testResponse = await axios.post(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/tests",
+        {
+          title: testTitle,
+          questions: questionIds,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
-      });
+      );
 
-      console.log('Test created:', testResponse.data);
+      console.log("Test created:", testResponse.data);
+      localStorage.removeItem("dnd-items");
     } catch (error) {
-      console.error('Error creating test:', error);
+      console.error("Error creating test:", error);
     }
-    localStorage.removeItem('dnd-items');
-
-  };
-
-
+  };*/
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -882,10 +947,14 @@ function DNDconstructor() {
           <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
           <DraggableSkillSelector content="Select and place the soft skill categories." />
         </aside>
-        
+
         <main className="main-content">
-        <input className='test_name' placeholder='Test title' value={testTitle}
-        onChange={e => setTestTitle(e.target.value)}/>
+          <input
+            className="test_name"
+            placeholder="Test title"
+            value={testTitle}
+            onChange={(e) => setTestTitle(e.target.value)}
+          />
 
           <div className="item-list">
             {items.map((item, index) => {
@@ -957,9 +1026,7 @@ function DNDconstructor() {
           </div>
           <DropArea onAddItem={addItem} items={items} />
           <button onClick={handleCreateTest}>Create Test</button>
-
         </main>
-
       </div>
     </DndProvider>
   );
