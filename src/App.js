@@ -10,6 +10,7 @@ import PrivateRoute from './PrivateRoute';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js"
 import DNDconstructor from './Components/DNDconstructor/DNDconstructor';
+import AdminPage from './Pages/AdminPage';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/registration" element={<RegistrationForm />} />
         <Route path="/main" element={<MainPage />} />
+        <Route path="/adminpanel" element={<AdminPage />} />
+
         <Route path="/profile" element={
           <PrivateRoute>
             <ProfilePage />
