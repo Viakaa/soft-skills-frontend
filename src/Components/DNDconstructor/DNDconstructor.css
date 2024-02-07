@@ -2,6 +2,8 @@
   display: flex;
   height: 100vh;
   background-color: #daddf0;
+  font-family: 'Mitr';
+
 }
 
 .side-panel {
@@ -381,7 +383,7 @@
 .wrapperPointsYN {
   display: flex !important;
   justify-content: center;
-  gap: 250px !important;
+  gap: 250px;
   margin-top: 20px;
 }
 
@@ -393,4 +395,30 @@
 
 .form-control-container {
   margin-top: 10px;
+}
+
+.fristQuestionText{
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-family: 'Mitr';
+  color:#19236C;
+  outline: none !important;
+}
+
+.create_test{
+background-color: #5164C6;
+border: none;
+color: white;
+width: 22%;
+height: 60px;
+font-family: 'Mitr';
+font-size: 20px;
+border-radius: 10px;
+}
+
+.yesno_button{
+  font-family: 'Mitr' !important;
+  border-radius: 10px !important;
+
 }

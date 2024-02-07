@@ -198,6 +198,8 @@ const YesNoQuestionItem = ({
             textTransform: "none", // Prevent uppercase transformation
             boxShadow: "none", // No shadow for a flatter appearance
           }}
+          className='yesno_button'
+
         >
           Yes
         </Button>
@@ -219,6 +221,7 @@ const YesNoQuestionItem = ({
             textTransform: "none",
             boxShadow: "none",
           }}
+          className='yesno_button'
         >
           No
         </Button>
@@ -569,7 +572,7 @@ function DNDconstructor() {
             })}
           </div>
           <DropArea onAddItem={addItem} items={items} />
-          <button onClick={handleCreateTest}>Create Test</button>
+          <button className='create_test' onClick={handleCreateTest}>Create Test</button>
         </main>
       </div>
     </DndProvider>
