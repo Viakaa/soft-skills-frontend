@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Slider from "@mui/material/Slider";
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { useTheme } from '@mui/material/styles';
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { useTheme } from "@mui/material/styles";
 import Form from "react-bootstrap/Form";
 import "./DNDconstructor.css";
 import { Radio, RadioGroup, FormControlLabel, Typography } from "@mui/material";
@@ -68,17 +68,17 @@ const MenuProps = {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
-      backgroundColor: '#C9D0FB',
-      marginLeft: "-13px"
+      backgroundColor: "#C9D0FB",
+      marginLeft: "-13px",
     },
   },
 };
 
 const names = [
-  'Skill number one',
-  'Skill number two',
-  'Skill number three',
-  'Skill number four',
+  "Skill number one",
+  "Skill number two",
+  "Skill number three",
+  "Skill number four",
 ];
 
 function getStyles(name, personName1, theme) {
@@ -99,14 +99,13 @@ function getStyles1(name, personName2, theme) {
   };
 }
 
-
-
 const YesNoQuestionItem = ({
   content,
   answers,
   points,
   characteristics,
   index,
+  items,
   onDelete,
   onUpdate,
 }) => {
@@ -115,25 +114,51 @@ const YesNoQuestionItem = ({
   const [yesPoints, setYesPoints] = useState(null); // points for yes
   const [noPoints, setNoPoints] = useState(null); // points for no
   const [characteristicsList, setCharacteristicsList] = useState([]); // characteristics list
-  const [selectedYesChar, setSelectedYesChar] = useState(""); // characteristics for yes
-  const [selectedNoChar, setSelectedNoChar] = useState("");// characteristics for no
+  const [selectedYesChar, setSelectedYesChar] = useState({ id: "", title: "" });
+  const [selectedNoChar, setSelectedNoChar] = useState({ id: "", title: "" });
+
+  const fetchCharacteristics = async (authToken) => {
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      const fetchedCharacteristics = response.data.map((char) => ({
+        _id: char._id,
+        title: char.title,
+      }));
+
+      console.log(fetchedCharacteristics);
+      setCharacteristicsList(fetchedCharacteristics);
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    };
-    axios
-      .get("http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills", config)
-      .then((response) => {
-        setCharacteristicsList(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching characteristics:", error);
-      });
+    if (!authToken) {
+      console.error("Auth token is not available.");
+      return;
+    }
+    fetchCharacteristics(authToken);
   }, []);
+  //handle yes characteristic
+  const handleYesCharChange = (event) => {
+    const charId = event.target.value;
+    const char = characteristicsList.find((c) => c._id === charId);
+    setSelectedYesChar({ id: char._id, title: char.title });
+  };
+  
+    //handle no characteristic
+
+  const handleNoCharChange = (event) => {
+    const charId = event.target.value;
+    const char = characteristicsList.find((c) => c._id === charId);
+    setSelectedNoChar({ id: char._id, title: char.title });
+  };
 
   useEffect(() => {
     onUpdate(index, {
@@ -152,18 +177,14 @@ const YesNoQuestionItem = ({
     const {
       target: { value },
     } = event;
-    setPersonName1(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setPersonName1(typeof value === "string" ? value.split(",") : value);
   };
 
   const handleChange2 = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName2(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setPersonName2(typeof value === "string" ? value.split(",") : value);
   };
 
   return (
@@ -174,6 +195,7 @@ const YesNoQuestionItem = ({
           className="fristQuestionText"
           contenteditable="true"
           value={questionName}
+          required
           onChange={(e) => setQuestionName(e.target.value)}
         />
 
@@ -198,8 +220,7 @@ const YesNoQuestionItem = ({
             textTransform: "none", // Prevent uppercase transformation
             boxShadow: "none", // No shadow for a flatter appearance
           }}
-          className='yesno_button'
-
+          className="yesno_button"
         >
           Yes
         </Button>
@@ -221,12 +242,12 @@ const YesNoQuestionItem = ({
             textTransform: "none",
             boxShadow: "none",
           }}
-          className='yesno_button'
+          className="yesno_button"
         >
           No
         </Button>
       </div>
-      <div className="wrapperPointsYN" >
+      <div className="wrapperPointsYN">
         <Form.Control
           size="sm"
           type="text"
@@ -234,6 +255,7 @@ const YesNoQuestionItem = ({
           className="addPointsYN"
           value={yesPoints}
           onChange={(e) => setYesPoints(Number(e.target.value))}
+          required
         />
         <Form.Control
           size="sm"
@@ -242,136 +264,49 @@ const YesNoQuestionItem = ({
           className="addPointsYN"
           value={noPoints}
           onChange={(e) => setNoPoints(Number(e.target.value))}
+          required
         />
       </div>
-      <div className="categoryDrop">
-      <FormControl sx={{
-        width: "283px", 
-        fontSize: "18px", 
-        backgroundColor: "#C9D0FB", 
-        borderRadius: "10px", 
-        border: "2px solid #384699",
-        outline: "none",
-        marginLeft: "60px"
-      }}>
-        <Select
-          multiple
-          displayEmpty
-          value={personName1}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Choose the category of skill</em>;
-            }
+      <div className="categoryDrop d-flex justify-content-around">
+        <FormControl style={{ width: "200px" }}>
+          <InputLabel id="yes-characteristic-label">
+            Yes Characteristic
+          </InputLabel>
+          <Select
+            labelId="yes-characteristic-label"
+            value={selectedYesChar ? selectedYesChar.id : ""}
+            onChange={handleYesCharChange}
+            displayEmpty
+            required
+          >
+            {characteristicsList.map((char) => (
+              <MenuItem key={char._id} value={char._id}>
+                {char.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-            return selected.join(', ');
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-          IconComponent={() => (
-            <svg
-              width="50"
-              height="50"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7 10L12 15L17 10H7Z"
-                fill={theme.palette.primary.main}
-              />
-            </svg>
-          )}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={{ 
-                fontSize: "18px", 
-                backgroundColor: "#C9D0FB", 
-                border: `3px solid ${personName1.includes(name) ? 'green' : '#384699'}`, 
-                borderRadius: "5px", 
-                padding: "4px",
-                display: 'flex',
-                justifyContent: 'space-between',
-                outline: "none",
-                marginTop: "5px",
-                color: "#000F67",
-              }}
-              className={personName1.includes(name) ? 'Mui-selected' : ''}
-            >
-              {name} {personName1.includes(name) && <CheckIcon style={{ color: 'green', marginRight: '5px' }} />}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl sx={{
-        width: "283px", 
-        fontSize: "18px", 
-        backgroundColor: "#C9D0FB", 
-        borderRadius: "10px", 
-        border: "2px solid #384699",
-        outline: "none",
-        marginLeft: "20px"
-      }}>
-        <Select
-          multiple
-          displayEmpty
-          value={personName2}
-          onChange={handleChange2}
-          input={<OutlinedInput />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Choose the category of skill</em>;
-            }
-
-            return selected.join(', ');
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-          IconComponent={() => (
-            <svg
-              width="50"
-              height="50"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7 10L12 15L17 10H7Z"
-                fill={theme.palette.primary.main}
-              />
-            </svg>
-          )}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={{ 
-                fontSize: "18px", 
-                backgroundColor: "#C9D0FB", 
-                border: `3px solid ${personName2.includes(name) ? 'green' : '#384699'}`, 
-                borderRadius: "5px", 
-                padding: "4px",
-                display: 'flex',
-                justifyContent: 'space-between',
-                outline: "none",
-                marginTop: "5px",
-                color: "#000F67",
-              }}
-              className={personName2.includes(name) ? 'Mui-selected' : ''}
-            >
-              {name} {personName2.includes(name) && <CheckIcon style={{ color: 'green', marginRight: '5px' }} />}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <FormControl style={{ width: "200px" }}>
+          <InputLabel id="no-characteristic-label">
+            No Characteristic
+          </InputLabel>
+          <Select
+            labelId="no-characteristic-label"
+            value={selectedNoChar ? selectedNoChar.id : ""}
+            onChange={handleNoCharChange}
+            displayEmpty
+            required
+          >
+            {characteristicsList.map((char) => (
+              <MenuItem key={char._id} value={char._id}>
+                {char.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
     </div>
-  </div>
   );
 };
 
@@ -386,7 +321,10 @@ const DropArea = ({ onAddItem }) => {
             type: ItemTypes.YES_NO_QUESTION,
             content: "",
             answers: ["", ""],
-            characteristics: ["", ""],
+            characteristics: [
+              { id: null, title: "" },
+              { id: null, title: "" },
+            ], // Initialize characteristics for yes and no
           });
         }
       },
@@ -400,7 +338,6 @@ const DropArea = ({ onAddItem }) => {
     </div>
   );
 };
-
 
 function DNDconstructor() {
   const [items, setItems] = useState([]);
@@ -459,12 +396,14 @@ function DNDconstructor() {
             correctAnswers: item.answers.map((answer) => answer === "Yes"), //yes is correct
             characteristics: [
               {
-                //characteristicId: item.characteristics[0], //for yes answer
-                characteristicId: "65b5c11125f8ef20c3de9ce3",
+                characteristicId: item.characteristics[0].id,
+                //characteristicId: "65c3adfbfe2b0e98e5ba7374",
                 points: item.points[0], //points for yes
               },
               {
-                characteristicId: "65b5c11125f8ef20c3de9ce3", //for no answer'
+                characteristicId: item.characteristics[1].id,
+
+                //characteristicId: "65c3adfbfe2b0e98e5ba7374", //for no answer'
                 points: item.points[1], //points for no
               },
             ],
@@ -478,7 +417,7 @@ function DNDconstructor() {
       );
 
       const questionResponses = await Promise.all(questionPromises);
-
+      console.log("Questions: ", questionPromises);
       // extract IDs from the responses
       const questionIds = questionResponses.map((res) => res.data._id);
 
@@ -490,12 +429,14 @@ function DNDconstructor() {
         correctAnswers: item.answers.map((answer) => answer === "Yes"), // Assuming 'Yes' is always correct
         characteristics: [
           {
-            //characteristicId: item.characteristics[0], // Assuming first characteristic is for 'Yes'
-            characteristicId: "65b5c11125f8ef20c3de9ce3",
+            characteristicId: item.characteristics[0].id, // Assuming first characteristic is for 'Yes'
+            //characteristicId: "65b5c11125f8ef20c3de9ce3",
             points: item.points[0], // Assuming first point value is for 'Yes'
           },
           {
-            characteristicId: "65b5c11125f8ef20c3de9ce3", // Assuming second characteristic is for 'No'
+            characteristicId: item.characteristics[1].id, // Assuming first characteristic is for 'Yes'
+
+            //characteristicId: "65b5c11125f8ef20c3de9ce3", // Assuming second characteristic is for 'No'
             points: item.points[1], // Assuming second point value is for 'No'
           },
         ],
@@ -517,7 +458,6 @@ function DNDconstructor() {
       );
 
       console.log("Test created:", testResponse.data);
-
 
       localStorage.removeItem("dnd-items");
       setItems([]);
@@ -565,6 +505,7 @@ function DNDconstructor() {
                     answers={item.answers}
                     index={index}
                     onDelete={deleteItem}
+                    items={items}
                     onUpdate={updateItem}
                   />
                 );
@@ -572,7 +513,9 @@ function DNDconstructor() {
             })}
           </div>
           <DropArea onAddItem={addItem} items={items} />
-          <button className='create_test' onClick={handleCreateTest}>Create Test</button>
+          <button className="create_test" onClick={handleCreateTest}>
+            Create Test
+          </button>
         </main>
       </div>
     </DndProvider>
