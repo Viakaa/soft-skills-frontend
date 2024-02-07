@@ -10,6 +10,8 @@ import PrivateRoute from './PrivateRoute';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js"
 import DNDconstructor from './Components/DNDconstructor/DNDconstructor';
+import DNDcons from './Components/DNDconstructor/DNDcons1';
+
 import AdminPage from './Pages/AdminPage';
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
           </PrivateRoute>
         } />
         <Route path="/test_constructor" element={<DNDconstructor />} />
+        <Route path="/test_constructor1" element={<DNDcons />} />
 
         <Route path="/belbin" element={<BelbinTest />} />
 
