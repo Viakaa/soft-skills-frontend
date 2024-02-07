@@ -92,7 +92,6 @@ function CheckboxWithFormControl({ option, correctAnswers, handleCorrectAnswerCh
   );
 }
 
-
 // SkillSelectorItem component
 
 const SkillSelectorItem = ({ content, index, onDelete }) => {
@@ -338,6 +337,9 @@ const YesNoQuestionItem = ({ content, index, onDelete }) => {
       <div className="wrapperPointsYN">
         <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPointsYN" />
         <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPointsYN" />
+      </div>
+      <div className="wrapperSkillChoice">
+        
       </div>
     </div>
   );

@@ -381,7 +381,7 @@
 .wrapperPointsYN {
   display: flex !important;
   justify-content: center;
-  gap: 250px;
+  gap: 250px !important;
   margin-top: 20px;
 }
 
