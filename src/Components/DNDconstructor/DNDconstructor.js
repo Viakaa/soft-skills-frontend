@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Slider from "@mui/material/Slider";
+import Form from 'react-bootstrap/Form';
 import "./DNDconstructor.css";
-import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel, Typography } from "@mui/material";
 import { Checkbox, FormGroup } from "@mui/material";
 import {
   Select,
@@ -68,6 +69,29 @@ const ExampleQuestion1 = ({ question }) => {
     </div>
   );
 };
+
+function CheckboxWithFormControl({ option, correctAnswers, handleCorrectAnswerChange }) {
+  return (
+    <div className="checkbox-with-form-control">
+      <div className="form-control-container">
+        <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPointsYN" />
+      </div>
+      <div className="checkbox-container">
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={correctAnswers[option] || false}
+              onChange={() => handleCorrectAnswerChange(option)}
+              name={option}
+              color="primary"
+            />
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
 
 // SkillSelectorItem component
 
@@ -288,6 +312,7 @@ const YesNoQuestionItem = ({ content, index, onDelete }) => {
         >
           Yes
         </Button>
+        
         <Button
           variant="contained"
           onClick={() => setAnswer("no")}
@@ -309,6 +334,10 @@ const YesNoQuestionItem = ({ content, index, onDelete }) => {
         >
           No
         </Button>
+      </div>
+      <div className="wrapperPointsYN">
+        <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPointsYN" />
+        <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPointsYN" />
       </div>
     </div>
   );
@@ -420,6 +449,7 @@ const RadioButtonItem = ({ content, index, onDelete }) => {
               onClick={() => handleCorrectAnswerChange(option)}
               className={correctAnswer === option ? "selected" : ""}
             >
+              <Form.Control size="sm" type="text" placeholder="+/- 1" className="addPoints" />
               {correctAnswer === option ? (
                 <div className="posiition1">
                   <CheckIcon className="aa" />
@@ -652,23 +682,17 @@ const MultiChoiceItem = ({ content, index, onDelete }) => {
             {/* <AddCircleOutlineIcon /> */}
           </IconButton>
         </FormGroup>
-        <div className="correct-answer-section">
-          <p className="title-choose">Choose correct answer</p>
-          {options.map((option) => (
-            <FormControlLabel
-              key={option}
-              control={
-                <Checkbox
-                  checked={correctAnswers[option] || false}
-                  onChange={() => handleCorrectAnswerChange(option)}
-                  name={option}
-                  color="primary"
-                />
-              }
-              // label={option}
-            />
-          ))}
-        </div>
+        <div className="correct-answer-section" style={{ display: 'flex' }}>
+      <p className="title-choose">Choose correct answer</p>
+      {options.map((option) => (
+        <CheckboxWithFormControl
+          key={option}
+          option={option}
+          correctAnswers={correctAnswers}
+          handleCorrectAnswerChange={handleCorrectAnswerChange}
+        />
+      ))}
+    </div>
       </div>
     </div>
   );
