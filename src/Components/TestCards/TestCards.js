@@ -22,7 +22,9 @@ export default function TestCards() {
         }
       );
       const fetchedTests = response.data.map((test) => ({
-        title: test.title,
+        id: test._id, // id of the test
+
+        title: test.title, // test title
       }));
       setTests(fetchedTests);
     } catch (error) {
