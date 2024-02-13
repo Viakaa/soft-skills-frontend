@@ -1,10 +1,4 @@
-.firstCard, .secondCard, .thirdCard {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
 
-    
-}
 .testcards_main{
     padding: 25px;
     padding-left: 5%;
@@ -21,7 +15,7 @@
     max-width: 1520px;
     margin: 0 auto;
     border-radius: 20px;
-    padding: 52px 0px;
+    padding: 52px 30px;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(80, 97, 197, 0.82)' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
 }
 
@@ -48,3 +42,20 @@
     border-left: 16px solid transparent !important;
     color: rgba(30, 43, 115, 0.57);
 }
+
+.testcards_main {
+    overflow-x: auto; 
+  }
+  
+  .cards_wrapper {
+    display: flex; 
+    flex-wrap: nowrap;
+    gap: 100px;
+    justify-content: flex-start; 
+    padding: 20px;
+    overflow-x: auto; 
+    padding-left: 16%;
+  }
+  
+
+  
