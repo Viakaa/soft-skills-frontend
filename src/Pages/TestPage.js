@@ -13,22 +13,23 @@ const TestPage = () => {
   const getCurrentTest = async (authToken) => {
     try {
       console.log(id)
-      const resp = await axios.get('http://ec2-34-239-91-8.compute-1.amazonaws.com/tests/' + id,
-        {
-          headers: {Authorization: `Bearer ${authToken}`},
-        });
+      const testResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/tests/${id}`, {
+        headers: {Authorization: `Bearer ${authToken}`},
+      });
 
-      for (const id1 of resp.data.questions) {
-        const resp = await axios.get('http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/' + id1,
-          {
+      const questionsData = await Promise.all(
+        testResp.data.questions.map(async (questionId) => {
+          const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId}`, {
             headers: {Authorization: `Bearer ${authToken}`},
           });
-        setQuestions([...questions, resp.data]);
-      }
+          return questionResp.data; // Return the question object.
+        })
+      );
 
-      setTest(resp.data);
+      setTest(testResp.data);
+      setQuestions(questionsData); // Set all questions at once.
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -39,7 +40,7 @@ const TestPage = () => {
       return;
     }
     getCurrentTest(authToken)
-  }, []);
+  }, [id]); // Add id as a dependency to useEffect.
 
 
   return (
@@ -47,7 +48,6 @@ const TestPage = () => {
       <h1 className="test_name">{ test.title }</h1>
       <div className="item-list" style={{overflow: "unset"}}>
         {
-          questions.length &&
           questions.map((question, index) => {
             const {question : title, characteristics } = question;
             
@@ -55,18 +55,16 @@ const TestPage = () => {
             
             return (
             <>
-              <div className="question-item">
-                <div style={{flexDirection: "column"}} className="fristWrapper">
-                  <div className="firstQuestion">{index + 1}</div>
-                  <p style={{textAlign: "center"}} className="fristQuestionText">{title}</p>
-                </div>
+              <div style={{marginTop:'20px'}} className="question-item">
+              <div className="firstQuestion" style={{ marginRight: 'auto' }}>{index + 1}</div>
+            <div className="fristQuestionText" style={{ textAlign: 'center', flexGrow: 1, marginTop:'-6%',marginBottom:'5%' }}>{title}</div>
                 <div className="yes-no-buttons">
                   <Button
                     variant="contained"
                     sx={{
-                      backgroundColor: "#1976d2", // Change color when selected
+                      backgroundColor: "#5061C5",
                       "&:hover": {
-                        backgroundColor: "#115293", // Darker on hover
+                        backgroundColor: "#64b5f6",
                       },
                       color: "white",
                       fontSize: "34px",
@@ -102,64 +100,17 @@ const TestPage = () => {
                     No
                   </Button>
                 </div>
-                <div className="wrapperPointsYN">
-                  <Form.Control
-                    size="sm"
-                    type="text"
-                    placeholder="+/- 1"
-                    className="addPointsYN"
-                    // value={yesPoints}
-                    // onChange={(e) => setYesPoints(Number(e.target.value))}
-                    required
-                  />
-                  <Form.Control
-                    size="sm"
-                    type="text"
-                    placeholder="+/- 1"
-                    className="addPointsYN"
-                    // value={noPoints}
-                    // onChange={(e) => setNoPoints(Number(e.target.value))}
-                    required
-                  />
-                </div>
-                <div className="categoryDrop d-flex justify-content-around">
-                  <FormControl style={{width: "200px"}}>
-                    <Select
-                      labelId="yes-characteristic-label"
-                      // value={selectedYesChar ? selectedYesChar.id : ""}
-                      // onChange={handleYesCharChange}
-                      displayEmpty
-                      required
-                    >
-                      {characteristics.map((char) => (
-                        <MenuItem key={char.characteristicsId} value={char.characteristicsId}>
-                          {char.title}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-
-                  <FormControl style={{width: "200px"}}>
-                    <Select
-                      labelId="no-characteristic-label"
-                      // value={selectedNoChar ? selectedNoChar.id : ""}
-                      // onChange={handleNoCharChange}
-                      displayEmpty
-                      required
-                    >
-                      {characteristics.map((char) => (
-                        <MenuItem key={char.characteristicsId} value={char.characteristicsId}>
-                          {char.title}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
+             
+                
               </div>
+              
             </>
           )})
         }
       </div>
+      <button style={{marginTop:'20px'}} className="create_test" >
+            Complete Test
+          </button>
     </div>
   );
 };
