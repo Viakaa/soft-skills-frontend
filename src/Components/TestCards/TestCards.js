@@ -108,6 +108,7 @@ export default function TestCards() {
                     aliqua.
                   </Card.Text>
                   <Button
+                    href={`/test/${test.id}`}
                     variant="primary"
                     style={{
                       height: "38px",

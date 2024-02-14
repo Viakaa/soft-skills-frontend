@@ -13,6 +13,7 @@ import DNDconstructor from './Components/DNDconstructor/DNDconstructor';
 import DNDcons from './Components/DNDconstructor/DNDcons1';
 
 import AdminPage from './Pages/AdminPage';
+import TestPage from "./Pages/TestPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         } />
         <Route path="/test_constructor" element={<DNDconstructor />} />
         <Route path="/test_constructor1" element={<DNDcons />} />
+        <Route path="/test/:id" element={<TestPage />} />
 
         <Route path="/belbin" element={<BelbinTest />} />
 
