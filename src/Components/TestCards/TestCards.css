@@ -1,9 +1,4 @@
 
-.testcards_main{
-    padding: 25px;
-    padding-left: 5%;
-    padding-right: 5%;
-}
 
 .custom-dropdown-item {
     width: 100% !important;
@@ -43,19 +38,30 @@
     color: rgba(30, 43, 115, 0.57);
 }
 
-.testcards_main {
-    overflow-x: auto; 
-  }
+
   
-  .cards_wrapper {
-    display: flex; 
-    flex-wrap: nowrap;
-    gap: 100px;
-    justify-content: flex-start; 
+.cards_wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 100px !important;
+    justify-content: flex-start !important;
+    align-items: center;
+    overflow-x: auto;
     padding: 20px;
-    overflow-x: auto; 
-    padding-left: 16%;
-  }
-  
+    scroll-padding-left: 100px; 
+    margin-top: 50px;
+    margin: 0 auto; 
+    border-radius: 20px;
+    padding: 52px 30px;
+}
+
+
+.testcards_main {
+    overflow-x: auto;
+    padding: 25px;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
 
   

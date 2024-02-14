@@ -92,7 +92,6 @@ export default function TestCards() {
         </div>
         <div
           className="cards_wrapper d-flex justify-content-center"
-          style={{ gap: "100px" }}
         >
           {tests.map((test, index) => (
             <div className="firstCard" key={index}>
