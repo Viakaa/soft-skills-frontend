@@ -1,0 +1,33 @@
+.a_testcard{
+    border: 3px solid #000F6799 !important;
+    background-color: #DFE4F4;
+    font-family: 'Mitr';
+    color: #000F67;
+    
+}
+.test_edit{
+    background-color: #33418C !important;
+    border: none !important;
+    margin-top: 20px;
+}
+
+.a_testcard .card-title, .card-text{
+    margin: 0 !important;
+}
+
+
+
+.a_testcard .card-img-top{
+    margin-top: 30px;
+}
+
+.all_tests {
+    background-color: rgba(80, 97, 197, 0.13);
+    max-width: 1520px;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: 'Mitr';
+    margin-bottom: 15px;
+    color:#33418C;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(80, 97, 197, 0.82)' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
+}
