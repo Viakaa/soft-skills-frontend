@@ -122,7 +122,7 @@ function TestList() {
         <Toast.Header style={{ backgroundColor: "#ff7c7c", color: "white" }}>
           <strong className="me-auto">Test Delete</strong>
         </Toast.Header>
-        <Toast.Body>Test successfully deleted!</Toast.Body>
+        <Toast.Body>Test was deleted!</Toast.Body>
       </Toast>
     </>
   );
