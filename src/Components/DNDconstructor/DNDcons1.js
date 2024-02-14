@@ -28,6 +28,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
+import { Toast } from "react-bootstrap";
 
 const ItemTypes = {
   QUESTION: "question",
@@ -151,8 +152,8 @@ const YesNoQuestionItem = ({
     const char = characteristicsList.find((c) => c._id === charId);
     setSelectedYesChar({ id: char._id, title: char.title });
   };
-  
-    //handle no characteristic
+
+  //handle no characteristic
 
   const handleNoCharChange = (event) => {
     const charId = event.target.value;
@@ -250,7 +251,7 @@ const YesNoQuestionItem = ({
       <div className="wrapperPointsYN">
         <Form.Control
           size="sm"
-          type="text"
+          type="number"
           placeholder="+/- 1"
           className="addPointsYN"
           value={yesPoints}
@@ -259,7 +260,7 @@ const YesNoQuestionItem = ({
         />
         <Form.Control
           size="sm"
-          type="text"
+          type="number"
           placeholder="+/- 1"
           className="addPointsYN"
           value={noPoints}
@@ -341,6 +342,8 @@ const DropArea = ({ onAddItem }) => {
 
 function DNDconstructor() {
   const [items, setItems] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const addItem = (newItem) => {
     const updatedItems = [...items, { ...newItem, id: Math.random() }];
@@ -386,6 +389,20 @@ function DNDconstructor() {
       const authToken = localStorage.getItem("authToken");
       const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
 
+      if (!testTitle.trim()) {
+        setToastMessage("Please provide a title for the test.");
+        setShowToast(true);
+        return;
+      }
+  
+      const savedI = JSON.parse(localStorage.getItem("dnd-items")) || [];
+      if (savedI.length === 0) {
+        setToastMessage("Please add at least one question to the test.");
+        setShowToast(true);
+        return;
+      }
+
+     
       const questionPromises = savedItems.map((item) =>
         axios.post(
           "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
@@ -418,10 +435,10 @@ function DNDconstructor() {
 
       const questionResponses = await Promise.all(questionPromises);
       console.log("Questions: ", questionPromises);
-      // extract IDs from the responses
+      //extract IDs from the responses
       const questionIds = questionResponses.map((res) => res.data._id);
 
-      // map the items to api structure
+      //map the items to api structure
       const questions = savedItems.map((item) => ({
         question: item.content,
         type: "yes_no", // Assuming all items are yes/no questions
@@ -458,12 +475,35 @@ function DNDconstructor() {
       );
 
       console.log("Test created:", testResponse.data);
+      setToastMessage("Test successfully created!");
+      setShowToast(true);
 
       localStorage.removeItem("dnd-items");
       setItems([]);
       setTestTitle("");
     } catch (error) {
       console.error("Error creating test:", error);
+      
+      let errorMessage = "Error creating test: ";
+  
+      if (error.response) {
+        if (error.response.status === 500) {
+          errorMessage += "Fill all fields to create the test.";
+        } 
+        if (error.response.status === 400) {
+          errorMessage += "Test title cannot be empty";
+        } else {
+          errorMessage += ` Status code ${error.response.status}.`;
+        }
+        
+      } else if (error.request) {
+        errorMessage += "The request was made but no response was received.";
+      } else {
+        errorMessage += error.message;
+      }
+  
+      setToastMessage(errorMessage);
+      setShowToast(true);
     }
   };
 
@@ -517,6 +557,33 @@ function DNDconstructor() {
             Create Test
           </button>
         </main>
+        <Toast
+          onClose={() => setShowToast(false)}
+          show={showToast}
+          delay={3000}
+          autohide
+          style={{
+            position: "fixed",
+            top: 20,
+            right: 20,
+            zIndex: 1000,
+            backgroundColor: toastMessage.startsWith("Error")
+              ? "#f8d7da"
+              : "#dff0d8",
+          }}
+        >
+          <Toast.Header
+            style={{
+              backgroundColor: toastMessage.startsWith("Error")
+                ? "#d9534f"
+                : "#5cb85c",
+              color: "white",
+            }}
+          >
+            <strong className="me-auto">Test Constructor</strong>
+          </Toast.Header>
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
       </div>
     </DndProvider>
   );

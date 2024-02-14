@@ -349,6 +349,7 @@
   font-size: 30px;
   color:#384699;
   font-weight: 700;
+  font-family: 'Mitr';
 }
 .test_name:focus{
   background-color: transparent;
