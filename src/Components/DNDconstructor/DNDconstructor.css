@@ -164,7 +164,6 @@
 }
 
 .option-container {
-  display: flex;
   align-items: center;
   justify-content: space-between;
 }
@@ -181,7 +180,7 @@
 }
 
 .correct-answer-section label span svg {
-  fill: #94ddad;
+ /* fill: #94ddad;*/
 }
 
 .skill-selector-item {
@@ -321,7 +320,7 @@
 }
 
 .circlee {
-  display: flex;
+  text-align: left;
 }
 
 .title-choose {
@@ -422,4 +421,9 @@ border-radius: 10px;
   font-family: 'Mitr' !important;
   border-radius: 10px !important;
 
+}
+
+.checkbox-with-form-control input,fieldset{
+  border: 0px !important;
+  
 }

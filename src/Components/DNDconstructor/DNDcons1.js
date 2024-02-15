@@ -17,6 +17,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  TextField
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
@@ -62,6 +63,30 @@ const DraggableYesNoQuestion = ({ content }) => {
   );
 };
 
+const DraggableMultiChoice = ({ content }) => {
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: ItemTypes.MULTI_CHOICE,
+      item: { type: "multiChoice", content },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [content]
+  );
+
+  return (
+    <div
+      ref={drag}
+      className="draggable-question"
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      {content}
+      {/* <div> Add your multiple choice question layout here</div> */}
+    </div>
+  );
+};
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 0;
 const MenuProps = {
@@ -100,6 +125,228 @@ function getStyles1(name, personName2, theme) {
   };
 }
 
+const CheckboxWithFormControl = ({
+  option,
+  handleOptionChange, 
+  characteristicList,
+  handleDeleteOption
+}) => {
+
+  //handle characteristics to get id and title separately
+  const handleCharacteristicChange = (event) => {
+    const selectedId = event.target.value;
+    const selectedCharacteristic = characteristicList.find(char => char._id === selectedId);
+    handleOptionChange(option.id, 'characteristicId', selectedId);
+   
+  };
+  return (
+    <div className="checkbox-with-form-control option-container">
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={option.checked || false}
+            onChange={(e) => handleOptionChange(option.id, 'checked', e.target.checked)}
+            name={option.label}
+          />
+        }
+        label={<TextField
+          size="small"
+          variant="outlined"
+          style={{border:'none !important'}}
+          value={option.label}
+          onChange={(e) => handleOptionChange(option.id, 'label', e.target.value)}
+        />}
+      />
+     
+        <Form.Control
+          size="sm"
+          type="number"
+          placeholder="+/- 1"
+          className="addPointsYN"
+          value={option.points}
+          onChange={(e) => handleOptionChange(option.id, 'points', Number(e.target.value))}
+          style={{ margin: '0', width: '100px' }}
+
+          required
+        />
+   <FormControl style={{ width: "200px", marginLeft: "10px" }}>
+        <InputLabel>Characteristic</InputLabel>
+        <Select
+          value={option.characteristicId || ""}
+          onChange={handleCharacteristicChange}
+        >
+          {characteristicList.map((char) => (
+            <MenuItem key={char._id} value={char._id}>
+              {char.title}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <IconButton onClick={() => handleDeleteOption(option.id)} style={{ marginLeft: '10px',marginTop:'1%' }}>
+        X
+      </IconButton>
+    </div>
+  );
+};
+
+const MultiChoiceItem = ({  content,
+  answers,
+  points,
+  characteristics,
+  index,
+  items, onDelete,onUpdate }) => {
+ 
+  const [questionName, setQuestionName] = useState("QuestionName");
+  //option structure
+  const [options, setOptions] = useState([
+    { id: 1, label: "Option 1", points: 0, characteristicId: "", checked: false },
+  ]);
+  const [characteristicList, setCharacteristicList] = useState([]); //characteristics list
+
+  const handleOptionChange = (optionId, field, value) => {
+    const updatedOptions = options.map(option => {
+      if (option.id === optionId) {
+        return { ...option, [field]: value };
+      }
+      return option;
+    });
+    setOptions(updatedOptions);
+    onUpdate(updatedOptions); 
+  };
+
+  const [nextId, setNextId] = useState(2);
+
+  //add new option
+  const handleAddOption = () => {
+    setOptions([...options, { id: nextId, label: `Option ${nextId}`, points: 0, characteristicId: "", checked: false }]);
+    setNextId(nextId + 1); //increment nextId for the next new option
+  };
+
+  //delete option
+  const handleDeleteOption = (optionId) => {
+    const updatedOptions = options.filter(option => option.id !== optionId);
+    setOptions(updatedOptions);
+    onUpdate(index, {
+      content: questionName,
+      options: updatedOptions.map(option => ({
+        text: option.label,
+        isCorrect: option.checked,
+        characteristicId: option.characteristicId,
+        points: option.points,
+      })),
+    });
+  };
+//get characteristics
+  const fetchCharacteristics = async (authToken) => {
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      const fetchedCharacteristics = response.data.map((char) => ({
+        _id: char._id,
+        title: char.title,
+      }));
+
+      console.log(fetchedCharacteristics);
+      setCharacteristicList(fetchedCharacteristics);
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      console.error("Auth token is not available.");
+      return;
+    }
+    fetchCharacteristics(authToken);
+  }, []);
+
+
+  useEffect(() => {
+    //update localstorage
+    onUpdate(index, {
+      content: questionName,
+      options: options.map(option => ({
+        label: option.label, 
+        checked: option.checked, 
+        points: option.points,
+      })),
+    });
+  }, [questionName, options, onUpdate, index]);
+  return (
+    <div className="question-item">
+      <div className="fristWrapper">
+        <p className="firstQuestion">{index + 1}</p>
+        <input
+          className="fristQuestionText"
+          contenteditable="true"
+          value={questionName}
+          required
+          onChange={(e) => setQuestionName(e.target.value)}
+        />
+        <button className="closeButton" onClick={() => onDelete(index)}>
+          X
+        </button>
+      </div>
+
+      <div className="option-container">
+        
+        <div className="correct-answer-section" style={{ display: 'flex' }}>
+      <div>
+      {options.map((option, idx) => (
+        <CheckboxWithFormControl
+          key={idx}
+          option={option}
+          handleOptionChange={handleOptionChange}
+          handleDeleteOption={handleDeleteOption}
+          characteristicList={characteristicList}
+        />
+      ))}
+    </div>
+   
+    </div>
+    
+      </div>
+      <FormGroup>
+          <IconButton onClick={handleAddOption} color="primary" size="small">
+            <div className="circlee">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+              >
+                <path
+                  d="M0 4C0 1.79086 1.79086 0 4 0H19C21.2091 0 23 1.79086 23 4V19C23 21.2091 21.2091 23 19 23H4C1.79086 23 0 21.2091 0 19V4Z"
+                  fill="#DBDFF4"
+                />
+                <path
+                  d="M4.13998 11.5H18.4"
+                  stroke="#384699"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M11.27 18.4V4.60002"
+                  stroke="#384699"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </IconButton>
+        </FormGroup>
+    </div>
+  );
+};
+
+
 const YesNoQuestionItem = ({
   content,
   answers,
@@ -118,6 +365,7 @@ const YesNoQuestionItem = ({
   const [selectedYesChar, setSelectedYesChar] = useState({ id: "", title: "" });
   const [selectedNoChar, setSelectedNoChar] = useState({ id: "", title: "" });
 
+  //get chrateristic
   const fetchCharacteristics = async (authToken) => {
     try {
       const response = await axios.get(
@@ -325,7 +573,14 @@ const DropArea = ({ onAddItem }) => {
             characteristics: [
               { id: null, title: "" },
               { id: null, title: "" },
-            ], // Initialize characteristics for yes and no
+            ], 
+          });
+        } else if (item.type === ItemTypes.MULTI_CHOICE) {
+          onAddItem({
+            type: ItemTypes.MULTI_CHOICE,
+            content: "",
+            answers: [],
+            characteristics: [], 
           });
         }
       },
@@ -394,7 +649,7 @@ function DNDconstructor() {
         setShowToast(true);
         return;
       }
-  
+
       const savedI = JSON.parse(localStorage.getItem("dnd-items")) || [];
       if (savedI.length === 0) {
         setToastMessage("Please add at least one question to the test.");
@@ -402,11 +657,28 @@ function DNDconstructor() {
         return;
       }
 
-     
-      const questionPromises = savedItems.map((item) =>
-        axios.post(
-          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
-          {
+      const questionsForApi = items.map((item) => {
+        if (item.type === ItemTypes.MULTI_CHOICE) {
+          //map answers and correctAnswers
+          const answers = item.options.map(opt => opt.label);
+          const correctAnswers = item.options.map(opt => opt.checked); 
+          
+          //map characteristic from option
+          const characteristics = item.options.map(opt => ({
+            characteristicId: opt.characteristicId,
+            points: opt.points
+          }));
+          //return full question object
+          return {
+            question: item.content,
+            type: "multiple_choice",
+            answers: answers,
+            correctAnswers: correctAnswers,
+            characteristics: characteristics
+          };
+        } else if (item.type === ItemTypes.YES_NO_QUESTION) {
+          // Handle other types as needed, example for yes/no:
+          return {
             question: item.content,
             type: "yes_no", //yes-no type
             answers: item.answers,
@@ -424,6 +696,27 @@ function DNDconstructor() {
                 points: item.points[1], //points for no
               },
             ],
+          };
+        }
+      });
+      console.log('123', questionsForApi);
+      const questionPromises = questionsForApi.map(question => 
+        axios.post(
+          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions", 
+          question, 
+          { headers: { Authorization: `Bearer ${authToken}` } }
+        )
+      );
+      
+      const questionResponses = await Promise.all(questionPromises);
+      const questionIds = questionResponses.map(response => response.data._id);
+
+      /*const questionPromises = savedItems.map((item) =>
+        axios.post(
+          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
+          {
+            questions: questionsForApi,
+
           },
           {
             headers: {
@@ -431,34 +724,10 @@ function DNDconstructor() {
             },
           }
         )
-      );
+      );*/
 
-      const questionResponses = await Promise.all(questionPromises);
-      console.log("Questions: ", questionPromises);
+      console.log("Questions: ", questionsForApi);
       //extract IDs from the responses
-      const questionIds = questionResponses.map((res) => res.data._id);
-
-      //map the items to api structure
-      const questions = savedItems.map((item) => ({
-        question: item.content,
-        type: "yes_no", // Assuming all items are yes/no questions
-        answers: item.answers,
-        correctAnswers: item.answers.map((answer) => answer === "Yes"), // Assuming 'Yes' is always correct
-        characteristics: [
-          {
-            characteristicId: item.characteristics[0].id, // Assuming first characteristic is for 'Yes'
-            //characteristicId: "65b5c11125f8ef20c3de9ce3",
-            points: item.points[0], // Assuming first point value is for 'Yes'
-          },
-          {
-            characteristicId: item.characteristics[1].id, // Assuming first characteristic is for 'Yes'
-
-            //characteristicId: "65b5c11125f8ef20c3de9ce3", // Assuming second characteristic is for 'No'
-            points: item.points[1], // Assuming second point value is for 'No'
-          },
-        ],
-      }));
-      console.log("quest:", questions);
 
       // Create the test with the structured questions
       const testResponse = await axios.post(
@@ -483,25 +752,22 @@ function DNDconstructor() {
       setTestTitle("");
     } catch (error) {
       console.error("Error creating test:", error);
-      
+
       let errorMessage = "Error creating test: ";
-  
+
       if (error.response) {
         if (error.response.status === 500) {
           errorMessage += "Fill all fields to create the test.";
-        } 
-        if (error.response.status === 400) {
-          errorMessage += "Test title cannot be empty";
-        } else {
+        }
+        else {
           errorMessage += ` Status code ${error.response.status}.`;
         }
-        
       } else if (error.request) {
         errorMessage += "The request was made but no response was received.";
       } else {
         errorMessage += error.message;
       }
-  
+
       setToastMessage(errorMessage);
       setShowToast(true);
     }
@@ -524,6 +790,7 @@ function DNDconstructor() {
       <div className="app">
         <aside className="side-panel">
           <DraggableYesNoQuestion content="Drag this 'Yes/No' question format." />
+          <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
         </aside>
 
         <main className="main-content">
@@ -549,6 +816,20 @@ function DNDconstructor() {
                     onUpdate={updateItem}
                   />
                 );
+              } else if (item.type === "multiChoice") {
+                return (
+                  <MultiChoiceItem
+                    key={item.id}
+                    content={item.content}
+                    points={item.points}
+                    answers={item.answers}
+                    index={index}
+                    onDelete={deleteItem}
+                    items={items}
+                    onUpdate={updateItem}
+                    onDelete={deleteItem}
+                  />
+                );
               }
             })}
           </div>
@@ -569,6 +850,8 @@ function DNDconstructor() {
             zIndex: 1000,
             backgroundColor: toastMessage.startsWith("Error")
               ? "#f8d7da"
+              : toastMessage.startsWith("Please")
+              ? "#fff3cd" // Yellow color for messages starting with "Please"
               : "#dff0d8",
           }}
         >
@@ -576,6 +859,8 @@ function DNDconstructor() {
             style={{
               backgroundColor: toastMessage.startsWith("Error")
                 ? "#d9534f"
+                : toastMessage.startsWith("Please")
+                ? "#ffbb00" // Lighter yellow or a different shade for the header if you prefer
                 : "#5cb85c",
               color: "white",
             }}
