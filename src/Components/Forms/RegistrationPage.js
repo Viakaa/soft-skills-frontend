@@ -21,8 +21,8 @@ function RegistrationForm() {
     email: "",
     password: "",
     confirmPassword: "",
-    sex: "", // Male or Female
-    course: "", // Integer
+    sex: "", //male/female only
+    course: "",
     direction: "",
   });
 
@@ -36,7 +36,6 @@ function RegistrationForm() {
       alert("Passwords don't match.");
       return;
     }
-    
   
     try {
       await dispatch(registerUser({
@@ -54,10 +53,17 @@ function RegistrationForm() {
       }, 3000);
     } catch (error) {
       console.error(error);
-      setError(error.message); 
-      setShowErrorToast(true); //error toast when registration fails
+      //409 - email is already registered
+      if (error.response && error.response.status === 409) {
+        setError("This email is already registered. Please use a different email."); 
+      } else {
+        //other errors
+        setError(error.message || "An unexpected error occurred. Please try again."); 
+      }
+      setShowErrorToast(true); //show error true
     }
   };
+  
   
 
   return (
