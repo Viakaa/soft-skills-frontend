@@ -137,7 +137,8 @@ const CheckboxWithFormControl = ({
     const selectedId = event.target.value;
     const selectedCharacteristic = characteristicList.find(char => char._id === selectedId);
     handleOptionChange(option.id, 'characteristicId', selectedId);
-   
+    console.log('SELECTED', selectedCharacteristic);
+  
   };
   return (
     <div className="checkbox-with-form-control option-container">
@@ -172,7 +173,7 @@ const CheckboxWithFormControl = ({
    <FormControl style={{ width: "200px", marginLeft: "10px" }}>
         <InputLabel>Characteristic</InputLabel>
         <Select
-          value={option.characteristicId || ""}
+          value={option.characteristicId}
           onChange={handleCharacteristicChange}
         >
           {characteristicList.map((char) => (
@@ -211,8 +212,8 @@ const MultiChoiceItem = ({  content,
       return option;
     });
     setOptions(updatedOptions);
-    onUpdate(updatedOptions); 
   };
+  
 
   const [nextId, setNextId] = useState(2);
 
@@ -274,6 +275,7 @@ const MultiChoiceItem = ({  content,
       options: options.map(option => ({
         label: option.label, 
         checked: option.checked, 
+        characteristicId: option.characteristicId, 
         points: option.points,
       })),
     });
@@ -666,8 +668,9 @@ function DNDconstructor() {
           //map characteristic from option
           const characteristics = item.options.map(opt => ({
             characteristicId: opt.characteristicId,
-            points: opt.points
-          }));
+            points: opt.points,
+          }));    
+          console.log('char:', characteristics);
           //return full question object
           return {
             question: item.content,
