@@ -4,6 +4,8 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import Form from "react-bootstrap/Form";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import YesNoCard from "../Components/CurrentTest/MultipleChoiceCard/YesNoCard";
+import MultipleChoiceCard from "../Components/CurrentTest/MultipleChoiceCard/MultipleChoiceCard";
 
 const TestPage = () => {
   const {id} = useParams();
@@ -45,72 +47,25 @@ const TestPage = () => {
 
   return (
     <div className="main-content">
-      <h1 className="test_name">{ test.title }</h1>
+      <h1 className="test_name">{test.title}</h1>
       <div className="item-list" style={{overflow: "unset"}}>
         {
-          questions.map((question, index) => {
-            const {question : title, characteristics } = question;
-            
-            console.log(question)
-            
-            return (
-            <>
-              <div style={{marginTop:'20px'}} className="question-item">
-              <div className="firstQuestion" style={{ marginRight: 'auto' }}>{index + 1}</div>
-            <div className="fristQuestionText" style={{ textAlign: 'center', flexGrow: 1, marginTop:'-6%',marginBottom:'5%' }}>{title}</div>
-                <div className="yes-no-buttons">
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#5061C5",
-                      "&:hover": {
-                        backgroundColor: "#64b5f6",
-                      },
-                      color: "white",
-                      fontSize: "34px",
-                      width: "190px",
-                      height: "41.158px",
-                      margin: "5px", // Spacing between buttons
-                      textTransform: "none", // Prevent uppercase transformation
-                      boxShadow: "none", // No shadow for a flatter appearance
-                    }}
-                    className="yesno_button"
-                  >
-                    Yes
-                  </Button>
-
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#5061C5",
-                      "&:hover": {
-                        backgroundColor: "#64b5f6",
-                      },
-                      color: "white",
-                      width: "190px",
-                      height: "41.158px",
-
-                      fontSize: "34px",
-                      margin: "5px",
-                      textTransform: "none",
-                      boxShadow: "none",
-                    }}
-                    className="yesno_button"
-                  >
-                    No
-                  </Button>
-                </div>
-             
-                
-              </div>
-              
-            </>
-          )})
+          questions.map((question, index) => (
+            <div key={index} style={{marginTop: '20px'}} className="question-item">
+              {
+                question.type === "yes_no" ? (
+                  <YesNoCard number={index + 1} question={question}/>
+                ) : (
+                  <MultipleChoiceCard number={index + 1} question={question}/>
+                )
+              }
+            </div>
+          ))
         }
       </div>
-      <button style={{marginTop:'20px'}} className="create_test" >
-            Complete Test
-          </button>
+      <button style={{marginTop: '20px'}} className="create_test">
+        Complete Test
+      </button>
     </div>
   );
 };
