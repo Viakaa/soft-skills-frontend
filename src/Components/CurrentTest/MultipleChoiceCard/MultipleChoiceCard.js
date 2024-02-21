@@ -37,7 +37,6 @@ const MultipleChoiceCard = ({question, number}) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          defaultChecked={correctAnswers[idx] || false}
                           name={option}
                           color="primary"
                         />
@@ -54,15 +53,7 @@ const MultipleChoiceCard = ({question, number}) => {
               </div>
 
               <FormControl style={{width: "200px", marginLeft: "10px"}}>
-                <InputLabel>Characteristic</InputLabel>
-                <Select
-                >
-                  {characteristics.map((char) => (
-                    <MenuItem key={char.characteristicId} value={char.characteristicId}>
-                      {char.title}
-                    </MenuItem>
-                  ))}
-                </Select>
+               
               </FormControl>
             </Box>
           ))}
