@@ -95,7 +95,7 @@ function LoginForm() {
           Sign In
         </Button>
 
-        <Button variant="primary" type="submit" className='registerButton'>
+        <Button variant="primary" href='/registration' type="submit" className='registerButton'>
           Register
         </Button>
       </Form>
