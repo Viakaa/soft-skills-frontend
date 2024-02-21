@@ -24,6 +24,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/registration" element={<RegistrationForm />} />
+          <Route path="/" element={<MainPage />} />
+
           <Route path="/main" element={<MainPage />} />
           <Route path="/adminpanel" element={<AdminPage />} />
 
