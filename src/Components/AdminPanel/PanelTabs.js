@@ -5,22 +5,24 @@ import Tab from 'react-bootstrap/Tab';
 import ManageSkills from './ManageSkills.js';
 import UserList from './UserList.js';
 import TestList from './TestList.js';
+import "./PanelTabs.css";
 
 function PanelTabs() {
   return (
-    <div style={{paddingRight:'40px'}}>
+    <div className='adm_nav' style={{paddingRight:'40px'}}>
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
       <Row>
-        <Col sm={3}>
-          <Nav variant="pills" className="flex-column">
+        <Col className="navcol" sm={3}>
+          <Nav   variant="pills" className="flex-column">
+            <h2 style={{textAlign:'center'}}>Admin Panel</h2>
             <Nav.Item>
-              <Nav.Link eventKey="first">Manage Skills</Nav.Link>
+              <Nav.Link className="navitm"  eventKey="first">Manage Skills</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="second">Users</Nav.Link>
+              <Nav.Link className="navitm" eventKey="second">Users</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="third">Tests</Nav.Link>
+              <Nav.Link className="navitm" eventKey="third">Tests</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
