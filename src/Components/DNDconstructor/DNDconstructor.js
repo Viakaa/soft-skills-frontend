@@ -65,6 +65,7 @@ const ExampleQuestion1 = ({ question }) => {
         min={0}
         max={4}
         sx={{ maxWidth: "500px" }}
+        disabled
       />
     </div>
   );
@@ -134,64 +135,6 @@ const SkillSelectorItem = ({ content, index, onDelete }) => {
           onChange={handleSkillChange}
           label={content}
           renderValue={() => ""}
-          endAdornment={
-            <IconButton
-              edge="end"
-              size="small"
-              style={{
-                position: "absolute",
-                right: "3px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                background: "#DBDFF4",
-                borderRadius: "5px",
-                padding: "10px",
-                fontSize: "30px",
-                color: "#384699",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="34"
-                height="33"
-                viewBox="0 0 34 33"
-                fill="none"
-              >
-                <path
-                  d="M3 16.5H31"
-                  stroke="#384699"
-                  stroke-width="6"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M17 30V3"
-                  stroke="#384699"
-                  stroke-width="6"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </IconButton>
-          }
-          startAdornment={
-            <IconButton
-              edge="end"
-              size="small"
-              style={{
-                position: "absolute",
-                left: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                background: "#DBDFF4",
-                borderRadius: "5px",
-                padding: "16px 10px",
-                fontSize: "30px",
-                color: "#384699",
-                zIndex: "1000",
-              }}
-            >
-              <SearchIcon />
-            </IconButton>
-          }
         >
           {skills.map((skill) => (
             <MenuItem key={skill} value={skill} id="searched-item">
@@ -491,11 +434,13 @@ const DraggableRadioButton = ({ content }) => {
           value="option1"
           control={<Radio />}
           label="Option 1"
+          disabled
         />
         <FormControlLabel
           value="option2"
           control={<Radio />}
           label="Option 2"
+          disabled
         />
         {/* Add more options as needed */}
       </RadioGroup>
@@ -742,38 +687,7 @@ const QuestionItem = ({ question, index, onDelete, onEdit }) => {
               sx={{ maxWidth: "500px" }}
             />
 
-            <IconButton
-              edge="end"
-              size="small"
-              style={{
-                background: "#DBDFF4",
-                borderRadius: "5px",
-                padding: "10px",
-                fontSize: "30px",
-                color: "#384699",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="34"
-                height="33"
-                viewBox="0 0 34 33"
-                fill="none"
-              >
-                <path
-                  d="M3 16.5H31"
-                  stroke="#384699"
-                  stroke-width="6"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M17 30V3"
-                  stroke="#384699"
-                  stroke-width="6"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </IconButton>
+            
           </div>
         </>
       )}

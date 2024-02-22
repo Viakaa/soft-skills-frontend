@@ -1,3 +1,12 @@
+body {
+    background: linear-gradient(to bottom, #B2C1F0, #E2E4EA);
+}
+  
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
