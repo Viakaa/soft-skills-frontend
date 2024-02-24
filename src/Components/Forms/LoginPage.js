@@ -76,7 +76,7 @@ function LoginForm() {
         </Form.Group>
 
         <div className='loginOptions'>
-          <Form>
+         {/* <Form>
           {['checkbox'].map((type) => (
             <div key={`default-${type}`}>
               <Form.Check
@@ -88,7 +88,7 @@ function LoginForm() {
             </div>))}
           </Form>
 
-          <Link to="/registration" className='forgotPassword'>Forgot password?</Link>
+          <Link to="/registration" className='forgotPassword'>Forgot password?</Link>*/}
         </div>
 
         <Button variant="primary" type="submit" className='loginButton'>
