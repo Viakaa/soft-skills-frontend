@@ -15,9 +15,10 @@ function ManageSkills() {
 
   const handleCloseModal = () => setShowModal(false);
 
-  // Save new soft-skill to database
+  //save new soft-skill to database
   const handleSaveSkill = async () => {
     const authToken = localStorage.getItem("authToken");
+
     try {
       console.log("Attempting to save skill:", newSkill);
       const response = await axios.post(
@@ -34,14 +35,15 @@ function ManageSkills() {
     }
   };
 
-  // Handle soft-skill name changes
+  //handle changes in softskill input
 
   const handleSkillChange = (e) => {
     setNewSkill({ ...newSkill, type: e.target.value });
   };
 
-  // Handle characteristic changes
+  //handle changes in characteristic input
   const handleCharacteristicChange = (e) => {
+
     const selectedOptions = Array.from(e.target.selectedOptions).map(
       (option) => ({
         characteristicId: option.value,
@@ -61,7 +63,7 @@ function ManageSkills() {
     console.log(newSkill);
   }, [newSkill]);
 
-  // Get Skills
+  //get skills from database
   const fetchSkills = async (authToken) => {
     try {
       const response = await axios.get(
@@ -80,8 +82,9 @@ function ManageSkills() {
     }
   };
 
-  // Get characteristics
+  //get characteristics from database
   const fetchCharacteristics = async (authToken) => {
+
     try {
       const response = await axios.get(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
@@ -101,12 +104,14 @@ function ManageSkills() {
     }
   };
 
+ 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
       console.error("Auth token is not available.");
       return;
     }
+
     fetchSkills(authToken);
     fetchCharacteristics(authToken);
   }, []);

@@ -12,7 +12,7 @@ function PanelTabs() {
     <div className='adm_nav' style={{paddingRight:'40px'}}>
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
       <Row>
-        <Col className="navcol" sm={3}>
+        <Col style={{maxHeight:'400px'}} className="navcol" sm={3}>
           <Nav   variant="pills" className="flex-column">
             <h2 style={{textAlign:'center'}}>Admin Panel</h2>
             <Nav.Item>
