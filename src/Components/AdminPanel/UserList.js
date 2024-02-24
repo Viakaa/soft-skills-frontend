@@ -1,11 +1,14 @@
-import { Card, Col, Row, Button, Modal, Form, Toast } from "react-bootstrap";
-
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Card, Col, Row, Button, Modal, Form, Toast, Pagination } from "react-bootstrap";
+import axios from "axios";
 import "./UserList.css";
 import uimg from "../../Assets/Images/avatar.png";
+
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(6); 
+
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -25,22 +28,19 @@ function UserList() {
     fetchUsers(authToken);
   }, []);
 
-  //get users from database
+  //get users data
   const fetchUsers = async (authToken) => {
     try {
-      const response = await axios.get(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/users",
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
-      setUsers(response.data); //get data from response
+      const response = await axios.get("http://ec2-34-239-91-8.compute-1.amazonaws.com/users", {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  //open modal window with user information
+  //edit user form
   const handleEditClick = (user) => {
     setCurrentUser(user);
     setEditFormData({
@@ -52,7 +52,7 @@ function UserList() {
     setShowModal(true);
   };
 
-  //handle changes
+  //handle changes in form
   const handleFormChange = (e) => {
     setEditFormData({
       ...editFormData,
@@ -60,41 +60,53 @@ function UserList() {
     });
   };
 
-  //edit user
+  //submit edit_form
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
     try {
-      await axios.patch(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${currentUser._id}`,
-        editFormData,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
-      setShowModal(false); //close modal
-      setShowToast(true); //success notification
-      fetchUsers(authToken); //refresh list of existing users
+      await axios.patch(`http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${currentUser._id}`, editFormData, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      setShowModal(false);
+      setShowToast(true);
+      fetchUsers(authToken);
     } catch (error) {
       console.error("Error updating user:", error);
     }
   };
 
+  //total pages
+  const totalPages = Math.ceil(users.length / usersPerPage);
+  
+  //get current users
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  //cgange page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  //generate page numbers
+  let items = [];
+  for (let number = 1; number <= totalPages; number++) {
+    items.push(
+      <Pagination.Item key={number} active={number === currentPage} onClick={() => paginate(number)}>
+        {number}
+      </Pagination.Item>
+    );
+  }
+
   return (
     <>
-     <div
-          className="all_users text-center"
-          style={{ }}
-        >
-          <h1>All Users</h1>
-          </div>
+      <div className="all_users text-center">
+        <h1>All Users</h1>
+      </div>
       <Row xs={1} md={3} className="g-4">
-        {users.map((user, index) => (
+        {currentUsers.map((user, index) => (
           <Col key={index}>
-            
-            <Card className='flex a_usercard text-center'>
-            <Card.Img style={{width:'50%'}} variant="top" src={uimg}/>
-
+            <Card className="flex a_usercard text-center">
+              <Card.Img style={{ width: '50%' }} variant="top" src={uimg} />
               <Card.Body>
                 <Card.Title>{`${user.firstName} ${user.lastName}`}</Card.Title>
                 <Card.Text>Email: {user.email}</Card.Text>
@@ -107,6 +119,8 @@ function UserList() {
           </Col>
         ))}
       </Row>
+
+      <Pagination className="pagination_ justify-content-center">{items}</Pagination>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
