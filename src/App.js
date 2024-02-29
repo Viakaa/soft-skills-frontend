@@ -7,6 +7,7 @@ import RegistrationForm from "./Components/Forms/RegistrationPage.js";
 import MainPage from "./Pages/MainPage.js";
 import ProfilePage from "./Pages/ProfilePage.js";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
@@ -27,7 +28,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
 
           <Route path="/main" element={<MainPage />} />
-          <Route path="/adminpanel" element={<AdminPage />} />
+          <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
           <Route
             path="/profile"
@@ -41,9 +42,9 @@ function App() {
           <Route
             path="/test_constructor"
             element={
-              <PrivateRoute>
+              <AdminRoute>
                 <DNDcons />
-              </PrivateRoute>
+                </AdminRoute>
             }
           />
           <Route path="/test/:id" element={<TestPage />} />
