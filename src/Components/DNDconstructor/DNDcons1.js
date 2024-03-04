@@ -8,7 +8,6 @@ import Form from "react-bootstrap/Form";
 import "./DNDconstructor.css";
 import { Radio, RadioGroup, FormControlLabel, Typography } from "@mui/material";
 import { Checkbox, FormGroup } from "@mui/material";
-import ReactSelect from "react-select";
 import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Select,
