@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Button, Table, Modal, Form, Dropdown } from "react-bootstrap";
+import React, {useState, useEffect} from "react";
+import {Button, Modal, Form, Dropdown} from "react-bootstrap";
 import "./ManageSkills.css";
 import axios from "axios";
+
+import Pencil from "../../Assets/Images/pencil.png";
+import Delete from "../../Assets/Images/delete.png";
 
 function ManageSkills() {
   const [skills, setSkills] = useState([]);
@@ -24,7 +27,7 @@ function ManageSkills() {
       const response = await axios.post(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
         newSkill,
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        {headers: {Authorization: `Bearer ${authToken}`}}
       );
       console.log("Skill saved successfully:", response.data);
       handleCloseModal();
@@ -38,7 +41,7 @@ function ManageSkills() {
   //handle changes in softskill input
 
   const handleSkillChange = (e) => {
-    setNewSkill({ ...newSkill, type: e.target.value });
+    setNewSkill({...newSkill, type: e.target.value});
   };
 
   //handle changes in characteristic input
@@ -69,7 +72,7 @@ function ManageSkills() {
       const response = await axios.get(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
         {
-          headers: { Authorization: `Bearer ${authToken}` },
+          headers: {Authorization: `Bearer ${authToken}`},
         }
       );
       const fetchedSkills = response.data.map((skill) => ({
@@ -89,11 +92,11 @@ function ManageSkills() {
       const response = await axios.get(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
         {
-          headers: { Authorization: `Bearer ${authToken}` },
+          headers: {Authorization: `Bearer ${authToken}`},
         }
       );
       const fetchedCharacteristics = response.data.map((char) => ({
-        _id: char._id, 
+        _id: char._id,
         title: char.title,
       }));
 
@@ -104,7 +107,7 @@ function ManageSkills() {
     }
   };
 
- 
+
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
@@ -118,28 +121,36 @@ function ManageSkills() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShowModal}>
-        +
-      </Button>
+      <div className="manageTable">
+        <h1 className="manageTable__title">Soft skills</h1>
+        
+        <button type="button" className="manageTable__add" onClick={handleShowModal}>
+          <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.91998 16.5H31.2" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M17.56 30V3.00001" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
+          </svg>
+          Add new soft skill...
+        </button>
 
-      <Table striped bordered hover size="sm" style={{ width: "90%" }}>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Characteristics</th>
-          </tr>
-        </thead>
-        <tbody>
+        <table className="manageTable__table">
+          <div className="manageTable__body">
           {skills.map((skill, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{skill.title}</td>
-              <td>{skill.characteristics.join(", ")}</td>
-            </tr>
+            <div className="manageTable__tr" key={index}>
+              <div className="manageTable__td-wrap">
+                <div className="manageTable__td">{skill.title}</div>
+                <div className="manageTable__td">{skill.characteristics.join(", ")}</div>
+              </div>
+              <button className="manageTable__btn" type="button">
+                <img src={Pencil}/>
+              </button>
+              <button className="manageTable__btn" type="button">
+                <img src={Delete}/>
+              </button>
+            </div>
           ))}
-        </tbody>
-      </Table>
+          </div>
+        </table>
+      </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

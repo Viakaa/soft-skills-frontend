@@ -1,0 +1,98 @@
+.manageTable {
+    padding: 12px 36px 110px;
+    border-radius: 20px;
+    background: rgba(80, 97, 197, 0.52);
+}
+
+.manageTable__title {
+    color: #DBDFF4;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 56px;
+    text-align: center;
+    margin-bottom: 44px;
+}
+
+.manageTable__table {
+    width: 100%;
+}
+
+.manageTable__tr {
+    display: flex;
+}
+
+.manageTable__tr + .manageTable__tr {
+    margin-top: 3px;
+}
+
+.manageTable__td {
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #000F67;
+    padding: 2px 24px;
+    width: 30%;
+    max-width: 30%;
+}
+
+.manageTable__td:nth-child(1) {
+    text-align: center;
+}
+
+.manageTable__td:nth-child(2) {
+    position: relative;
+    width: 70%;
+    max-width: 70%;
+}
+
+.manageTable__td:nth-child(2):before {
+    pointer-events: none;
+    position: absolute;
+    content: '';
+    left: 0;
+    height: calc(100% + 4px);
+    top: -2px;
+    width: 100%;
+    border: 2px solid #384699;
+    border-right: none;
+    border-radius: 5px;
+    background-color: rgba(80, 97, 197, 0.2);
+}
+
+.manageTable__td-wrap {
+    border: 2px solid #384699;
+    border-radius: 5px;
+    display: flex;
+    width: 100%;
+    background-color: #DBDFF4;
+}
+
+.manageTable__btn {
+    flex-shrink: 0;
+    padding: 0;
+    background-color: transparent;
+    border: hidden;
+    margin-left: 20px;
+}
+
+.manageTable__add {
+    background-color: transparent;
+    border: honeydew;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 40px;
+    color: #DBDFF4;
+}
+
+.manageTable__ico {
+    margin-right: 13px;
+    height: 44px;
+    width: 44px;
+    background-color: #DBDFF4;
+    padding: 9px;
+    border-radius: 10px;
+}
