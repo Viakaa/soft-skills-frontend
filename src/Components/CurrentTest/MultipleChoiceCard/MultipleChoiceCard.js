@@ -19,10 +19,8 @@ const MultipleChoiceCard = ({question, number}) => {
 
   return (
     <>
-      <div className="fristWrapper">
-        <p className="firstQuestion">{number}</p>
-        <h2 style={{textAlign: "center", flex: 1}} className="fristQuestionText">{title}</h2>
-      </div>
+      <div className="firstQuestion" style={{ marginRight: 'auto' }}>{number}</div>
+        <div className="fristQuestionText" style={{ textAlign: 'center', flexGrow: 1, marginTop:'-6%',marginBottom:'5%' }}>{title}</div>
 
       <div className="option-container">
         <div className="correct-answer-section" style={{display: 'flex'}}>
@@ -44,8 +42,13 @@ const MultipleChoiceCard = ({question, number}) => {
                       label={<TextField
                         size="small"
                         variant="outlined"
+                        className="questionText"
+
                         style={{border: 'none !important'}}
                         defaultValue={option}
+                        InputProps={{
+                          readOnly: true,
+                        }}
                       />}
                     />
                   </div>

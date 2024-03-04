@@ -8,7 +8,7 @@ const YesNoCard = ({question, number}) => {
   return (
     <>
     
-        <div className="firstQuestion" style={{ marginRight: 'auto' }}>{number}</div>
+    <div className="firstQuestion" style={{ marginRight: 'auto' }}>{number}</div>
         <div className="fristQuestionText" style={{ textAlign: 'center', flexGrow: 1, marginTop:'-6%',marginBottom:'5%' }}>{title}</div>
         <div className="yes-no-buttons">
           <Button
