@@ -69,7 +69,7 @@ function RegistrationForm() {
   return (
     <div class="d-flex justify-content-center ">
 
-    <Form style={{ width: "500px" }} className='registrater_main' onSubmit={handleSubmit}>
+    <Form style={{ width: "450px" }} className='registrater_main' onSubmit={handleSubmit}>
       <h1 className='create_txt'>Create Your Account</h1>
       <p style={{color:'white',fontSize:'15px'}}>Create your account in order to have access to the tests and all the possibilities of the soft skills school</p>
       <Form.Group>

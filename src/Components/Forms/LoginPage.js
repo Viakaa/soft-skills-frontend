@@ -49,10 +49,13 @@ function LoginForm() {
   };
 
   return (
-    <div className='wrapper'>
-      <p style={{ color: 'rgba(0, 15, 103, 1)', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
+    <>
+      <p className="text-center" style={{ color: 'rgba(0, 15, 103, 1)', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
 
-      <Form className='formWrapper' style={{ maxWidth: '250px' }} onSubmit={handleSubmit}>
+    <div className='d-flex justify-content-center'>
+
+      <Form className='registrater_main' style={{ width: "450px" }} onSubmit={handleSubmit}>
+
         <Form.Group>
           <Form.Label className="emailLabel">Email</Form.Label>
           <Form.Control
@@ -91,15 +94,17 @@ function LoginForm() {
           <Link to="/registration" className='forgotPassword'>Forgot password?</Link>*/}
         </div>
 
-        <Button variant="primary" type="submit" className='loginButton'>
+        <Button variant="primary" type="submit" className='register_button'>
           Sign In
         </Button>
 
-        <Button variant="primary" href='/registration' type="submit" className='registerButton'>
+        <Button variant="primary" href='/registration' type="submit" className='register_button'>
           Register
         </Button>
+        <div style={{marginBottom:'50px'}}></div>
       </Form>
     </div>
+    </>
   );
 }
 
