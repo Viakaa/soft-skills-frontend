@@ -45,11 +45,15 @@ export default function NavbarMain() {
               style={{ width: "100%" }}
               navbarScroll
             >
+               {isLoggedIn ? (
               <Nav.Link className="navbar_link" href="/main">
                 Main
               </Nav.Link>
+              ) : (
+                <></>
+              )}
               {isAdmin && (
-                <NavDropdown className='navbar_link' title="Admin" id="navbarScrollingDropdown">
+                <NavDropdown className='navbar_link ' title="Admin" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="/adminpanel">Admin Panel</NavDropdown.Item>
                   <NavDropdown.Item href="/test_constructor">Constructor</NavDropdown.Item>
 
