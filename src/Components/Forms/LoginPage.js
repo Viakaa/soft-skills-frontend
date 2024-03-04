@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Toast } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link,useNavigate } from 'react-router-dom';
 import "./LoginPage.css";
@@ -12,6 +12,12 @@ function LoginForm() {
     password: '',
   });
 
+  //toasts
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //handle inputs changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,6 +25,8 @@ function LoginForm() {
       [name]: value,
     });
   };
+
+  //sign in submit
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,17 +42,21 @@ function LoginForm() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userId', data._id); 
-        console.log('Successful auth!');
-        navigate("/profile"); 
-
+        localStorage.setItem('userId', data._id);
+        //show toast
+        setShowSuccessToast(true);
+        setTimeout(() => {
+          navigate("/profile");
+        }, 3000); 
       } else {
-        console.error('Error');
+        //credentials error 
+        setErrorMessage('Error during authentication. Please check your credentials.');
+        setShowErrorToast(true); 
       }
     } catch (error) {
-      console.error('Помилка під час відправки запиту', error);
+      setErrorMessage('An unexpected error occurred. Please try again.');
+      setShowErrorToast(true); 
     }
   };
 
@@ -104,6 +116,45 @@ function LoginForm() {
         <div style={{marginBottom:'50px'}}></div>
       </Form>
     </div>
+
+    <Toast
+        onClose={() => setShowSuccessToast(false)}
+        show={showSuccessToast}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: 20,
+          right: 20,
+          zIndex: 1000,
+          backgroundColor: "#dff0d8",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "#5cb85c", color: "white" }}>
+          <strong className="me-auto">Login Successful</strong>
+        </Toast.Header>
+        <Toast.Body>Welcome back!</Toast.Body>
+      </Toast>
+
+      
+      <Toast
+        onClose={() => setShowErrorToast(false)}
+        show={showErrorToast}
+        delay={5000}
+        autohide
+        style={{
+          position: "fixed",
+          top: 20,
+          right: 20,
+          zIndex: 1000,
+          backgroundColor: "#f8d7da",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "#d9534f", color: "white" }}>
+          <strong className="me-auto">Login Error</strong>
+        </Toast.Header>
+        <Toast.Body>{errorMessage}</Toast.Body>
+      </Toast>
     </>
   );
 }
