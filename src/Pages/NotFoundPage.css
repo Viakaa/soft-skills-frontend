@@ -1,0 +1,13 @@
+.page404{
+    font-family: 'Mitr'!important;
+}
+.page404 a{
+text-decoration: none;
+color:black;
+background-color: transparent !important;;
+}
+#notfound_text{
+    font-weight: 600;
+    font-size:40px;
+    color:#4F60C5;
+}

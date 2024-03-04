@@ -15,6 +15,8 @@ import DNDcons from "./Components/DNDconstructor/DNDcons1";
 
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
+import NotFoundPage from './Pages/NotFoundPage'; 
+
 
 function App() {
   return (
@@ -25,9 +27,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/registration" element={<RegistrationForm />} />
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
 
-          <Route path="/main" element={<MainPage />} />
+          <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
           <Route
@@ -50,6 +52,7 @@ function App() {
           <Route path="/test/:id" element={<TestPage />} />
 
           <Route path="/belbin" element={<BelbinTest />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </>
