@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 import "./DNDconstructor.css";
 import { Radio, RadioGroup, FormControlLabel, Typography } from "@mui/material";
 import { Checkbox, FormGroup } from "@mui/material";
+import ReactSelect from "react-select";
+import { SelectChangeEvent } from "@mui/material/Select";
 import {
   Select,
   MenuItem,
@@ -17,7 +19,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-  TextField
+  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
@@ -127,55 +129,86 @@ function getStyles1(name, personName2, theme) {
 
 const CheckboxWithFormControl = ({
   option,
-  handleOptionChange, 
+  handleOptionChange,
   characteristicList,
-  handleDeleteOption
+  handleDeleteOption,
 }) => {
-
   //handle characteristics to get id and title separately
   const handleCharacteristicChange = (event) => {
     const selectedId = event.target.value;
-    const selectedCharacteristic = characteristicList.find(char => char._id === selectedId);
-    handleOptionChange(option.id, 'characteristicId', selectedId);
-    console.log('SELECTED', selectedCharacteristic);
-  
+    const selectedCharacteristic = characteristicList.find(
+      (char) => char._id === selectedId
+    );
+    handleOptionChange(option.id, "characteristicId", selectedId);
+    console.log("SELECTED", selectedCharacteristic);
   };
   return (
     <div className="checkbox-with-form-control option-container">
       <FormControlLabel
         control={
           <Checkbox
+            className="checkbox_mult"
             checked={option.checked || false}
-            onChange={(e) => handleOptionChange(option.id, 'checked', e.target.checked)}
+            onChange={(e) =>
+              handleOptionChange(option.id, "checked", e.target.checked)
+            }
             name={option.label}
           />
         }
-        label={<TextField
-          size="small"
-          variant="outlined"
-          style={{border:'none !important'}}
-          value={option.label}
-          onChange={(e) => handleOptionChange(option.id, 'label', e.target.value)}
-        />}
+        label={
+          <TextField
+            size="small"
+            variant="outlined"
+            style={{ border: "none !important" }}
+            className="questionText"
+            value={option.label}
+            onChange={(e) =>
+              handleOptionChange(option.id, "label", e.target.value)
+            }
+          />
+        }
       />
-     
-        <Form.Control
-          size="sm"
-          type="number"
-          placeholder="+/- 1"
-          className="addPointsYN"
-          value={option.points}
-          onChange={(e) => handleOptionChange(option.id, 'points', Number(e.target.value))}
-          style={{ margin: '0', width: '100px' }}
 
-          required
-        />
-   <FormControl style={{ width: "200px", marginLeft: "10px" }}>
-        <InputLabel>Characteristic</InputLabel>
+      <Form.Control
+        size="sm"
+        type="number"
+        placeholder="+/- 1"
+        className="addPointsYN"
+        value={option.points}
+        onChange={(e) =>
+          handleOptionChange(option.id, "points", Number(e.target.value))
+        }
+        style={{ margin: "0", width: "100px" }}
+        required
+      />
+      <FormControl style={{ width: "200px", marginLeft: "10px" }}>
         <Select
+          displayEmpty
+          className="ch_mult_txt"
           value={option.characteristicId}
           onChange={handleCharacteristicChange}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em>Choose characteristic</em>;
+            }
+
+            const selectedChar = characteristicList.find(
+              (char) => char._id === selected
+            );
+            return selectedChar ? (
+              selectedChar.title
+            ) : (
+              <em>Choose characteristic</em>
+            );
+          }}
+          className="ch_mult_txt"
+          MenuProps={MenuProps}
+          inputProps={{ "aria-label": "Without label" }}
         >
+          <MenuItem disabled value="">
+            <em>Choose characteristic</em>
+          </MenuItem>
+
           {characteristicList.map((char) => (
             <MenuItem key={char._id} value={char._id}>
               {char.title}
@@ -183,29 +216,41 @@ const CheckboxWithFormControl = ({
           ))}
         </Select>
       </FormControl>
-      <IconButton onClick={() => handleDeleteOption(option.id)} style={{ marginLeft: '10px',marginTop:'1%' }}>
+      <IconButton
+        onClick={() => handleDeleteOption(option.id)}
+        style={{ marginLeft: "10px", marginTop: "1%" }}
+      >
         X
       </IconButton>
     </div>
   );
 };
 
-const MultiChoiceItem = ({  content,
+const MultiChoiceItem = ({
+  content,
   answers,
   points,
   characteristics,
   index,
-  items, onDelete,onUpdate }) => {
- 
+  items,
+  onDelete,
+  onUpdate,
+}) => {
   const [questionName, setQuestionName] = useState("QuestionName");
   //option structure
   const [options, setOptions] = useState([
-    { id: 1, label: "Option 1", points: 0, characteristicId: "", checked: false },
+    {
+      id: 1,
+      label: "Option 1",
+      points: 0,
+      characteristicId: "65c3adfbfe2b0e98e5ba7374",
+      checked: false,
+    },
   ]);
   const [characteristicList, setCharacteristicList] = useState([]); //characteristics list
 
   const handleOptionChange = (optionId, field, value) => {
-    const updatedOptions = options.map(option => {
+    const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
         return { ...option, [field]: value };
       }
@@ -213,23 +258,32 @@ const MultiChoiceItem = ({  content,
     });
     setOptions(updatedOptions);
   };
-  
 
+  
   const [nextId, setNextId] = useState(2);
 
   //add new option
   const handleAddOption = () => {
-    setOptions([...options, { id: nextId, label: `Option ${nextId}`, points: 0, characteristicId: "", checked: false }]);
+    setOptions([
+      ...options,
+      {
+        id: nextId,
+        label: `Option ${nextId}`,
+        points: 0,
+        characteristicId: "65c3adfbfe2b0e98e5ba7374",
+        checked: false,
+      },
+    ]);
     setNextId(nextId + 1); //increment nextId for the next new option
   };
 
   //delete option
   const handleDeleteOption = (optionId) => {
-    const updatedOptions = options.filter(option => option.id !== optionId);
+    const updatedOptions = options.filter((option) => option.id !== optionId);
     setOptions(updatedOptions);
     onUpdate(index, {
       content: questionName,
-      options: updatedOptions.map(option => ({
+      options: updatedOptions.map((option) => ({
         text: option.label,
         isCorrect: option.checked,
         characteristicId: option.characteristicId,
@@ -237,7 +291,7 @@ const MultiChoiceItem = ({  content,
       })),
     });
   };
-//get characteristics
+  //get characteristics
   const fetchCharacteristics = async (authToken) => {
     try {
       const response = await axios.get(
@@ -265,17 +319,19 @@ const MultiChoiceItem = ({  content,
       return;
     }
     fetchCharacteristics(authToken);
-  }, []);
+    // In your component rendering the Select
 
+
+  }, []);
 
   useEffect(() => {
     //update localstorage
     onUpdate(index, {
       content: questionName,
-      options: options.map(option => ({
-        label: option.label, 
-        checked: option.checked, 
-        characteristicId: option.characteristicId, 
+      options: options.map((option) => ({
+        label: option.label,
+        checked: option.checked,
+        characteristicId: option.characteristicId,
         points: option.points,
       })),
     });
@@ -297,57 +353,53 @@ const MultiChoiceItem = ({  content,
       </div>
 
       <div className="option-container">
-        
-        <div className="correct-answer-section" style={{ display: 'flex' }}>
-      <div>
-      {options.map((option, idx) => (
-        <CheckboxWithFormControl
-          key={idx}
-          option={option}
-          handleOptionChange={handleOptionChange}
-          handleDeleteOption={handleDeleteOption}
-          characteristicList={characteristicList}
-        />
-      ))}
-    </div>
-   
-    </div>
-    
+        <div className="correct-answer-section" style={{ display: "flex" }}>
+          <div>
+            {options.map((option, idx) => (
+              <CheckboxWithFormControl
+                key={idx}
+                option={option}
+                handleOptionChange={handleOptionChange}
+                handleDeleteOption={handleDeleteOption}
+                characteristicList={characteristicList}
+              />
+            ))}
+          </div>
+        </div>
       </div>
       <FormGroup>
-          <IconButton onClick={handleAddOption} color="primary" size="small">
-            <div className="circlee">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="23"
-                height="23"
-                viewBox="0 0 23 23"
-                fill="none"
-              >
-                <path
-                  d="M0 4C0 1.79086 1.79086 0 4 0H19C21.2091 0 23 1.79086 23 4V19C23 21.2091 21.2091 23 19 23H4C1.79086 23 0 21.2091 0 19V4Z"
-                  fill="#DBDFF4"
-                />
-                <path
-                  d="M4.13998 11.5H18.4"
-                  stroke="#384699"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M11.27 18.4V4.60002"
-                  stroke="#384699"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </div>
-          </IconButton>
-        </FormGroup>
+        <IconButton onClick={handleAddOption} color="primary" size="small">
+          <div className="circlee">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="23"
+              viewBox="0 0 23 23"
+              fill="none"
+            >
+              <path
+                d="M0 4C0 1.79086 1.79086 0 4 0H19C21.2091 0 23 1.79086 23 4V19C23 21.2091 21.2091 23 19 23H4C1.79086 23 0 21.2091 0 19V4Z"
+                fill="#DBDFF4"
+              />
+              <path
+                d="M4.13998 11.5H18.4"
+                stroke="#384699"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <path
+                d="M11.27 18.4V4.60002"
+                stroke="#384699"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+        </IconButton>
+      </FormGroup>
     </div>
   );
 };
-
 
 const YesNoQuestionItem = ({
   content,
@@ -364,8 +416,8 @@ const YesNoQuestionItem = ({
   const [yesPoints, setYesPoints] = useState(null); // points for yes
   const [noPoints, setNoPoints] = useState(null); // points for no
   const [characteristicsList, setCharacteristicsList] = useState([]); // characteristics list
-  const [selectedYesChar, setSelectedYesChar] = useState({ id: "", title: "" });
-  const [selectedNoChar, setSelectedNoChar] = useState({ id: "", title: "" });
+  const [selectedYesChar, setSelectedYesChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
+  const [selectedNoChar, setSelectedNoChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
 
   //get chrateristic
   const fetchCharacteristics = async (authToken) => {
@@ -381,7 +433,7 @@ const YesNoQuestionItem = ({
         title: char.title,
       }));
 
-      console.log(fetchedCharacteristics);
+      console.log("fetchedCH", fetchedCharacteristics);
       setCharacteristicsList(fetchedCharacteristics);
     } catch (error) {
       console.error("Error fetching characteristics:", error);
@@ -396,11 +448,21 @@ const YesNoQuestionItem = ({
     }
     fetchCharacteristics(authToken);
   }, []);
+
+  const handleChangeQuestionName = (e) => {
+    setQuestionName(e.target.value);
+  };
   //handle yes characteristic
   const handleYesCharChange = (event) => {
     const charId = event.target.value;
     const char = characteristicsList.find((c) => c._id === charId);
     setSelectedYesChar({ id: char._id, title: char.title });
+    onUpdate(index, {
+      content: questionName,
+      answers: ["Yes", "No"],
+      points: [yesPoints, noPoints],
+      characteristics: [selectedYesChar, selectedNoChar],
+    });
   };
 
   //handle no characteristic
@@ -409,6 +471,12 @@ const YesNoQuestionItem = ({
     const charId = event.target.value;
     const char = characteristicsList.find((c) => c._id === charId);
     setSelectedNoChar({ id: char._id, title: char.title });
+    onUpdate(index, {
+      content: questionName,
+      answers: ["Yes", "No"],
+      points: [yesPoints, noPoints],
+      characteristics: [selectedYesChar, selectedNoChar],
+    });
   };
 
   useEffect(() => {
@@ -418,8 +486,9 @@ const YesNoQuestionItem = ({
       points: [yesPoints, noPoints],
       characteristics: [selectedYesChar, selectedNoChar],
     });
+    
   }, [questionName, yesPoints, noPoints, onUpdate, index]);
-
+  
   const theme = useTheme();
   const [personName1, setPersonName1] = React.useState([]);
   const [personName2, setPersonName2] = React.useState([]);
@@ -447,7 +516,7 @@ const YesNoQuestionItem = ({
           contenteditable="true"
           value={questionName}
           required
-          onChange={(e) => setQuestionName(e.target.value)}
+          onChange={handleChangeQuestionName}
         />
 
         <button className="closeButton" onClick={() => onDelete(index)}>
@@ -518,18 +587,27 @@ const YesNoQuestionItem = ({
           required
         />
       </div>
-      <div className="categoryDrop d-flex justify-content-around">
+      <div className="categoryDrop d-flex justify-content-evenly">
         <FormControl style={{ width: "200px" }}>
-          <InputLabel id="yes-characteristic-label">
-            Yes Characteristic
-          </InputLabel>
           <Select
+            displayEmpty
             labelId="yes-characteristic-label"
             value={selectedYesChar ? selectedYesChar.id : ""}
             onChange={handleYesCharChange}
-            displayEmpty
-            required
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return <em>Choose characteristic</em>;
+              }
+
+              return selectedYesChar.title;
+            }}
+            className="ch_mult_txt"
+            MenuProps={MenuProps}
+            inputProps={{ "aria-label": "Without label" }}
           >
+            <MenuItem disabled value="">
+              <em>Choose characteristic</em>
+            </MenuItem>
             {characteristicsList.map((char) => (
               <MenuItem key={char._id} value={char._id}>
                 {char.title}
@@ -539,16 +617,25 @@ const YesNoQuestionItem = ({
         </FormControl>
 
         <FormControl style={{ width: "200px" }}>
-          <InputLabel id="no-characteristic-label">
-            No Characteristic
-          </InputLabel>
           <Select
-            labelId="no-characteristic-label"
+            displayEmpty
+            labelId="yes-characteristic-label"
             value={selectedNoChar ? selectedNoChar.id : ""}
             onChange={handleNoCharChange}
-            displayEmpty
-            required
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return <em>Choose characteristic</em>;
+              }
+
+              return selectedNoChar.title;
+            }}
+            className="ch_mult_txt"
+            MenuProps={MenuProps}
+            inputProps={{ "aria-label": "Without label" }}
           >
+            <MenuItem disabled value="">
+              <em>Choose characteristic</em>
+            </MenuItem>
             {characteristicsList.map((char) => (
               <MenuItem key={char._id} value={char._id}>
                 {char.title}
@@ -575,14 +662,14 @@ const DropArea = ({ onAddItem }) => {
             characteristics: [
               { id: null, title: "" },
               { id: null, title: "" },
-            ], 
+            ],
           });
         } else if (item.type === ItemTypes.MULTI_CHOICE) {
           onAddItem({
             type: ItemTypes.MULTI_CHOICE,
             content: "",
             answers: [],
-            characteristics: [], 
+            characteristics: [],
           });
         }
       },
@@ -639,6 +726,31 @@ function DNDconstructor() {
     }
   }, []);
 
+  const sendQuestion = async (question) => {
+    const authToken = localStorage.getItem("authToken");
+
+    try {
+      const response = await axios.post(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
+        question,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      return response.data; // Assuming this is the format
+    } catch (error) {
+      console.error(
+        "Failed to send question:",
+        question,
+        error.response || error.message
+      );
+      throw error; // Rethrowing the error to be caught by Promise.all error handling
+    }
+  };
+
   const [testTitle, setTestTitle] = useState("");
 
   const handleCreateTest = async () => {
@@ -652,32 +764,32 @@ function DNDconstructor() {
         return;
       }
 
-      const savedI = JSON.parse(localStorage.getItem("dnd-items")) || [];
-      if (savedI.length === 0) {
+      if (savedItems.length === 0) {
         setToastMessage("Please add at least one question to the test.");
         setShowToast(true);
         return;
       }
 
-      const questionsForApi = items.map((item) => {
+      const questionsForApi = savedItems.map((item) => {
         if (item.type === ItemTypes.MULTI_CHOICE) {
           //map answers and correctAnswers
-          const answers = item.options.map(opt => opt.label);
-          const correctAnswers = item.options.map(opt => opt.checked); 
-          
+          const answers = item.options.map((opt) => opt.label);
+          const correctAnswers = item.options.map((opt) => opt.checked);
+
           //map characteristic from option
-          const characteristics = item.options.map(opt => ({
+          const characteristics = item.options.map((opt) => ({
             characteristicId: opt.characteristicId,
             points: opt.points,
-          }));    
-          console.log('char:', characteristics);
+          }));
+          console.log("char:", characteristics);
+
           //return full question object
           return {
             question: item.content,
             type: "multiple_choice",
             answers: answers,
             correctAnswers: correctAnswers,
-            characteristics: characteristics
+            characteristics: characteristics,
           };
         } else if (item.type === ItemTypes.YES_NO_QUESTION) {
           // Handle other types as needed, example for yes/no:
@@ -702,17 +814,30 @@ function DNDconstructor() {
           };
         }
       });
-      console.log('123', questionsForApi);
-      const questionPromises = questionsForApi.map(question => 
-        axios.post(
-          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions", 
-          question, 
-          { headers: { Authorization: `Bearer ${authToken}` } }
+      console.log("123", questionsForApi);
+      console.log("title", testTitle);
+      await questionsForApi.map((question) => {
+        console.log("myquest", question);
+      });
+      const responses = await Promise.all(
+        questionsForApi.map((question) =>
+          axios.post(
+            "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
+            question,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          )
         )
       );
-      
-      const questionResponses = await Promise.all(questionPromises);
-      const questionIds = questionResponses.map(response => response.data._id);
+      console.log("555", responses);
+
+      const questionIds = responses.map((response) => response.data._id);
+
+      // Create the test with question IDs
 
       /*const questionPromises = savedItems.map((item) =>
         axios.post(
@@ -761,8 +886,8 @@ function DNDconstructor() {
       if (error.response) {
         if (error.response.status === 500) {
           errorMessage += "Fill all fields to create the test.";
-        }
-        else {
+          console.log("responses1", error.message);
+        } else {
           errorMessage += ` Status code ${error.response.status}.`;
         }
       } else if (error.request) {
@@ -792,8 +917,8 @@ function DNDconstructor() {
     <DndProvider backend={HTML5Backend}>
       <div className="app">
         <aside className="side-panel">
-          <DraggableYesNoQuestion content="Drag this 'Yes/No' question format." />
-          <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
+          <DraggableYesNoQuestion content="'Yes/No' question format." />
+          <DraggableMultiChoice content="'Multiple-choice' question format." />
         </aside>
 
         <main className="main-content">

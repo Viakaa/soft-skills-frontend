@@ -76,7 +76,9 @@
 
 .item-list {
   overflow: scroll;
+  max-height: 550px;
 }
+
 
 .firstQuestion {
   background-color: rgba(80, 97, 197, 1);
@@ -180,8 +182,17 @@
 }
 
 .correct-answer-section label span svg {
- /* fill: #94ddad;*/
+ fill: #dfb200;
+ border-radius: 100% !important;
 }
+
+.custom-checkbox {
+  border-radius: 40px !important;
+}
+
+
+
+
 
 .skill-selector-item {
   margin-bottom: 20px;
@@ -376,7 +387,7 @@
   height: 10px !important;
   border-radius: 5px !important;
   background-color: #D9D9D9;
-  border: 3px solid black;
+  border: 3px solid black !important;
   outline: none !important;
 }
 
@@ -425,5 +436,13 @@ border-radius: 10px;
 
 .checkbox-with-form-control input,fieldset{
   border: 0px !important;
+  font-family: 'Mitr' !important;
   
+}
+.questionText input{
+  color: #000F67 !important;
+}
+
+.ch_mult_txt{
+  font-family: 'Mitr' !important;
 }
