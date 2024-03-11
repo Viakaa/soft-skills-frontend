@@ -1,33 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { getUserInfo } from './Redux/Actions/userActions';
 
 const AdminRoute = ({ children }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const [isUserChecked, setIsUserChecked] = useState(false);
 
   const { userInfo } = useSelector((state) => state.auth);
-  const isAdmin = userInfo?.role === 'ADMIN';
-  const authToken = localStorage.getItem("authToken");
-  const isLoggedIn = authToken !== null;
+  const authToken = window.localStorage.getItem("authToken");
 
-  //get user's data
   useEffect(() => {
-    if (!userInfo) {
+    //get user info
+    if (!userInfo && authToken) {
       dispatch(getUserInfo());
+    } else {
+      setIsUserChecked(true);
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, userInfo, authToken]);
 
+  useEffect(() => {
+    if (userInfo || !authToken) {
+      setIsUserChecked(true);
+    }
+  }, [userInfo, authToken]);
 
-  //wait for userInfo
-  if (!userInfo) {
+  //return div while waiting for user info
+  if (!isUserChecked) {
     return <div></div>;
-
   }
-  //redirect to main if no admin
-  if (!isAdmin) {
-    return <Navigate to="/main"  />;
+
+  if (!authToken || (authToken && userInfo?.role !== 'ADMIN')) {
+    return <Navigate to="/main" replace />;
   }
 
   return children;
