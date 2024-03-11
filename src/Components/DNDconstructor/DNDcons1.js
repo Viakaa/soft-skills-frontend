@@ -83,7 +83,6 @@ const DraggableMultiChoice = ({ content }) => {
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       {content}
-      {/* <div> Add your multiple choice question layout here</div> */}
     </div>
   );
 };
@@ -241,7 +240,7 @@ const MultiChoiceItem = ({
     {
       id: 1,
       label: "Option 1",
-      points: 0,
+      points: 1,
       characteristicId: "65c3adfbfe2b0e98e5ba7374",
       checked: false,
     },
@@ -268,7 +267,7 @@ const MultiChoiceItem = ({
       {
         id: nextId,
         label: `Option ${nextId}`,
-        points: 0,
+        points: 1,
         characteristicId: "65c3adfbfe2b0e98e5ba7374",
         checked: false,
       },
@@ -412,8 +411,8 @@ const YesNoQuestionItem = ({
 }) => {
   const [answer, setAnswer] = useState(null);
   const [questionName, setQuestionName] = useState("QuestionName");
-  const [yesPoints, setYesPoints] = useState(null); // points for yes
-  const [noPoints, setNoPoints] = useState(null); // points for no
+  const [yesPoints, setYesPoints] = useState(1); // points for yes
+  const [noPoints, setNoPoints] = useState(1); // points for no
   const [characteristicsList, setCharacteristicsList] = useState([]); // characteristics list
   const [selectedYesChar, setSelectedYesChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
   const [selectedNoChar, setSelectedNoChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
@@ -836,7 +835,7 @@ function DNDconstructor() {
 
       const questionIds = responses.map((response) => response.data._id);
 
-      // Create the test with question IDs
+      //create the test with question IDs
 
       /*const questionPromises = savedItems.map((item) =>
         axios.post(
