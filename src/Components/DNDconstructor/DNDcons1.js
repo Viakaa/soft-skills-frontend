@@ -693,31 +693,32 @@ const SliderQuestionItem = ({
   index,
   onDelete,
   onEdit,
-  onUpdate
+  onUpdate,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(question);
   const [questionName, setQuestionName] = useState("QuestionName");
   const [mypoints, setPoints] = useState(1);
-  const [characteristicId, setCharacteristicId] = useState("65c3adfbfe2b0e98e5ba7374");
+  const [characteristicId, setCharacteristicId] = useState(
+    "65c3adfbfe2b0e98e5ba7374"
+  );
   const [characteristicsList, setCharacteristicsList] = useState([]);
-  const [sliderMax, setSliderMax] = useState(4);//slider max value
-
+  const [sliderMax, setSliderMax] = useState(4); //slider max value
 
   //increase slider max value
   const increaseSliderMax = () => {
-    if (sliderMax <15) {
-    setSliderMax(sliderMax + 1);
+    if (sliderMax < 15) {
+      setSliderMax(sliderMax + 1);
     }
   };
 
   //decrease slider max value
   const decreaseSliderMax = () => {
-    if (sliderMax > 1) { //prevents from going below 1
+    if (sliderMax > 1) {
+      //prevents from going below 1
       setSliderMax(sliderMax - 1);
     }
   };
-
 
   useEffect(() => {
     onUpdate(index, {
@@ -725,15 +726,12 @@ const SliderQuestionItem = ({
       points: mypoints,
       characteristics: characteristicId,
     });
-  }, [questionName,mypoints, onUpdate, index]);
+  }, [questionName, mypoints, onUpdate, index]);
 
-
-
-//handles question
+  //handles question
   const handleChangeQuestionName = (e) => {
     setQuestionName(e.target.value);
   };
-
 
   //get characteristics
   const fetchCharacteristics = async () => {
@@ -764,85 +762,345 @@ const SliderQuestionItem = ({
 
   return (
     <div className="question-item">
-      
-        <>
-          <div className="fristWrapper">
-            <div className="firstQuestion">{index + 1}</div>
-            <input
-              className="fristQuestionText"
-              contenteditable="true"
-              value={questionName}
-              required
-              onChange={handleChangeQuestionName}
-            />
+      <>
+        <div className="fristWrapper">
+          <div className="firstQuestion">{index + 1}</div>
+          <input
+            className="fristQuestionText"
+            contenteditable="true"
+            value={questionName}
+            required
+            onChange={handleChangeQuestionName}
+          />
 
-            <button className="closeButton" onClick={() => onDelete(index)}>
-              X
+          <button className="closeButton" onClick={() => onDelete(index)}>
+            X
+          </button>
+        </div>
+        <div></div>
+        <div className="flex">
+          <Slider
+            className="questionSlider"
+            aria-label="Temperature"
+            defaultValue={2}
+            valueLabelDisplay="auto"
+            step={1}
+            marks
+            min={0}
+            max={sliderMax}
+            onChange={(e, newValue) => setPoints(newValue)}
+            sx={{ maxWidth: "500px" }}
+          />
+          <div style={{ minWidth: "100px" }}>
+            <button
+              className="closeButton"
+              onClick={decreaseSliderMax}
+              disabled={sliderMax <= 1}
+            >
+              -
+            </button>
+            <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+              {sliderMax}
+            </span>
+            <button className="closeButton" onClick={increaseSliderMax}>
+              +
             </button>
           </div>
-          <div>
-       
-      </div>
-          <div className="flex">
-            <Slider
-              className="questionSlider"
-              aria-label="Temperature"
-              defaultValue={2}
-              valueLabelDisplay="auto"
-              step={1}
-              marks
-              min={0}
-              max={sliderMax}
-              onChange={(e, newValue) => setPoints(newValue)}
-              sx={{ maxWidth: "500px" }}
-            />
-            <div style={{minWidth:'100px'}}>
-             <button className="closeButton" onClick={decreaseSliderMax} disabled={sliderMax <= 1}>
-          -
-        </button>
-        <span style={{marginLeft:'10px',marginRight:'10px'}}>{sliderMax}</span>
-        <button className="closeButton" onClick={increaseSliderMax}>
-          +
-        </button>
         </div>
-          </div>
-          <FormControl fullWidth>
-            <Select
-              displayEmpty
-              className="ch_mult_txt"
-              value={characteristicId}
-              onChange={handleChangeCharacteristic}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return <em>Choose characteristic</em>;
-                }
+        <FormControl fullWidth>
+          <Select
+            displayEmpty
+            className="ch_mult_txt"
+            value={characteristicId}
+            onChange={handleChangeCharacteristic}
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return <em>Choose characteristic</em>;
+              }
 
-                const selectedChar = characteristicsList.find(
-                  (char) => char._id === selected
-                );
-                return selectedChar ? (
-                  selectedChar.title
-                ) : (
-                  <em>Choose characteristic</em>
-                );
-              }}
-              className="ch_mult_txt"
-              MenuProps={MenuProps}
-              inputProps={{ "aria-label": "Without label" }}
-            >
-              <MenuItem disabled value="">
+              const selectedChar = characteristicsList.find(
+                (char) => char._id === selected
+              );
+              return selectedChar ? (
+                selectedChar.title
+              ) : (
                 <em>Choose characteristic</em>
-              </MenuItem>
+              );
+            }}
+            className="ch_mult_txt"
+            MenuProps={MenuProps}
+            inputProps={{ "aria-label": "Without label" }}
+          >
+            <MenuItem disabled value="">
+              <em>Choose characteristic</em>
+            </MenuItem>
 
-              {characteristicsList.map((char) => (
-                <MenuItem key={char._id} value={char._id}>
-                  {char.title}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </>
+            {characteristicsList.map((char) => (
+              <MenuItem key={char._id} value={char._id}>
+                {char.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </>
+    </div>
+  );
+};
+
+const RadioButtonItem = ({
+  question,
+  content,
+  answers,
+  points,
+  characteristics,
+  index,
+  items,
+  onDelete,
+  onUpdate,
+}) => {
+  const [options, setOptions] = useState([
+    { label: "Radio 1", points: 1, characteristicId: "65c3adfbfe2b0e98e5ba7374" },
+    { label: "Radio 2", points: 1, characteristicId: "65c3adfbfe2b0e98e5ba7374" },
+  ]);
+  const [characteristicsList, setCharacteristicsList] = useState([]);
+  const [questionName, setQuestionName] = useState("QuestionName");
+
+  useEffect(() => {
+    fetchCharacteristics();
+  }, []);
+
+  //update for local storage
+  useEffect(() => {
+    onUpdate(index, {
+      content: questionName,
+      options: options.map((option) => ({
+        label: option.label,
+        points: option.points,
+        characteristicId: option.characteristicId,
+      })),
+    });
+  }, [questionName, options, onUpdate, index, content]);
+
+  //get characteristics
+  const fetchCharacteristics = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      const fetchedCharacteristics = response.data.map((char) => ({
+        _id: char._id,
+        title: char.title,
+      }));
+      setCharacteristicsList(fetchedCharacteristics);
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
+
+  //handle characteristic change
+  const handleCharacteristicChange = (optionIndex, event) => {
+    const newCharacteristicId = event.target.value;
+    const updatedOptions = options.map((option, idx) => {
+      if (idx === optionIndex) {
+        return { ...option, characteristicId: newCharacteristicId };
+      }
+      return option;
+    });
+    setOptions(updatedOptions);
+  };
+
+    //handle option change
+  const handleOptionChange = (idx, field, value) => {
+    setOptions(
+      options.map((option, optionIndex) =>
+        optionIndex === idx ? { ...option, [field]: value } : option
+      )
+    );
+  };
+
+  //add new radiobutton
+  const handleAddOption = () => {
+    setOptions([
+      ...options,
+      {
+        id: options.length + 1,
+        label: `Radio ${options.length + 1}`,
+        points: 1,
+        characteristicId: "65c3adfbfe2b0e98e5ba7374",
+      },
+    ]);
+  };
+
+  //delete radiobutton
+  const handleDeleteOption = (idx) => {
+    setOptions(options.filter((_, optionIndex) => optionIndex !== idx));
+  };
+
+  return (
+    <div className="question-item">
+      <div className="fristWrapper">
+        <p className="firstQuestion">{index + 1}</p>
+        <input
+          className="fristQuestionText"
+          contenteditable="true"
+          value={questionName}
+          required
+          onChange={(e) => setQuestionName(e.target.value)}
+        />
+        <button className="closeButton" onClick={() => onDelete(index)}>
+          X
+        </button>
+      </div>
+      <div className="option-container">
+      <div className="correct-answer-section" style={{ display: "flex" }}>
     
+          <div>
+            {options.map((option, idx) => (
+              <div
+                key={idx}
+             
+                className="checkbox-with-form-control option-container"
+              >
+                <FormControlLabel
+                  control={<Radio checked={false} />}
+                  label={
+                    <TextField
+                      size="small"
+                      value={option.label}
+                      onChange={(e) =>
+                        handleOptionChange(idx, "label", e.target.value)
+                      }
+                    />
+                  }
+                />
+                <Form.Control
+                  size="sm"
+                  type="number"
+                  placeholder="+/- 1"
+                  className="addPointsYN"
+                  value={option.points}
+                  onChange={(e) =>
+                    handleOptionChange(idx, "points", Number(e.target.value))
+                  }
+                  style={{ margin: "0", width: "100px" }}
+                  required
+                />
+                <FormControl style={{ width: "200px", marginLeft: "10px" }}>
+                  <Select
+                    displayEmpty
+                    className="ch_mult_txt"
+                    value={option.characteristicId}
+                    onChange={(event) => handleCharacteristicChange(idx, event)} // Corrected call
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <em>Choose characteristic</em>;
+                      }
+                      const selectedChar = characteristicsList.find(
+                        (char) => char._id === selected
+                      );
+                      return selectedChar ? (
+                        selectedChar.title
+                      ) : (
+                        <em>Choose characteristic</em>
+                      );
+                    }}
+                    className="ch_mult_txt"
+                    MenuProps={MenuProps}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem disabled value="">
+                      <em>Choose characteristic</em>
+                    </MenuItem>
+                    {characteristicsList.map((char) => (
+                      <MenuItem key={char._id} value={char._id}>
+                        {char.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <IconButton
+                  onClick={() => handleDeleteOption(idx)}
+                  style={{ marginLeft: "10px", marginTop: "10px" }}
+                >
+                  X
+                </IconButton>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <FormGroup>
+        <IconButton onClick={handleAddOption} color="primary" size="small">
+          <div className="circlee">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="23"
+              viewBox="0 0 23 23"
+              fill="none"
+            >
+              <path
+                d="M0 4C0 1.79086 1.79086 0 4 0H19C21.2091 0 23 1.79086 23 4V19C23 21.2091 21.2091 23 19 23H4C1.79086 23 0 21.2091 0 19V4Z"
+                fill="#DBDFF4"
+              />
+              <path
+                d="M4.13998 11.5H18.4"
+                stroke="#384699"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <path
+                d="M11.27 18.4V4.60002"
+                stroke="#384699"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+        </IconButton>
+      </FormGroup>
+    </div>
+  );
+};
+
+const DraggableRadioButton = ({ content }) => {
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: ItemTypes.RADIO,
+      item: { type: "radio", content },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [content]
+  );
+
+  return (
+    <div
+      ref={drag}
+      className="draggable-question"
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      {content}
+      <RadioGroup>
+        <FormControlLabel
+          value="option1"
+          control={<Radio />}
+          label="Option 1"
+          disabled
+        />
+        <FormControlLabel
+          value="option2"
+          control={<Radio />}
+          label="Option 2"
+          disabled
+        />
+      </RadioGroup>
     </div>
   );
 };
@@ -877,6 +1135,13 @@ const DropArea = ({ onAddItem }) => {
             answers: "",
             characteristics: [],
           });
+        } else if (item.type === ItemTypes.RADIO) {
+          onAddItem({
+            type: ItemTypes.RADIO,
+            content: "",
+            answers: [],
+            characteristics: [],
+          });
         }
       },
     }),
@@ -895,17 +1160,21 @@ function DNDconstructor() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+
+  //add item to localstorage
   const addItem = (newItem) => {
     const updatedItems = [...items, { ...newItem, id: Math.random() }];
     setItems(updatedItems);
     localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
+  //delete item from localstorage
 
   const deleteItem = (index) => {
     const updatedItems = items.filter((_, idx) => idx !== index);
     setItems(updatedItems);
     localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
+
 
   const editItem = (indexToEdit, newContent) => {
     setItems(
@@ -918,6 +1187,7 @@ function DNDconstructor() {
     );
   };
 
+  //update item in localstorage
   const updateItem = (index, newItemContent) => {
     const updatedItems = items.map((item, idx) =>
       idx === index ? { ...item, ...newItemContent } : item
@@ -946,14 +1216,14 @@ function DNDconstructor() {
           },
         }
       );
-      return response.data; // Assuming this is the format
+      return response.data; 
     } catch (error) {
       console.error(
         "Failed to send question:",
         question,
         error.response || error.message
       );
-      throw error; // Rethrowing the error to be caught by Promise.all error handling
+      throw error; 
     }
   };
 
@@ -998,7 +1268,6 @@ function DNDconstructor() {
             characteristics: characteristics,
           };
         } else if (item.type === ItemTypes.YES_NO_QUESTION) {
-          // Handle other types as needed, example for yes/no:
           return {
             question: item.content,
             type: "yes_no", //yes-no type
@@ -1029,7 +1298,27 @@ function DNDconstructor() {
               },
             ],
           };
-        }
+        } else if (item.type === ItemTypes.RADIO) {
+          //map answers and correctAnswers
+          const answers = item.options.map((opt) => opt.label);
+          const correctAnswers = item.options.map((opt) => opt.checked);
+
+          //map characteristic from option
+          const characteristics = item.options.map((opt) => ({
+            characteristicId: opt.characteristicId,
+            points: opt.points,
+          }));
+          console.log("char:", characteristics);
+
+          //return full question object
+          return {
+            question: item.content,
+            type: "radio",
+            answers: answers,
+            correctAnswers: correctAnswers,
+            characteristics: characteristics,
+          };
+        } 
       });
       console.log("123", questionsForApi);
       console.log("title", testTitle);
@@ -1137,6 +1426,7 @@ function DNDconstructor() {
           <DraggableYesNoQuestion content="'Yes/No' question format." />
           <DraggableMultiChoice content="'Multiple-choice' question format." />
           <DraggableSliderQuestion content="'Slider' question format." />
+          <DraggableRadioButton content="'Radio' question format." />
         </aside>
 
         <main className="main-content">
@@ -1188,6 +1478,19 @@ function DNDconstructor() {
                     items={items}
                     onUpdate={updateItem}
                     onDelete={deleteItem}
+                  />
+                );
+              } else if (item.type === "radio") {
+                return (
+                  <RadioButtonItem
+                    key={item.id}
+                    content={item.content}
+                    points={item.points}
+                    answers={item.answers}
+                    index={index}
+                    onDelete={deleteItem}
+                    items={items}
+                    onUpdate={updateItem}
                   />
                 );
               }
