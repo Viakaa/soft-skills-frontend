@@ -33,12 +33,47 @@ import axios from "axios";
 import { Toast } from "react-bootstrap";
 
 const ItemTypes = {
-  QUESTION: "question",
+  SLIDER: "slider",
   TEXT_AREA: "textArea",
   RADIO: "radio",
   MULTI_CHOICE: "multiChoice",
   SKILL_SELECTOR: "skillSelector",
   YES_NO_QUESTION: "yesNoQuestion",
+};
+
+const DraggableSliderQuestion = ({ content }) => {
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: ItemTypes.SLIDER,
+      item: { type: "slider", content: "" },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [content]
+  );
+
+  return (
+    <div
+      ref={drag}
+      className="draggable-question"
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      {content}
+      <Slider
+        className="questionSlider"
+        aria-label="Temperature"
+        defaultValue={5}
+        valueLabelDisplay="auto"
+        step={1}
+        marks
+        min={0}
+        max={10}
+        sx={{ maxWidth: "500px" }}
+        disabled
+      />
+    </div>
+  );
 };
 
 const DraggableYesNoQuestion = ({ content }) => {
@@ -257,7 +292,6 @@ const MultiChoiceItem = ({
     setOptions(updatedOptions);
   };
 
-  
   const [nextId, setNextId] = useState(2);
 
   //add new option
@@ -318,8 +352,6 @@ const MultiChoiceItem = ({
     }
     fetchCharacteristics(authToken);
     // In your component rendering the Select
-
-
   }, []);
 
   useEffect(() => {
@@ -414,8 +446,14 @@ const YesNoQuestionItem = ({
   const [yesPoints, setYesPoints] = useState(1); // points for yes
   const [noPoints, setNoPoints] = useState(1); // points for no
   const [characteristicsList, setCharacteristicsList] = useState([]); // characteristics list
-  const [selectedYesChar, setSelectedYesChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
-  const [selectedNoChar, setSelectedNoChar] = useState({ id: "65c3adfbfe2b0e98e5ba7374", title: "Self-respect" });
+  const [selectedYesChar, setSelectedYesChar] = useState({
+    id: "65c3adfbfe2b0e98e5ba7374",
+    title: "Self-respect",
+  });
+  const [selectedNoChar, setSelectedNoChar] = useState({
+    id: "65c3adfbfe2b0e98e5ba7374",
+    title: "Self-respect",
+  });
 
   //get chrateristic
   const fetchCharacteristics = async (authToken) => {
@@ -484,9 +522,8 @@ const YesNoQuestionItem = ({
       points: [yesPoints, noPoints],
       characteristics: [selectedYesChar, selectedNoChar],
     });
-    
   }, [questionName, yesPoints, noPoints, onUpdate, index]);
-  
+
   const theme = useTheme();
   const [personName1, setPersonName1] = React.useState([]);
   const [personName2, setPersonName2] = React.useState([]);
@@ -646,6 +683,170 @@ const YesNoQuestionItem = ({
   );
 };
 
+const SliderQuestionItem = ({
+  question,
+  content,
+  answers,
+  points,
+  characteristics,
+  items,
+  index,
+  onDelete,
+  onEdit,
+  onUpdate
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState(question);
+  const [questionName, setQuestionName] = useState("QuestionName");
+  const [mypoints, setPoints] = useState(1);
+  const [characteristicId, setCharacteristicId] = useState("65c3adfbfe2b0e98e5ba7374");
+  const [characteristicsList, setCharacteristicsList] = useState([]);
+  const [sliderMax, setSliderMax] = useState(4);//slider max value
+
+
+  //increase slider max value
+  const increaseSliderMax = () => {
+    if (sliderMax <15) {
+    setSliderMax(sliderMax + 1);
+    }
+  };
+
+  //decrease slider max value
+  const decreaseSliderMax = () => {
+    if (sliderMax > 1) { //prevents from going below 1
+      setSliderMax(sliderMax - 1);
+    }
+  };
+
+
+  useEffect(() => {
+    onUpdate(index, {
+      content: questionName,
+      points: mypoints,
+      characteristics: characteristicId,
+    });
+  }, [questionName,mypoints, onUpdate, index]);
+
+
+
+//handles question
+  const handleChangeQuestionName = (e) => {
+    setQuestionName(e.target.value);
+  };
+
+
+  //get characteristics
+  const fetchCharacteristics = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      setCharacteristicsList(
+        response.data.map((char) => ({ _id: char._id, title: char.title }))
+      );
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCharacteristics();
+  }, []);
+
+  //handle characteristic value
+  const handleChangeCharacteristic = (event) => {
+    setCharacteristicId(event.target.value);
+  };
+
+  return (
+    <div className="question-item">
+      
+        <>
+          <div className="fristWrapper">
+            <div className="firstQuestion">{index + 1}</div>
+            <input
+              className="fristQuestionText"
+              contenteditable="true"
+              value={questionName}
+              required
+              onChange={handleChangeQuestionName}
+            />
+
+            <button className="closeButton" onClick={() => onDelete(index)}>
+              X
+            </button>
+          </div>
+          <div>
+       
+      </div>
+          <div className="flex">
+            <Slider
+              className="questionSlider"
+              aria-label="Temperature"
+              defaultValue={2}
+              valueLabelDisplay="auto"
+              step={1}
+              marks
+              min={0}
+              max={sliderMax}
+              onChange={(e, newValue) => setPoints(newValue)}
+              sx={{ maxWidth: "500px" }}
+            />
+            <div style={{minWidth:'100px'}}>
+             <button className="closeButton" onClick={decreaseSliderMax} disabled={sliderMax <= 1}>
+          -
+        </button>
+        <span style={{marginLeft:'10px',marginRight:'10px'}}>{sliderMax}</span>
+        <button className="closeButton" onClick={increaseSliderMax}>
+          +
+        </button>
+        </div>
+          </div>
+          <FormControl fullWidth>
+            <Select
+              displayEmpty
+              className="ch_mult_txt"
+              value={characteristicId}
+              onChange={handleChangeCharacteristic}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Choose characteristic</em>;
+                }
+
+                const selectedChar = characteristicsList.find(
+                  (char) => char._id === selected
+                );
+                return selectedChar ? (
+                  selectedChar.title
+                ) : (
+                  <em>Choose characteristic</em>
+                );
+              }}
+              className="ch_mult_txt"
+              MenuProps={MenuProps}
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem disabled value="">
+                <em>Choose characteristic</em>
+              </MenuItem>
+
+              {characteristicsList.map((char) => (
+                <MenuItem key={char._id} value={char._id}>
+                  {char.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </>
+    
+    </div>
+  );
+};
+
 // Drop area for adding questions
 const DropArea = ({ onAddItem }) => {
   const [, drop] = useDrop(
@@ -667,6 +868,13 @@ const DropArea = ({ onAddItem }) => {
             type: ItemTypes.MULTI_CHOICE,
             content: "",
             answers: [],
+            characteristics: [],
+          });
+        } else if (item.type === ItemTypes.SLIDER) {
+          onAddItem({
+            type: ItemTypes.SLIDER,
+            content: "",
+            answers: "",
             characteristics: [],
           });
         }
@@ -810,6 +1018,17 @@ function DNDconstructor() {
               },
             ],
           };
+        } else if (item.type === ItemTypes.SLIDER) {
+          return {
+            question: item.content,
+            type: "slider",
+            characteristics: [
+              {
+                characteristicId: item.characteristics,
+                points: item.points,
+              },
+            ],
+          };
         }
       });
       console.log("123", questionsForApi);
@@ -917,6 +1136,7 @@ function DNDconstructor() {
         <aside className="side-panel">
           <DraggableYesNoQuestion content="'Yes/No' question format." />
           <DraggableMultiChoice content="'Multiple-choice' question format." />
+          <DraggableSliderQuestion content="'Slider' question format." />
         </aside>
 
         <main className="main-content">
@@ -945,6 +1165,20 @@ function DNDconstructor() {
               } else if (item.type === "multiChoice") {
                 return (
                   <MultiChoiceItem
+                    key={item.id}
+                    content={item.content}
+                    points={item.points}
+                    answers={item.answers}
+                    index={index}
+                    onDelete={deleteItem}
+                    items={items}
+                    onUpdate={updateItem}
+                    onDelete={deleteItem}
+                  />
+                );
+              } else if (item.type === "slider") {
+                return (
+                  <SliderQuestionItem
                     key={item.id}
                     content={item.content}
                     points={item.points}
