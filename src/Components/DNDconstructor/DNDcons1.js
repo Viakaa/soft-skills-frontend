@@ -723,10 +723,10 @@ const SliderQuestionItem = ({
   useEffect(() => {
     onUpdate(index, {
       content: questionName,
-      points: mypoints,
+      points: sliderMax,
       characteristics: characteristicId,
     });
-  }, [questionName, mypoints, onUpdate, index]);
+  }, [questionName, sliderMax, onUpdate, index]);
 
   //handles question
   const handleChangeQuestionName = (e) => {
