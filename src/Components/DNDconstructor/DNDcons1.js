@@ -332,6 +332,7 @@ const MultiChoiceItem = ({
           headers: { Authorization: `Bearer ${authToken}` },
         }
       );
+      
       const fetchedCharacteristics = response.data.map((char) => ({
         _id: char._id,
         title: char.title,
@@ -345,14 +346,21 @@ const MultiChoiceItem = ({
   };
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      console.error("Auth token is not available.");
-      return;
-    }
-    fetchCharacteristics(authToken);
+    // const authToken = localStorage.getItem("authToken");
+    // if (!authToken) {
+    //   console.error("Auth token is not available.");
+    //   return;
+    // }
+    // fetchCharacteristics(authToken);
+    
+    const arrCharacteristics = characteristics.map(el => ({
+      _id: el._id,
+      title: el.title,
+    }))
+    
+    setCharacteristicList(arrCharacteristics);
     // In your component rendering the Select
-  }, []);
+  }, [characteristics]);
 
   useEffect(() => {
     //update localstorage
@@ -477,13 +485,21 @@ const YesNoQuestionItem = ({
   };
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      console.error("Auth token is not available.");
-      return;
-    }
-    fetchCharacteristics(authToken);
-  }, []);
+    // const authToken = localStorage.getItem("authToken");
+    // if (!authToken) {
+    //   console.error("Auth token is not available.");
+    //   return;
+    // }
+    // fetchCharacteristics(authToken);
+
+    const arrCharacteristics = characteristics.map(el => ({
+      _id: el._id,
+      title: el.title,
+    }))
+
+    setCharacteristicsList(arrCharacteristics);
+    // In your component rendering the Select
+  }, [characteristics]);
 
   const handleChangeQuestionName = (e) => {
     setQuestionName(e.target.value);
@@ -752,8 +768,21 @@ const SliderQuestionItem = ({
   };
 
   useEffect(() => {
-    fetchCharacteristics();
-  }, []);
+    // const authToken = localStorage.getItem("authToken");
+    // if (!authToken) {
+    //   console.error("Auth token is not available.");
+    //   return;
+    // }
+    // fetchCharacteristics(authToken);
+
+    const arrCharacteristics = characteristics.map(el => ({
+      _id: el._id,
+      title: el.title,
+    }))
+
+    setCharacteristicsList(arrCharacteristics);
+    // In your component rendering the Select
+  }, [characteristics]);
 
   //handle characteristic value
   const handleChangeCharacteristic = (event) => {
@@ -866,8 +895,21 @@ const RadioButtonItem = ({
   const [questionName, setQuestionName] = useState("QuestionName");
 
   useEffect(() => {
-    fetchCharacteristics();
-  }, []);
+    // const authToken = localStorage.getItem("authToken");
+    // if (!authToken) {
+    //   console.error("Auth token is not available.");
+    //   return;
+    // }
+    // fetchCharacteristics(authToken);
+
+    const arrCharacteristics = characteristics.map(el => ({
+      _id: el._id,
+      title: el.title,
+    }))
+
+    setCharacteristicsList(arrCharacteristics);
+    // In your component rendering the Select
+  }, [characteristics]);
 
   //update for local storage
   useEffect(() => {
@@ -1155,7 +1197,7 @@ const DropArea = ({ onAddItem }) => {
   );
 };
 
-function DNDconstructor() {
+function DNDconstructor(key, value) {
   const [items, setItems] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -1418,7 +1460,61 @@ function DNDconstructor() {
       setTestTitle(savedTitle);
     }*/
   }, []);
+  
+  const [skills, setSkills] = useState([
+  ]);
+  
+  const [selectedSkills, setSelectedSkills] = useState(JSON.parse(localStorage.getItem('common-characteristic')) || []);
+  const handleSkillChange = (event) => {
+    if (!selectedSkills.some(el => el._id === event.target.value._id)) {
+      setSelectedSkills([...selectedSkills, event.target.value]);
+    }
+  };
 
+  const handleDeleteSkill = (skillToDelete) => {
+    setSelectedSkills(
+      selectedSkills.filter((skill) => skill._id !== skillToDelete)
+    );
+  };
+
+  useEffect(() => {
+    setCommonCharacteristic();
+  }, [selectedSkills]);
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      console.error("Auth token is not available.");
+      return;
+    }
+    fetchCharacteristics(authToken);
+  }, []);
+
+  const fetchCharacteristics = async (authToken) => {
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      const fetchedCharacteristics = response.data.map((char) => ({
+        _id: char._id,
+        title: char.title,
+      }));
+
+      console.log("fetchedCH", fetchedCharacteristics);
+      setSkills(fetchedCharacteristics);
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
+  
+  
+  const setCommonCharacteristic = () => {
+    localStorage.setItem('common-characteristic', JSON.stringify(selectedSkills));
+  }
+  
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="app">
@@ -1430,6 +1526,52 @@ function DNDconstructor() {
         </aside>
 
         <main className="main-content">
+          <div className="question-item">
+            <div className="fristWrapper">
+              {/*<p className="firstQuestion">1</p>*/}
+              <span className="fristQuestionText">Select the categories of soft skills that will be used in the test.</span>
+            </div>
+            <FormControl fullWidth>
+              <Select
+                id="skill-selector"
+                value=""
+                onChange={handleSkillChange}
+                renderValue={() => ""}
+              >
+                {skills.map((skill) => (
+                  <MenuItem key={skill._id} value={skill} id="searched-item">
+                    {skill.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <List dense>
+              <h2 className="title">Selected skills:</h2>
+              {selectedSkills.map((skill) => (
+                <div key={skill._id} className="item">
+                  <ListItem
+                    secondaryAction={
+                      <section>
+                        <IconButton edge="end" aria-label="delete">
+                          <CheckIcon />
+                        </IconButton>
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => handleDeleteSkill(skill._id)}
+                        >
+                          <RemoveIcon sx={{ color: "white" }} />
+                        </IconButton>
+                      </section>
+                    }
+                  >
+                    <ListItemText primary={skill.title} />
+                  </ListItem>
+                </div>
+              ))}
+            </List>
+          </div>
+          
           <input
             className="test_name"
             placeholder="Test title"
@@ -1450,6 +1592,7 @@ function DNDconstructor() {
                     onDelete={deleteItem}
                     items={items}
                     onUpdate={updateItem}
+                    characteristics={selectedSkills}
                   />
                 );
               } else if (item.type === "multiChoice") {
@@ -1463,7 +1606,7 @@ function DNDconstructor() {
                     onDelete={deleteItem}
                     items={items}
                     onUpdate={updateItem}
-                    onDelete={deleteItem}
+                    characteristics={selectedSkills}
                   />
                 );
               } else if (item.type === "slider") {
@@ -1477,7 +1620,7 @@ function DNDconstructor() {
                     onDelete={deleteItem}
                     items={items}
                     onUpdate={updateItem}
-                    onDelete={deleteItem}
+                    characteristics={selectedSkills}
                   />
                 );
               } else if (item.type === "radio") {
@@ -1491,6 +1634,7 @@ function DNDconstructor() {
                     onDelete={deleteItem}
                     items={items}
                     onUpdate={updateItem}
+                    characteristics={selectedSkills}
                   />
                 );
               }
