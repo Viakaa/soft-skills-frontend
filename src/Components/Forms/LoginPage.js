@@ -48,7 +48,7 @@ function LoginForm() {
         setShowSuccessToast(true);
         setTimeout(() => {
           navigate("/profile");
-        }, 3000); 
+        }, 1500); 
       } else {
         //credentials error 
         setErrorMessage('Error during authentication. Please check your credentials.');
