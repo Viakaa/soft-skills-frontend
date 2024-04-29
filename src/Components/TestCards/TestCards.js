@@ -5,9 +5,9 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-import FirstTestImage from "../../Assets/Images/FirstTestImage.svg";
 import SecondTestImage from "../../Assets/Images/SecondTestImage.svg";
 import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
+import FirstTestImage from "../../Assets/Images/newTestImage.png";
 
 export default function TestCards() {
   const [tests, setTests] = useState([]);
@@ -47,27 +47,27 @@ export default function TestCards() {
         <div className="d-flex justify-content-between">
           <p
             style={{
-              color: "#000F67",
-              backgroundColor: "rgba(80, 97, 197, 0.65)",
+              color: "#292E46",
+              backgroundColor: "white",
               textAlign: "center",
-              padding: "12px 0px",
+              padding: "4px 0px",
               borderRadius: "12px",
-              fontWeight: "bold",
-              fontSize: "30px",
+              fontWeight: "500",
+              fontSize: "40px",
               width: "30%",
+              border:'2px solid black',
             }}
           >
             Test Finished: 4
           </p>
           <p
             style={{
-              color: "#000F67",
-              backgroundColor: "rgba(7, 21, 101, 0.14)",
+              color: "white",
               textAlign: "center",
               padding: "12px 0px",
               borderRadius: "12px",
-              fontWeight: "bold",
-              fontSize: "30px",
+              fontWeight: "500",
+              fontSize: "36px",
               width: "30%",
             }}
           >
@@ -95,13 +95,13 @@ export default function TestCards() {
         >
           {tests.map((test, index) => (
             <div className="firstCard" key={index}>
-              <Card style={{ width: "18rem", backgroundColor: "#271B8066" }}>
-                <Card.Img variant="top" src={FirstTestImage} />
+              <Card style={{ width: "23rem",height:'36.5rem', backgroundColor: "white" }}>
+                <Card.Img style={{marginTop:'-2.1%',marginLeft:'-3.4%', width:'107%'}} variant="top" src={FirstTestImage} />
                 <Card.Body className="d-flex flex-column align-items-center">
-                  <Card.Title style={{ color: "white", fontWeight: "bold" }}>
+                  <Card.Title style={{ color: "#292E46", fontWeight: "500" }}>
                     {test.title}
                   </Card.Title>
-                  <Card.Text style={{ color: "white" }}>
+                  <Card.Text style={{ color: "#292E46",textAlign:'center',fontSize:'13px',paddingLeft:'10%',paddingRight:'10%' }}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
@@ -109,13 +109,15 @@ export default function TestCards() {
                   <Button
                     href={`/test/${test.id}`}
                     variant="primary"
+                    className='start_test_btn'
                     style={{
-                      height: "38px",
-                      width: "138px",
-                      color: "#9288D9",
+                      width: "142px",
+                      color: "#271B80",
                       fontWeight: "bold",
-                      backgroundColor: "#271B80",
-                      border: "none",
+                   
+                      backgroundColor: "#E0E5F4",
+                      border: "1px solid #271B80 ",
+                      marginTop:'8%'
                     }}
                   >
                     Start

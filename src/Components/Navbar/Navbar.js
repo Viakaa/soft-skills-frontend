@@ -82,7 +82,7 @@ export default function NavbarMain() {
                     alt="User Icon"
                   />
                 </Nav.Link>
-                <Nav.Link variant="navbar_link_end " onClick={handleLogout}>
+                <Nav.Link variant="navbar_link_end " style={{color:'#2A2E46'}} onClick={handleLogout}>
                   Logout
                 </Nav.Link>
               </div>

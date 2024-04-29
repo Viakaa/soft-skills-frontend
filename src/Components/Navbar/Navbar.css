@@ -6,7 +6,7 @@
 }
 .navbar{
     border-radius: 20px;
-    background-color: #5061C5 !important;
+    background-color: #ADB3DA !important;
     font-weight: 500;
     padding: 10px;
     font-size: 20px;
@@ -22,11 +22,11 @@ Nav .navbar_link
     width:100%;
 }
 .navbar_link_end,.navbar_link{
-    background-color: #07156524;
+    background-color: white;
     border-radius: 15px;
     padding-left: 8px;
     padding-right:8px;
-    color:#000967 !important;
+    color:#2A2E46 !important;
    
 
 

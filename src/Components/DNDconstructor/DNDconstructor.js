@@ -238,9 +238,9 @@ const YesNoQuestionItem = ({ content, index, onDelete }) => {
           variant="contained"
           onClick={() => setAnswer("yes")}
           sx={{
-            backgroundColor: answer === "yes" ? "#1976d2" : "#5061C5", // Change color when selected
+            backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9", // Change color when selected
             "&:hover": {
-              backgroundColor: answer === "yes" ? "#115293" : "#64b5f6", // Darker on hover
+              backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9", // Darker on hover
             },
             color: "white",
             fontSize: "34px",

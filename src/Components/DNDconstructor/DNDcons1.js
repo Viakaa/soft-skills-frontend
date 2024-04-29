@@ -579,9 +579,9 @@ const YesNoQuestionItem = ({
           variant="contained"
           onClick={() => setAnswer("yes")}
           sx={{
-            backgroundColor: answer === "yes" ? "#1976d2" : "#5061C5", // Change color when selected
+            backgroundColor: answer === "yes" ? "#1976d2" : "#979EA9", // Change color when selected
             "&:hover": {
-              backgroundColor: answer === "yes" ? "#115293" : "#64b5f6", // Darker on hover
+              backgroundColor: answer === "yes" ? "#115293" : "#979EA9", // Darker on hover
             },
             color: "white",
             fontSize: "34px",
@@ -600,9 +600,9 @@ const YesNoQuestionItem = ({
           variant="contained"
           onClick={() => setAnswer("no")}
           sx={{
-            backgroundColor: answer === "no" ? "#1976d2" : "#5061C5",
+            backgroundColor: answer === "no" ? "#1976d2" : "#979EA9",
             "&:hover": {
-              backgroundColor: answer === "no" ? "#115293" : "#64b5f6",
+              backgroundColor: answer === "no" ? "#115293" : "#979EA9",
             },
             color: "white",
             width: "190px",
@@ -1526,7 +1526,13 @@ function DNDconstructor(key, value) {
         </aside>
 
         <main className="main-content">
-          <div className="question-item">
+        <input
+            className="test_name"
+            placeholder="Test title"
+            value={testTitle}
+            onChange={(e) => setTestTitle(e.target.value)}
+          />
+          <div className="question-item SKILLS">
             <div className="fristWrapper">
               {/*<p className="firstQuestion">1</p>*/}
               <span className="fristQuestionText">Select the categories of soft skills that will be used in the test.</span>
@@ -1572,12 +1578,7 @@ function DNDconstructor(key, value) {
             </List>
           </div>
           
-          <input
-            className="test_name"
-            placeholder="Test title"
-            value={testTitle}
-            onChange={(e) => setTestTitle(e.target.value)}
-          />
+          
 
           <div className="item-list">
             {items.map((item, index) => {

@@ -1,7 +1,7 @@
 .app {
   display: flex;
-  height: 100vh;
-  background-color: #daddf0;
+  
+  background-color: #F9FBFF;
   font-family: 'Mitr';
 
 }
@@ -11,7 +11,7 @@
   border-radius: 0px 20px 20px 0px;
   border: 3px dashed rgba(80, 97, 197, 0.35);
 
-  background: rgba(80, 97, 197, 0.25);
+  background: #F5E4C8;
   padding: 10px;
 }
 
@@ -21,14 +21,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
 }
 
 .draggable-question {
   padding: 10px;
-  background-color: #919cdb;
+  background-color: #ACB3DA;
   margin: 10px 0;
   cursor: grab;
-  color: #000f67;
+  color: #F8FBFF;
   font-size: 19px;
   font-weight: 400;
   border-radius: 4px;
@@ -51,13 +52,13 @@
 }
 
 .question-item {
-  background-color: rgba(80, 97, 197, 0.52);
+  background-color: #ACB3DA;
   padding: 20px 50px;
   margin: 10px 0;
   border-radius: 20px;
   /* height: 160px; */
   width: 800px;
-  color: #000f67;
+  color: #F8FBFF;
   font-size: 26px;
 }
 
@@ -81,7 +82,7 @@
 
 
 .firstQuestion {
-  background-color: rgba(80, 97, 197, 1);
+  background-color:#F9FBFF;
   height: 40px;
   width: 40px;
   display: flex;
@@ -90,16 +91,20 @@
   text-align: center;
   border-radius: 10px;
   margin: 0;
+  color: #292E46;
 }
 
 .closeButton {
-  background-color: rgba(80, 97, 197, 1);
+  background-color: #F9FBFF;
   border-radius: 10px;
   height: 40px;
   font-size: 22px;
   width: 40px;
   border: none;
-  color: rgba(0, 15, 103, 1);
+  color: #292E46;
+}
+.SKILLS{
+  background-color: #A8A197 !important;
 }
 
 .center {
@@ -182,7 +187,7 @@
 }
 
 .correct-answer-section label span svg {
- fill: #dfb200;
+ fill: #F9FBFF;
  border-radius: 100% !important;
 }
 
@@ -231,13 +236,13 @@
 
 .item {
   border-radius: 5px;
-  border: 2px solid #000f67;
+  border: 2px solid #736D64;
 
-  background: #5061c5;
+  background: #F5E4C8;
 }
 
 .item li div span {
-  color: #dbdff4;
+  color: #292E46 ;
   font-size: 26px;
   font-style: normal;
   font-weight: 400;
@@ -252,7 +257,7 @@
 }
 
 .MuiSlider-track {
-  background-color: #384699 !important;
+  background-color: #2A2E46 !important;
   border: none !important;
 }
 
@@ -357,8 +362,8 @@
   border: none;
   text-align: center;
   font-size: 30px;
-  color:#384699;
-  font-weight: 700;
+  color:#989EA9;
+  font-weight: 500;
   font-family: 'Mitr';
 }
 .test_name:focus{
@@ -413,12 +418,12 @@
   border: none;
   text-align: center;
   font-family: 'Mitr';
-  color:#19236C;
+  color:#F9FBFF;
   outline: none !important;
 }
 
 .create_test{
-background-color: #5164C6;
+background-color: #989EA9;
 border: none;
 color: white;
 width: 22%;
@@ -430,8 +435,11 @@ border-radius: 10px;
 
 .yesno_button{
   font-family: 'Mitr' !important;
-  border-radius: 10px !important;
+  border-radius:8px !important;
 
+}
+.yesno_button:hover{
+  background-color: gray! important;
 }
 
 .checkbox-with-form-control input,fieldset{
@@ -440,7 +448,7 @@ border-radius: 10px;
   
 }
 .questionText input{
-  color: #000F67 !important;
+  color: #F9FBFF !important;
 }
 
 .ch_mult_txt{

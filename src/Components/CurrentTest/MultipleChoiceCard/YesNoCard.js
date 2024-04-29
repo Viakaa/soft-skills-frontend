@@ -20,6 +20,8 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
 
       setSelectedAnswer(answer);  //UPdate the state to the new answer
     }
+    console.log(question);
+
   };
   
 
@@ -43,7 +45,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: selectedAnswer === 'yes' ? '#6e7dd1' : '#5163C6',
+            backgroundColor: selectedAnswer === 'yes' ? 'gray' : '#989EA9',
             color: selectedAnswer === 'yes' ? 'white' : 'default',
             
             color: "white",
@@ -65,7 +67,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
 
           variant="contained"
           sx={{
-            backgroundColor: selectedAnswer === 'no' ? '#6e7dd1' : '#5163C6',
+            backgroundColor: selectedAnswer === 'no' ? 'gray' : '#989EA9',
             color: selectedAnswer === 'no' ? 'white' : 'default',
             width: "190px",
             height: "41.158px",

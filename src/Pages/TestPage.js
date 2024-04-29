@@ -15,7 +15,7 @@ const TestPage = () => {
   const {id} = useParams();
   const [test, setTest] = useState({});
   const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({}); //new state to store user's answers
+  const [answers, setAnswers] = useState({}); // New state to store user's answers
   const [results, setResults] = useState({});
 
   const getCurrentTest = async (authToken) => {
@@ -30,10 +30,12 @@ const TestPage = () => {
           const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId}`, {
             headers: {Authorization: `Bearer ${authToken}`},
           });
+          console.log('qq', questionResp.data);
           return questionResp.data;
+          
         })
       );
-
+      console.log('questions: ', questionsData);
       setTest(testResp.data);
       setQuestions(questionsData);
     } catch (e) {
