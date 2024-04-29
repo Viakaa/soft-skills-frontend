@@ -4,7 +4,7 @@ import PanelTabs from "../Components/AdminPanel/PanelTabs.js";
 
 export default function AdminPage(){
     return(
-        <div style={{backgroundColor:'#C3CCED'}}>
+        <div style={{backgroundColor:'#F8FBFF'}}>
           <PanelTabs/>
         </div>
     );
