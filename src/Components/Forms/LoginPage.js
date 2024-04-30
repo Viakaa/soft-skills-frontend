@@ -62,14 +62,14 @@ function LoginForm() {
 
   return (
     <>
-      <p className="text-center" style={{ color: 'rgba(0, 15, 103, 1)', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
+      <p className="text-center" style={{ color: 'rgba(42, 46, 70, 1)', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
 
     <div className='d-flex justify-content-center'>
 
-      <Form className='registrater_main' style={{ width: "450px" }} onSubmit={handleSubmit}>
+      <Form className='registrater_main' style={{ width: "500px", backgroundColor: "rgba(172, 179, 218, 1)" }} onSubmit={handleSubmit}>
 
         <Form.Group>
-          <Form.Label className="emailLabel">Email</Form.Label>
+          <Form.Label className="emailLabel">Username</Form.Label>
           <Form.Control
             name="email"
             type="email"
@@ -110,7 +110,7 @@ function LoginForm() {
           Sign In
         </Button>
 
-        <Button variant="primary" href='/registration' type="submit" className='register_button'>
+        <Button  variant="primary" href='/registration' type="submit" className='register_button2'>
           Register
         </Button>
         <div style={{marginBottom:'50px'}}></div>

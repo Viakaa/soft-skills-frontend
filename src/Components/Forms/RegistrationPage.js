@@ -71,7 +71,7 @@ function RegistrationForm() {
 
     <Form style={{ width: "450px" }} className='registrater_main' onSubmit={handleSubmit}>
       <h1 className='create_txt'>Create Your Account</h1>
-      <p style={{color:'white',fontSize:'15px'}}>Create your account in order to have access to the tests and all the possibilities of the soft skills school</p>
+      <p style={{color:'rgba(220, 235, 255, 1)',fontSize:'15px'}}>Create your account in order to have access to the tests and all the possibilities of the soft skills school</p>
       <Form.Group>
         <Form.Label>First Name</Form.Label>
         <Form.Control
@@ -126,7 +126,7 @@ function RegistrationForm() {
       <Form.Group>
         <Form.Label>Sex</Form.Label>
         <Form.Control required as="select" value={formData.sex} onChange={handleChange} name="sex">
-          <option value="">Select...</option>
+          <option value="">Select sex</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </Form.Control>
@@ -134,7 +134,7 @@ function RegistrationForm() {
       <Form.Group>
         <Form.Label>Course</Form.Label>
         <Form.Control as="select" value={formData.course} onChange={handleChange} name="course" required>
-          <option value="">Select...</option>
+          <option value="">Select course</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -146,7 +146,7 @@ function RegistrationForm() {
       <Form.Group>
         <Form.Label>Direction</Form.Label>
         <Form.Control as="select" value={formData.direction} onChange={handleChange} name="direction" required>
-          <option value="">Select...</option>
+          <option value="">Select direction</option>
           <option value="Design">Design</option>
           <option value="Programming">Programming</option>
           <option value="QA">QA</option>

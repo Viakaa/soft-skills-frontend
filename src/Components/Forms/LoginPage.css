@@ -26,32 +26,36 @@ html, body {
 }
 
 .emailForm, .passwordForm {
-    background-color: rgba(255, 255, 255, 0.38) !important;
+    background-color: rgba(248, 251, 255, 1) !important;
   
 }
 
 .emailLabel, .passwordLabel {
     font-family: "Mitr";
-    font-size: 23px;
+    font-size: 30px !important;
     color: rgba(0, 15, 103, 1);
+    color: rgba(248, 251, 255, 1) !important;
 }
 
-.loginButton, .registerButton {
-    background-color: rgba(80, 97, 197, 0.5);
+.loginButton, .register_button, .register_button2 {
     width: 350px;
-    color: rgba(208, 215, 255, 1);
+    background-color: rgba(242, 230, 215, 1) !important;
     font-family: "Mitr";
-    font-size: 23px;
+    font-size: 25px !important;
     border: none;
     height: 50px !important;
     margin-top: 25px;
     text-decoration: none;
 }
 
-.registerButton {
-    color: rgba(0, 15, 103, 1);
-    background-color: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(80, 97, 197, 1);
+.register_button {
+    color: rgba(42, 46, 70, 1) !important;
+}
+
+.register_button2 {
+    background-color: rgba(151, 158, 169, 1) !important;
+    border: 2px solid rgba(42, 46, 70, 1) !important;
+    width: 420px !important;
 }
 
 .checkbox {

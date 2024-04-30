@@ -5,7 +5,7 @@
 }
 
 .manageTable__title {
-    color: #DBDFF4;
+    color: rgba(248, 251, 255, 1) !important;
     font-weight: 400;
     font-size: 36px;
     line-height: 56px;
@@ -15,6 +15,14 @@
 
 .manageTable__table {
     width: 100%;
+}
+
+.modalHeader, .modalBody, .modalFooter {
+    background-color: rgba(172, 179, 218, 1) !important;
+}
+
+.titleModal {
+    color: rgba(248, 251, 255, 1) !important;
 }
 
 .manageTable__tr {
@@ -32,7 +40,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    color: #000F67;
+    color: rgba(248, 251, 255, 1) !important;
     padding: 2px 24px;
     width: 30%;
     max-width: 30%;
@@ -67,7 +75,7 @@
     border-radius: 5px;
     display: flex;
     width: 100%;
-    background-color: #DBDFF4;
+    background-color: rgba(169, 161, 151, 1) !important;
 }
 
 .manageTable__btn {
@@ -85,14 +93,22 @@
     font-weight: 400;
     font-size: 26px;
     line-height: 40px;
-    color: #DBDFF4;
+    color: rgba(248, 251, 255, 1) !important;
 }
 
 .manageTable__ico {
     margin-right: 13px;
     height: 44px;
     width: 44px;
-    background-color: #DBDFF4;
+    background-color: rgba(248, 251, 255, 1) !important;
     padding: 9px;
     border-radius: 10px;
+}
+
+.saveButton {
+    background-color: rgba(151, 158, 169, 1) !important;
+}
+
+.titleInput {
+    background-color: rgba(169, 161, 151, 1) !important;
 }

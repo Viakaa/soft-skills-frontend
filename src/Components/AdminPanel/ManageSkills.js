@@ -153,16 +153,17 @@ function ManageSkills() {
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Soft Skill</Modal.Title>
+        <Modal.Header className="modalHeader" closeButton>
+          <Modal.Title className="titleModal">Add New Soft Skill</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modalBody">
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
+                className="titleInput"
                 value={newSkill.type}
                 onChange={handleSkillChange}
               />
@@ -183,12 +184,12 @@ function ManageSkills() {
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="modalFooter">
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSaveSkill}>
-            Save Skill
+          <Button variant="primary" className="saveButton" onClick={handleSaveSkill}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
