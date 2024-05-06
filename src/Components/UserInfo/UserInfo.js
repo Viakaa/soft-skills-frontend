@@ -37,7 +37,7 @@ export default function UserInfo() {
                   class="rounded-circle  "
                   src={avatar}
                 />
-                <span style={{marginTop:'10px'}} class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
+                <span style={{marginTop:'10px', color:'white'}} class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
               </div>
             </div>
             <div class="col-md-4 border-right ">
@@ -91,12 +91,14 @@ export default function UserInfo() {
                 </div>
                 <div style={{marginTop:'20%'}} class="row text-center">
                 
-                <div class="col-md-12">
+                
+              </div>
+              <div class="col-md-12">
                   <button className='change_password_btn'>Change Password</button>
               
                 </div>
               </div>
-              </div>
+              
             </div>
           </div>
         </div>
