@@ -6,6 +6,8 @@ import ManageSkills from './ManageSkills.js';
 import UserList from './UserList.js';
 import TestList from './TestList.js';
 import "./PanelTabs.css";
+import CharacteristicList from './CharacteristicList.js';
+
 
 function PanelTabs() {
   return (
@@ -17,6 +19,9 @@ function PanelTabs() {
             <h2 style={{textAlign:'center'}}>Admin Panel</h2>
             <Nav.Item>
               <Nav.Link className="navitm"  eventKey="first">Manage Skills</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className="navitm"  eventKey="fourth">Characteristics</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link className="navitm" eventKey="second">Users</Nav.Link>
@@ -31,6 +36,8 @@ function PanelTabs() {
             <Tab.Pane eventKey="first"><ManageSkills/></Tab.Pane>
             <Tab.Pane eventKey="second"><UserList/></Tab.Pane>
             <Tab.Pane eventKey="third"><TestList/></Tab.Pane>
+            <Tab.Pane eventKey="fourth"><CharacteristicList/></Tab.Pane>
+
 
           </Tab.Content>
         </Col>
