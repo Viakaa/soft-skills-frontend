@@ -73,22 +73,14 @@ export default function TestCards() {
           >
             Tests
           </p>
-          <DropdownButton
+          <div
             style={{ width: "30%" }}
             id="dropdown-basic-button"
             title="Category"
             className="custom-dropdown"
           >
-            <Dropdown.Item href="#/action-1" className="custom-dropdown-item">
-              Test 1
-            </Dropdown.Item>
-            <Dropdown.Item href="#/action-2" className="custom-dropdown-item">
-              Test 2
-            </Dropdown.Item>
-            <Dropdown.Item href="#/action-3" className="custom-dropdown-item">
-              Test 3
-            </Dropdown.Item>
-          </DropdownButton>
+            
+          </div>
         </div>
         <div
           className="cards_wrapper d-flex justify-content-center"
