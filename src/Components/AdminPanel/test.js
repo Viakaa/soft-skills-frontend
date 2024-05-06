@@ -2,76 +2,32 @@ import React, {useState, useEffect} from "react";
 import {Button, Modal, Form, Dropdown} from "react-bootstrap";
 import "./ManageSkills.css";
 import axios from "axios";
-
 import Pencil from "../../Assets/Images/pencil.png";
 import Delete from "../../Assets/Images/delete.png";
 
 function ManageSkills() {
   const [skills, setSkills] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [ShowEditModal, setShowEditModal] = useState(false);
+  const [editingTitle, setEditingTitle] = useState("");
   const [characteristics, setCharacteristics] = useState([]);
+  const [newIDSKill, setNewIDSkill] = useState(null);
   const [newSkill, setNewSkill] = useState({
     type: "",
     characteristics: [],
   });
   const handleShowModal = () => setShowModal(true);
+
   const handleCloseModal = () => setShowModal(false);
-  const [isEditting, setIsEditting] = useState(false);
-  const [skillToEdit, setSkillToEdit] = useState({});
 
-  const handleEditSkill = (skill) => {
-    setIsEditting(true);
-    setSkillToEdit(skill);
-    setShowModal(true);
-    setNewSkill({
-      type: skill.title,
-      characteristics: skill.characteristics.map((c) => ({
-        characteristicId: c,
-        title: c,
-      })),
-    });
+  const handleShowEditModal = (id) => {
+    const editingSkill = skills.find(skill => skill.id === id);
+    setNewIDSkill(id);
+    setShowEditModal(true);
   };
 
-  const handleEditSaveSkill = async () => {
-    const authToken = localStorage.getItem("authToken");
 
-    try {
-      console.log("Attempting to edit skill:", newSkill);
-      const response = await axios.patch(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${skillToEdit.id}`,
-        newSkill,
-        { headers: { Authorization: `Bearer ${authToken}` } }
-      );
-      console.log("Skill edited successfully:", response.data);
-      handleCloseModal();
-      fetchSkills(authToken); //update soft-skills table
-      setIsEditting(false);
-    } catch (error) {
-      console.error("Error editing skill:", error);
-      console.error("Error:", error.message);
-    }
-  };
-
-  const handleDeleteSkill = async (_id) => {
-    const authToken = localStorage.getItem("authToken");
-    console.log(_id);
-
-    try {
-        await axios.delete(
-            `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${_id}`,
-            { headers: { Authorization: `Bearer ${authToken}` } }
-        );
-
-        setSkills(prevSkills => prevSkills.filter((_, i) => i !== _id));
-
-        console.log("Skill deleted successfully");
-        handleCloseModal();
-        fetchSkills(authToken);
-    } catch (error) {
-        console.error("Error deleting skill:", error);
-        console.error("Error:", error.message);
-    }
-  };
+  const handleCloseEditModal = () => setShowEditModal(false);
 
   //save new soft-skill to database
   const handleSaveSkill = async () => {
@@ -93,8 +49,57 @@ function ManageSkills() {
     }
   };
 
+
+  const handleEditSkill = async (e) => {
+    const authToken = localStorage.getItem("authToken");
+    
   
-  //handle changes in softskill input
+    try {
+      const editedSkill = {
+        type: newIDSKill.type,
+        characteristics: newIDSKill.characteristics,
+        
+      };
+      console.log("ID: " + editedSkill);
+  
+      const response = await axios.put(
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${newIDSKill.id}`,
+        editedSkill,
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+  
+      console.log("Skill edited successfully:", response.data);
+      handleCloseEditModal();
+      fetchSkills(authToken);
+    } catch (error) {
+      console.error("Error editing skill:", error);
+      console.error("Error:", error.message);
+    }
+  };
+  
+
+
+  const handleDeleteSkill = async (_id) => {
+    const authToken = localStorage.getItem("authToken");
+    console.log(_id);
+
+    try {
+        await axios.delete(
+            `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${_id}`,
+            { headers: { Authorization: `Bearer ${authToken}` } }
+        );
+
+        setSkills(prevSkills => prevSkills.filter((_, i) => i !== _id));
+
+        console.log("Skill deleted successfully");
+        handleCloseModal();
+        fetchSkills(authToken);
+    } catch (error) {
+        console.error("Error deleting skill:", error);
+        console.error("Error:", error.message);
+    }
+};
+
 
   const handleSkillChange = (e) => {
     setNewSkill({...newSkill, type: e.target.value});
@@ -132,8 +137,8 @@ function ManageSkills() {
         }
       );
       const fetchedSkills = response.data.map((skill) => ({
-        id:skill._id,
-        title: skill.type,
+        title: skill.type, 
+        id: skill._id,
         characteristics: skill.characteristics.map((c) => c.title), //Taking just name of characteristic
       }));
       setSkills(fetchedSkills);
@@ -141,6 +146,7 @@ function ManageSkills() {
       console.error("Error fetching skills:", error);
     }
   };
+
 
   //get characteristics from database
   const fetchCharacteristics = async (authToken) => {
@@ -191,29 +197,72 @@ function ManageSkills() {
 
         <table className="manageTable__table">
           <div className="manageTable__body">
-          {skills.map((skill, index) => (
-            <div className="manageTable__tr" key={index}>
-              <div className="manageTable__td-wrap">
-                <div className="manageTable__td">{skill.title}</div>
-                <div className="manageTable__td">{skill.characteristics.join(", ")}</div>
+            {skills.map((skill, index) => (
+              <div className="manageTable__tr" key={index}>
+                <div className="manageTable__td-wrap">
+                  <div className="manageTable__td">{skill.title}</div>
+                  <div className="manageTable__td">{skill.characteristics.join(", ")}</div>
+                </div>
+                <button className="manageTable__btn" type="button" onClick={() => handleShowEditModal(skill)}>
+                  <img src={Pencil} alt="Edit" />
+                </button>
+                <button className="manageTable__btn" type="button" onClick={() => handleDeleteSkill(skill.id)}>
+                    <img src={Delete} alt="Delete" />
+                </button>
               </div>
-              <button className="manageTable__btn" type="button" onClick={() => handleEditSkill(skill)}>
-          <img src={Pencil} />
-        </button>
-              <button className="manageTable__btn" type="button" onClick={() => handleDeleteSkill(skill.id)}>
-                <img src={Delete}/>
-              </button>
-            </div>
-          ))}
+            ))}
           </div>
         </table>
       </div>
 
+      <Modal show={ShowEditModal} onHide={handleCloseEditModal}>
+        <Modal.Header className="modalHeader" closeButton>
+          <Modal.Title className="titleModal">Edit soft skill</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modalBody">
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>New title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                className="titleInput"
+                value={editingTitle}
+                onChange={handleSkillChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>New characteristics</Form.Label>
+              <Form.Control
+                as="select"
+                multiple
+                onChange={handleCharacteristicChange}
+                className="characteristicsList"
+              >
+                {characteristics.map((char, index) => (
+                  <option key={index} value={char._id}>
+                    {char.title}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer className="modalFooter">
+          <Button variant="secondary" onClick={handleCloseEditModal}>
+            Close
+          </Button>
+          <Button variant="primary" className="saveButton" onClick={() => handleEditSkill(skills.id)}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header className="modalHeader" closeButton>
-          <Modal.Title className="titleModal">
-            {isEditting ? "Edit Soft Skill" : "Add New Soft Skill"}
-          </Modal.Title>
+          <Modal.Title className="titleModal">Add New Soft Skill</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modalBody">
           <Form>
@@ -232,8 +281,8 @@ function ManageSkills() {
               <Form.Control
                 as="select"
                 multiple
-                className="charactList"
                 onChange={handleCharacteristicChange}
+                className="characteristicsList"
               >
                 {characteristics.map((char, index) => (
                   <option key={index} value={char._id}>
@@ -248,15 +297,9 @@ function ManageSkills() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          {isEditting ? (
-            <Button variant="primary" className="saveButton" onClick={handleEditSaveSkill}>
-              Save Changes
-            </Button>
-          ) : (
-            <Button variant="primary" className="saveButton" onClick={handleSaveSkill}>
-              Save
-            </Button>
-          )}
+          <Button variant="primary" className="saveButton" onClick={handleSaveSkill}>
+            Save
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
