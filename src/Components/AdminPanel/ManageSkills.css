@@ -1,6 +1,6 @@
-body {
+/*body {
     background-color: rgba(242, 230, 215, 1) !important;
-}
+}*/
 
 .manageTable {
     padding: 12px 36px 110px;
@@ -28,6 +28,7 @@ body {
 
 .modalHeader, .modalBody, .modalFooter {
     background-color: rgba(172, 179, 218, 1) !important;
+    color: white;
 }
 
 .titleModal {
@@ -48,15 +49,15 @@ body {
     line-height: 40px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
     color: rgba(248, 251, 255, 1) !important;
     padding: 2px 24px;
     width: 30%;
     max-width: 30%;
 }
 
-.manageTable__td:nth-child(1) {
-    text-align: center;
+.skill_admin {
+    overflow: hidden;
+
 }
 
 .manageTable__td:nth-child(2) {
@@ -73,18 +74,28 @@ body {
     height: calc(100% + 4px);
     top: -2px;
     width: 100%;
-    border: 2px solid #384699;
+    border: 2px solid #292E46;
     border-right: none;
     border-radius: 5px;
-    background-color: rgba(80, 97, 197, 0.2);
+}
+
+.char_skill{
+    background-color: #A8A197;
+    width: 100%;
+    border-left: 2px solid #292E46;
+    border-radius: 2px;
+    pointer-events: none;
+    overflow: unset !important;;
+
+
 }
 
 .manageTable__td-wrap {
-    border: 2px solid #384699;
+    border: 2px solid #292E46;
     border-radius: 5px;
     display: flex;
     width: 100%;
-    background-color: rgba(169, 161, 151, 1) !important;
+    background-color: #979EA9 !important;
 }
 
 .manageTable__btn {
@@ -125,4 +136,7 @@ body {
 .characteristicsList {
     height: 300px !important;
     font-size: 18px !important;
+}
+.modalEditSoft{
+    width: 50%;
 }

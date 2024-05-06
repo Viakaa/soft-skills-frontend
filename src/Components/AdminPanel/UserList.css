@@ -1,12 +1,12 @@
 .a_usercard{
-    border: 3px solid #000F6799 !important;
-    background-color: rgb(124, 129, 140) !important;
+    border: 3px solid #6C717B !important;
+    background-color: #979EA9!important;
     font-family: 'Mitr';
     color: rgba(248, 251, 255, 1) !important;
     
 }
 .user_edit{
-    background-color: #33418C !important;
+    background-color: #6C717B !important;
     border: none !important;
     margin-top: 20px;
 }
@@ -24,7 +24,7 @@
 }
 
 .all_users {
-    background-color: rgba(172, 179, 218, 1) !important;
+    background-color: #ACB3DA !important;
     max-width: 1520px;
     border-radius: 10px;
     padding: 5px;
@@ -39,12 +39,12 @@
 }
 
 .pagination_ span{
-    background-color: #33418C !important;
+    background-color: #ACB3DA !important;
     border: none !important;
 }
 
 .pagination_ a{
-    color: #33418C !important;
+    color: #ACB3DA !important;
     
 
 }

@@ -37,18 +37,8 @@ function TestList() {
 
       const testsWithData = await Promise.all(
         testsResponse.data.map(async (test) => {
-          const questions = await Promise.all(
-            test.questions.map(async (questionId) => {
-              const questionResponse = await axios.get(
-                `http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId}`,
-                {
-                  headers: { Authorization: `Bearer ${authToken}` },
-                }
-              );
-              return questionResponse.data; //return question object
-            })
-          );
-          return { ...test, questions };
+          
+          return { ...test };
         })
       );
 
@@ -89,9 +79,9 @@ function TestList() {
             >
               <Card.Body style={{maxHeight:'60px'}}>
                 <Card.Title>{test.title}</Card.Title>
-                {test.questions.map((question, index) => (
+                {/*{test.questions.map((question, index) => (
                   <Card.Text key={index}>{question.question}</Card.Text>
-                ))}
+                ))}*/}
                 
               </Card.Body>
               <Button

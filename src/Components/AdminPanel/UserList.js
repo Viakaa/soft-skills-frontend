@@ -12,12 +12,20 @@ function UserList() {
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [directionOptions] = useState(['Web', 'Design', 'Programming', 'QA','Managing','Business Analysis']);
   const [editFormData, setEditFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     direction: "",
   });
+
+  const handleDirectionChange = (e) => {
+    setEditFormData({
+      ...editFormData,
+      direction: e.target.value,
+    });
+  };
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -123,10 +131,10 @@ function UserList() {
       <Pagination className="pagination_ justify-content-center">{items}</Pagination>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
           <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modalBody">
           <Form onSubmit={handleFormSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>First Name</Form.Label>
@@ -159,14 +167,18 @@ function UserList() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Direction</Form.Label>
+            <Form.Label>Direction</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="direction"
                 value={editFormData.direction}
-                onChange={handleFormChange}
+                onChange={handleDirectionChange}
                 required
-              />
+              >
+                {directionOptions.map((option, idx) => (
+                  <option key={idx} value={option}>{option}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Button className='user_edit' variant="primary" type="submit">
               Save Changes
