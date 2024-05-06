@@ -27,7 +27,7 @@ const TestPage = () => {
 
       const questionsData = await Promise.all(
         testResp.data.questions.map(async (questionId) => {
-          const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId}`, {
+          const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId.questionId}`, {
             headers: {Authorization: `Bearer ${authToken}`},
           });
           console.log('qq', questionResp.data);
