@@ -15,9 +15,13 @@ function ManageSkills() {
     characteristics: [],
   });
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
   const [isEditting, setIsEditting] = useState(false);
   const [skillToEdit, setSkillToEdit] = useState({});
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setIsEditting(false);
+  }
 
   const handleEditSkill = (skill) => {
     setIsEditting(true);
@@ -34,7 +38,6 @@ function ManageSkills() {
 
   const handleEditSaveSkill = async () => {
     const authToken = localStorage.getItem("authToken");
-
     try {
       console.log("Attempting to edit skill:", newSkill);
       const response = await axios.patch(
@@ -45,7 +48,6 @@ function ManageSkills() {
       console.log("Skill edited successfully:", response.data);
       handleCloseModal();
       fetchSkills(authToken); //update soft-skills table
-      setIsEditting(false);
     } catch (error) {
       console.error("Error editing skill:", error);
       console.error("Error:", error.message);
@@ -183,8 +185,8 @@ function ManageSkills() {
         
         <button type="button" className="manageTable__add" onClick={handleShowModal}>
           <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
-            <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M3.91998 16.5H31.2" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M17.56 30V3.00001" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
           </svg>
           Add new soft skill...
         </button>
@@ -194,10 +196,8 @@ function ManageSkills() {
           {skills.map((skill, index) => (
             <div className="manageTable__tr" key={index}>
               <div className="manageTable__td-wrap">
-                <div className="manageTable__td skill_admin">{skill.title}</div>
-                <div className='char_skill'>
+                <div className="manageTable__td">{skill.title}</div>
                 <div className="manageTable__td">{skill.characteristics.join(", ")}</div>
-                </div>
               </div>
               <button className="manageTable__btn" type="button" onClick={() => handleEditSkill(skill)}>
           <img src={Pencil} />
@@ -211,7 +211,7 @@ function ManageSkills() {
         </table>
       </div>
 
-      <Modal show={showModal}  onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header className="modalHeader" closeButton>
           <Modal.Title className="titleModal">
             {isEditting ? "Edit Soft Skill" : "Add New Soft Skill"}
@@ -220,14 +220,13 @@ function ManageSkills() {
         <Modal.Body className="modalBody">
           <Form>
             <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
                 className="titleInput"
                 value={newSkill.type}
                 onChange={handleSkillChange}
-                style={{color:'white'}}
               />
             </Form.Group>
             <Form.Group className="mb-3">
