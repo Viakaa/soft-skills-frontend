@@ -15,31 +15,23 @@ import Form from "react-bootstrap/Form";
 import Box from "@mui/material/Box";
 
 const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
-  const {
-    question: title,
-    answers,
-    characteristics,
-    correctAnswers,
-  } = question;
-
-  //option checked state
+  const { question: title, answers } = question;
   const [checkedStates, setCheckedStates] = useState(answers.map(() => false));
 
+  //handle checkbox answers
   const handleCheckboxChange = (index, isChecked) => {
     const updatedCheckedStates = checkedStates.map((item, idx) =>
       idx === index ? isChecked : item
     );
     setCheckedStates(updatedCheckedStates);
-  
-    const { characteristicId, points } = characteristics[index];
-  
-    //calculate the point adjustment based on the check state
-    const pointAdjustment = isChecked ? points : -points;
-  
-    onAnswerChange(question._id, characteristicId, pointAdjustment, isChecked);
+  //update checkbox answers if it changes(unchecked)
+    const newAnswers = updatedCheckedStates.reduce((acc, cur, idx) => {
+      if (cur) acc.push(idx);
+      return acc;
+    }, []);
+    onAnswerChange(question._id, newAnswers, true);
   };
   
-
   return (
     <>
       <div className="firstQuestion" style={{ marginRight: "auto" }}>
@@ -73,9 +65,7 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
                           name={option}
                           color="primary"
                           checked={checkedStates[idx]}
-                          onChange={(event) =>
-                            handleCheckboxChange(idx, event.target.checked)
-                          }
+                          onChange={(event) => handleCheckboxChange(idx, event.target.checked)}
                         />
                       }
                       label={

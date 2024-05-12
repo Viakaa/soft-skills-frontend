@@ -5,21 +5,20 @@ import { TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const RadioCard = ({ question, number, onAnswerChange }) => {
-  const { question: title, characteristics, answers } = question;
-
+  const { _id, title, answers } = question;
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (event) => {
     const selectedOption = event.target.value;
     setSelectedValue(selectedOption);
 
-    //find the index of the selected answer to map it to its characteristic
-    const selectedIndex = answers.indexOf(selectedOption);
-    if (selectedIndex !== -1 && characteristics[selectedIndex]) {
-      const { characteristicId, points } = characteristics[selectedIndex];
-      onAnswerChange(question._id, characteristicId, points, true);
+    //find the index of the selected answer
+    const selectedIndex = answers.findIndex(answer => answer === selectedOption);
+    if (selectedIndex !== -1) {
+      onAnswerChange(_id, [selectedIndex]); //update to pass only the selected index
     }
   };
+
 
   return (
     <>
@@ -67,7 +66,7 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
                         />
 
                       }
-                                        value={option} // Assign the option as the value
+                                        value={option} 
                     />
                   </div>
                 </div>

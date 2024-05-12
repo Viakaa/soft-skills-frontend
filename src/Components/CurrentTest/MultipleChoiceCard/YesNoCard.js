@@ -2,26 +2,18 @@ import React,{useState} from "react";
 import Button from "@mui/material/Button";
 
 const YesNoCard = ({ question, number, onAnswerChange }) => {
-  const { question: title, characteristics } = question;
+  const { question: title } = question;
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   //const [previousAnswer, setPreviousAnswer] = useState(null);
 
+
+  //handle yes/no answer changes
   const handleAnswerSelection = (answer) => {
+    const answerIndex = answer === 'yes' ? 0 : 1;
     if (selectedAnswer !== answer) {
-      const newAnswerIndex = answer === 'yes' ? 0 : 1;
-      const oldAnswerIndex = selectedAnswer === 'yes' ? 0 : 1;
-
-      //call the onAnswerChange to update the points for the old answer if there was one
-      if (selectedAnswer !== null) {
-        onAnswerChange(question._id, characteristics[oldAnswerIndex].characteristicId, -characteristics[oldAnswerIndex].points, false);
-      }
-      //updating points for the new answer
-      onAnswerChange(question._id, characteristics[newAnswerIndex].characteristicId, characteristics[newAnswerIndex].points, true);
-
-      setSelectedAnswer(answer);  //UPdate the state to the new answer
+      onAnswerChange(question._id, [answerIndex], true);
+      setSelectedAnswer(answer);
     }
-    console.log(question);
-
   };
   
 

@@ -15,16 +15,17 @@ const TestPage = () => {
   const {id} = useParams();
   const [test, setTest] = useState({});
   const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({}); // New state to store user's answers
-  const [results, setResults] = useState({});
+  const [answers, setAnswers] = useState({}); 
+  const [results, setResults] = useState(null);
 
   const getCurrentTest = async (authToken) => {
     try {
       console.log(id)
+      //get current test
       const testResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/tests/${id}`, {
         headers: {Authorization: `Bearer ${authToken}`},
       });
-
+      //get questions from current test
       const questionsData = await Promise.all(
         testResp.data.questions.map(async (questionId) => {
           const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId.questionId}`, {
@@ -53,41 +54,27 @@ const TestPage = () => {
   }, [id]); 
 
   //check for answer changes
-  const handleAnswerChange = (questionId, characteristicId, points, isAdding) => {
-    setAnswers(prevAnswers => ({
-      ...prevAnswers,
-      [questionId]: {
-        ...prevAnswers[questionId],
-        [characteristicId]: (prevAnswers[questionId] && prevAnswers[questionId][characteristicId] ? prevAnswers[questionId][characteristicId] : 0) + points
-      }
+  const handleAnswerChange = (questionId, selectedIndices) => {
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: selectedIndices
     }));
   };
   
-  
-  
-
-  //summary of characteristics
-  const calculateResults = () => {
-    const newResults = {};
-  
-    for (const questionAnswers of Object.values(answers)) {
-      for (const [charId, points] of Object.entries(questionAnswers)) {
-        if (!newResults[charId]) {
-          newResults[charId] = 0;
-        }
-        newResults[charId] += points;  //add or subtract points based on latest answer
-      }
-    }
-  
-    setResults(newResults);
-  };
-  
-  
-  
-
+//submit results
   const handleSubmit = () => {
-    calculateResults();
+    const formattedAnswers = Object.entries(answers).map(([questionId, answerIndices]) => ({
+      questionId,
+      answers: answerIndices
+    }));
+    setResults(formattedAnswers); 
+    console.log(formattedAnswers); 
   };
+  
+  
+  
+  
+
 
   return (
     <div>
@@ -119,9 +106,14 @@ const TestPage = () => {
         Complete Test
       </button>
       <div>
-        {Object.entries(results).map(([charId, points]) => (
-          <p key={charId}>{charId} - Points: {points}</p>
-        ))}
+      {results && (
+          <div>
+            <h2>Results:</h2>
+            {results.map(result => (
+              <p key={result.questionId}>Question ID: {result.questionId} - Answers: {result.answers.join(", ")}</p>
+            ))}
+          </div>
+        )}
       </div>
       </div>
     </div>
