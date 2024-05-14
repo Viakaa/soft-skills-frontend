@@ -14,14 +14,23 @@ function ManageSkills() {
     type: "",
     characteristics: [],
   });
-  const handleShowModal = () => setShowModal(true);
+  const handleShowModal = () => {
+    setShowModal(true);
+    setNewSkill({
+      type: "",
+      characteristics: [],
+    });
+    setIsCharacteristicsValid(false);
+  };
   const [isEditting, setIsEditting] = useState(false);
   const [skillToEdit, setSkillToEdit] = useState({});
+  const [isCharacteristicsValid, setIsCharacteristicsValid] = useState(false);
 
   const handleCloseModal = () => {
     setShowModal(false);
     setIsEditting(false);
-  }
+    setIsCharacteristicsValid(false); // Reset the characteristics validity on modal close
+  };
 
   const handleEditSkill = (skill) => {
     setIsEditting(true);
@@ -34,6 +43,7 @@ function ManageSkills() {
         title: c,
       })),
     });
+    setIsCharacteristicsValid(skill.characteristics.length > 0);
   };
 
   const handleEditSaveSkill = async () => {
@@ -59,19 +69,19 @@ function ManageSkills() {
     console.log(_id);
 
     try {
-        await axios.delete(
-            `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${_id}`,
-            { headers: { Authorization: `Bearer ${authToken}` } }
-        );
+      await axios.delete(
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${_id}`,
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
 
-        setSkills(prevSkills => prevSkills.filter((_, i) => i !== _id));
+      setSkills(prevSkills => prevSkills.filter(skill => skill.id !== _id));
 
-        console.log("Skill deleted successfully");
-        handleCloseModal();
-        fetchSkills(authToken);
+      console.log("Skill deleted successfully");
+      handleCloseModal();
+      fetchSkills(authToken);
     } catch (error) {
-        console.error("Error deleting skill:", error);
-        console.error("Error:", error.message);
+      console.error("Error deleting skill:", error);
+      console.error("Error:", error.message);
     }
   };
 
@@ -95,16 +105,13 @@ function ManageSkills() {
     }
   };
 
-  
   //handle changes in softskill input
-
   const handleSkillChange = (e) => {
     setNewSkill({...newSkill, type: e.target.value});
   };
 
   //handle changes in characteristic input
   const handleCharacteristicChange = (e) => {
-
     const selectedOptions = Array.from(e.target.selectedOptions).map(
       (option) => ({
         characteristicId: option.value,
@@ -115,12 +122,11 @@ function ManageSkills() {
       ...newSkill,
       characteristics: selectedOptions,
     });
-    console.log(selectedOptions);
+    setIsCharacteristicsValid(selectedOptions.length > 0);
   };
 
   useEffect(() => {
     console.log("newskill");
-
     console.log(newSkill);
   }, [newSkill]);
 
@@ -146,7 +152,6 @@ function ManageSkills() {
 
   //get characteristics from database
   const fetchCharacteristics = async (authToken) => {
-
     try {
       const response = await axios.get(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
@@ -166,7 +171,6 @@ function ManageSkills() {
     }
   };
 
-
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
@@ -185,8 +189,8 @@ function ManageSkills() {
         
         <button type="button" className="manageTable__add" onClick={handleShowModal}>
           <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.91998 16.5H31.2" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
-            <path d="M17.56 30V3.00001" stroke="#384699" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
+            <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
           </svg>
           Add new soft skill...
         </button>
@@ -196,8 +200,10 @@ function ManageSkills() {
           {skills.map((skill, index) => (
             <div className="manageTable__tr" key={index}>
               <div className="manageTable__td-wrap">
-                <div className="manageTable__td">{skill.title}</div>
+                <div className="manageTable__td skill_admin">{skill.title}</div>
+                <div className="char_skill">
                 <div className="manageTable__td">{skill.characteristics.join(", ")}</div>
+              </div>
               </div>
               <button className="manageTable__btn" type="button" onClick={() => handleEditSkill(skill)}>
           <img src={Pencil} />
@@ -227,15 +233,17 @@ function ManageSkills() {
                 className="titleInput"
                 value={newSkill.type}
                 onChange={handleSkillChange}
+                style={{ color: "white" }}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group required className="mb-3">
               <Form.Label>Characteristics</Form.Label>
               <Form.Control
                 as="select"
                 multiple
                 className="charactList"
                 onChange={handleCharacteristicChange}
+                required
               >
                 {characteristics.map((char, index) => (
                   <option key={index} value={char._id}>
@@ -243,6 +251,11 @@ function ManageSkills() {
                   </option>
                 ))}
               </Form.Control>
+              {!isCharacteristicsValid && (
+                <div style={{ color: 'black' }}>
+                  Please select at least one characteristic.
+                </div>
+              )}
             </Form.Group>
           </Form>
         </Modal.Body>
