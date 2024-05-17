@@ -455,12 +455,12 @@ const YesNoQuestionItem = ({
   const [noPoints, setNoPoints] = useState(1); // points for no
   const [characteristicsList, setCharacteristicsList] = useState([]); // characteristics list
   const [selectedYesChar, setSelectedYesChar] = useState({
-    id: "65c3adfbfe2b0e98e5ba7374",
-    title: "Self-respect",
+    id: "",
+    title: "",
   });
   const [selectedNoChar, setSelectedNoChar] = useState({
-    id: "65c3adfbfe2b0e98e5ba7374",
-    title: "Self-respect",
+    id: "",
+    title: "",
   });
 
   //get chrateristic
@@ -498,6 +498,30 @@ const YesNoQuestionItem = ({
     }))
 
     setCharacteristicsList(arrCharacteristics);
+    const selectedYesChar = arrCharacteristics.length > 0 
+    ? {
+        id: arrCharacteristics[0]._id || "",
+        title: arrCharacteristics[0].title || ""
+      }
+    : {
+        id: "",
+        title: ""
+      };
+  
+  const selectedNoChar = arrCharacteristics.length > 0 
+    ? {
+        id: arrCharacteristics[0]._id || "",
+        title: arrCharacteristics[0].title || ""
+      }
+    : {
+        id: "",
+        title: ""
+      };
+  
+  setSelectedYesChar(selectedYesChar);
+  setSelectedNoChar(selectedNoChar);
+  
+
     // In your component rendering the Select
   }, [characteristics]);
 
