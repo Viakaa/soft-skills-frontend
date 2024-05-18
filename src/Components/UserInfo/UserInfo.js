@@ -41,7 +41,7 @@ export default function UserInfo() {
               </div>
             </div>
             <div class="col-md-4 border-right ">
-              <div class="p-3 ">
+              <div class="p-4 ">
               <div className='basic_info'>
 
                 <div class="row">
@@ -78,27 +78,22 @@ export default function UserInfo() {
               </div>
             </div>
             <div class="col-md-5">
-              <div class="p-3">
+              <div class="p-4">
 
               <div  className='basic_info'>
                 <div class="row">
                 
                   <div class="col-md-12">
                     <label class="labels">{userInfo.email}</label>
-                
                   </div>
                 </div>
                 </div>
                 <div style={{marginTop:'20%'}} class="row text-center">
-                
-                
               </div>
-              <div class="col-md-12">
+                <div>
                   <button className='change_password_btn'>Change Password</button>
-              
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
