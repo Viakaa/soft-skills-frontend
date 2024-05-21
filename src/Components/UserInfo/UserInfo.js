@@ -90,9 +90,10 @@ export default function UserInfo() {
                 </div>
                 <div style={{marginTop:'20%'}} class="row text-center">
               </div>
+              {/*
                 <div>
                   <button className='change_password_btn'>Change Password</button>
-                </div>
+  </div>*/}
               </div>
             </div>
           </div>
