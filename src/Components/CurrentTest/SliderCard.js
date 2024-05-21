@@ -12,9 +12,7 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
     //get char based on id
-    const characteristicId = characteristics[0].characteristicId;
-    //to result
-    onAnswerChange(question._id, characteristicId, newValue, true);
+   
   };
 
   return (
