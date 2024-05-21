@@ -62,14 +62,48 @@ const TestPage = () => {
   };
   
 //submit results
-  const handleSubmit = () => {
-    const formattedAnswers = Object.entries(answers).map(([questionId, answerIndices]) => ({
-      questionId,
-      answers: answerIndices
-    }));
-    setResults(formattedAnswers); 
-    console.log(formattedAnswers); 
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const formattedAnswers = Object.entries(answers).map(([questionId, indexes]) => ({
+    questionId,
+    answers: indexes
+  }));
+  const abcd=[{questionId:"664c7b16b30a9cadd438f5a7",answers:[0]}]
+
+  setResults(formattedAnswers);
+  console.log('Formatted Answers:', formattedAnswers);
+
+  const authToken = localStorage.getItem("authToken");
+  const userId = localStorage.getItem("userId");
+
+  if (!authToken) {
+    console.error("Auth token is not available.");
+    return;
+  }
+
+  if (!userId) {
+    console.error("UserId is not available.");
+    return;
+  }
+  console.log("abcd",abcd);
+  
+  const url = `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}/tests/${id}/results`;
+  console.log('URL:', url);
+
+  try {
+    const response = await axios.post(url, abcd, {
+      headers: { Authorization: `Bearer ${authToken}` }
+    });
+    console.log('Response:', response.data);
+    console.log('Results submitted successfully');
+  } catch (e) {
+    console.error('Error submitting results', e);
+  }
+};
+
+
+
   
   
   
