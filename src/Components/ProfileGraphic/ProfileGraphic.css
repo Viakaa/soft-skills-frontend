@@ -91,3 +91,20 @@
    
     
 }
+
+.graph_card {
+    color: white;
+  }
+  
+  .graph_card .card-header {
+    color: white;
+  }
+  
+ 
+  
+  .graph_card .recharts-tooltip-wrapper .recharts-default-tooltip {
+    background-color: black;
+    color: black;
+    border: 1px solid white;
+  }
+  

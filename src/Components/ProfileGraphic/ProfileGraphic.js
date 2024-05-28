@@ -38,7 +38,7 @@ export default function ProfileGraphic() {
               }}
             >
               <XAxis style={{fontSize:'14px'}} dataKey="name" stroke="transparent" fill="transparent" />
-              <Tooltip />
+              <Tooltip itemStyle={{ color: 'black' }}  />
               <Line type="monotone" dataKey="level" stroke="white" fill="white"  strokeWidth={3} activeDot={{ r: 5 }} />
             </LineChart>
           </ResponsiveContainer>
