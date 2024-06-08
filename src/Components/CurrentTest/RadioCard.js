@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const RadioCard = ({ question, number, onAnswerChange }) => {
-  const { _id, title, answers } = question;
+  const { questionId, title, answers } = question;
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (event) => {
@@ -15,7 +15,7 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
     //find the index of the selected answer
     const selectedIndex = answers.findIndex(answer => answer === selectedOption);
     if (selectedIndex !== -1) {
-      onAnswerChange(_id, [selectedIndex]); //update to pass only the selected index
+      onAnswerChange(questionId, [selectedIndex]); //update to pass only the selected index
     }
   };
 
@@ -39,7 +39,7 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
       <div className="option-container">
         <div className="correct-answer-section" style={{ display: "flex" }}>
           <RadioGroup
-            name={`radio-group-${question._id}`}
+            name={`radio-group-${question.questionId}`}
             value={selectedValue}
             onChange={handleRadioChange}
             style={{width:"69%"}}

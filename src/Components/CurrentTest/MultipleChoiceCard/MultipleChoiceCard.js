@@ -29,7 +29,7 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
       if (cur) acc.push(idx);
       return acc;
     }, []);
-    onAnswerChange(question._id, newAnswers, true);
+    onAnswerChange(question.questionId, newAnswers, true);
   };
   
   return (

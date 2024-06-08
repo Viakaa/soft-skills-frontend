@@ -11,7 +11,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
   const handleAnswerSelection = (answer) => {
     const answerIndex = answer === 'yes' ? 0 : 1;
     if (selectedAnswer !== answer) {
-      onAnswerChange(question._id, [answerIndex], true);
+      onAnswerChange(question.questionId, [answerIndex], true);
       setSelectedAnswer(answer);
     }
   };

@@ -8,7 +8,9 @@ import YesNoCard from "../Components/CurrentTest/MultipleChoiceCard/YesNoCard";
 import MultipleChoiceCard from "../Components/CurrentTest/MultipleChoiceCard/MultipleChoiceCard";
 import SliderCard from "../Components/CurrentTest/SliderCard";
 import RadioCard from "../Components/CurrentTest/RadioCard";
+import { useNavigate } from 'react-router-dom';
 
+import Toast from 'react-bootstrap/Toast';
 
 
 const TestPage = () => {
@@ -17,6 +19,8 @@ const TestPage = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({}); 
   const [results, setResults] = useState(null);
+  const navigate = useNavigate(); 
+  const [showCompletionToast, setShowCompletionToast] = useState(false);
 
   const getCurrentTest = async (authToken) => {
     try {
@@ -26,19 +30,11 @@ const TestPage = () => {
         headers: {Authorization: `Bearer ${authToken}`},
       });
       //get questions from current test
-      const questionsData = await Promise.all(
-        testResp.data.questions.map(async (questionId) => {
-          const questionResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/questions/${questionId.questionId}`, {
-            headers: {Authorization: `Bearer ${authToken}`},
-          });
-          console.log('qq', questionResp.data);
-          return questionResp.data;
-          
-        })
-      );
-      console.log('questions: ', questionsData);
+     
       setTest(testResp.data);
-      setQuestions(questionsData);
+      console.log(testResp.data);
+
+      setQuestions(testResp.data.questions);
     } catch (e) {
       console.error(e);
     }
@@ -69,7 +65,7 @@ const handleSubmit = async (e) => {
     questionId,
     answers: indexes
   }));
-  const abcd=[{questionId:"664c7b16b30a9cadd438f5a7",answers:[0]}]
+  const abcd=[{questionId:"665cfc8c0c58639148265b0d",answers:[0]}]
 
   setResults(formattedAnswers);
   console.log('Formatted Answers:', formattedAnswers);
@@ -86,23 +82,35 @@ const handleSubmit = async (e) => {
     console.error("UserId is not available.");
     return;
   }
+  
   console.log("abcd",abcd);
   
   const url = `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}/tests/${id}/results`;
   console.log('URL:', url);
 
   try {
-    const response = await axios.post(url, abcd, {
-      headers: { Authorization: `Bearer ${authToken}` }
+    const response = await axios.post(url, formattedAnswers, {
+      headers: { Authorization: `Bearer ${authToken}`}
     });
+    
     console.log('Response:', response.data);
     console.log('Results submitted successfully');
+    setShowCompletionToast(true);  // Display the completion toast
   } catch (e) {
     console.error('Error submitting results', e);
   }
+  
 };
 
-
+useEffect(() => {
+  if (showCompletionToast) {
+    const timer = setTimeout(() => {
+      navigate('/profile');  // Redirect to profile page after the toast hides
+    }, 1500);  // Wait for the toast to show for 3 seconds and additional 1 second before navigating
+    
+    return () => clearTimeout(timer);  // Cleanup the timer
+  }
+}, [showCompletionToast, navigate]);
 
   
   
@@ -133,22 +141,30 @@ const handleSubmit = async (e) => {
             </div>
           ))}
       </div>
-      
+      <Toast
+        onClose={() => setShowCompletionToast(false)}
+        show={showCompletionToast}
+        delay={3000}
+        autohide
+        style={{
+          position: "fixed",
+          top: 20,
+          right: 20,
+          zIndex: 1000,
+          backgroundColor: "#c2323",
+        }}
+      >
+        <Toast.Header style={{ backgroundColor: "green", color: "white" }}>
+          <strong className="me-auto">Test Completed</strong>
+        </Toast.Header>
+        <Toast.Body>Test was successfully completed!</Toast.Body>
+      </Toast>
     </div>
     <div className="d-flex justify-content-center">
     <button style={{marginTop: '20px'}} className="create_test" onClick={handleSubmit}>
         Complete Test
       </button>
-      <div>
-      {results && (
-          <div>
-            <h2>Results:</h2>
-            {results.map(result => (
-              <p key={result.questionId}>Question ID: {result.questionId} - Answers: {result.answers.join(", ")}</p>
-            ))}
-          </div>
-        )}
-      </div>
+     
       </div>
     </div>
   );
