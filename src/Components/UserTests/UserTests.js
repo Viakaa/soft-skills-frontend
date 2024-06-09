@@ -78,18 +78,20 @@ export default function UserTests() {
             </div>
 
             <Carousel>
-              {matchedData[softSkill].map((char, charIndex) => (
-                <Carousel.Item key={charIndex}>
+            
+                <Carousel.Item >
                   <div className="test1_cards">
-                    <div className="test1_card1">
+                  {matchedData[softSkill].map((char, charIndex) => (
+                    <div className="test1_card1" key={charIndex}>
                       <p>{char.title}</p>
                       <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
                         {char.points}
                       </p>
                     </div>
+                     ))}
                   </div>
                 </Carousel.Item>
-              ))}
+             
             </Carousel>
           </div>
         ))
