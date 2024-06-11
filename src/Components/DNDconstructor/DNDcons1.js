@@ -724,26 +724,36 @@ const YesNoQuestionItem = ({
 };
 
 const SliderQuestionItem = ({
-  question,
   content,
   answers,
   points,
   characteristics,
-  items,
   index,
   onDelete,
-  onEdit,
   onUpdate,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(question);
   const [questionName, setQuestionName] = useState("QuestionName");
-  const [mypoints, setPoints] = useState(1);
-  const [characteristicId, setCharacteristicId] = useState(
-    "65c3adfbfe2b0e98e5ba7374"
-  );
+  const [sliderMax, setSliderMax] = useState(4); //slider max value, default to 4
   const [characteristicsList, setCharacteristicsList] = useState([]);
-  const [sliderMax, setSliderMax] = useState(4); //slider max value
+  const [characteristicId, setCharacteristicId] = useState(
+    "65d70497c56e967ce42b13a1"
+  );
+  const [mypoints, setPoints] = useState(1);
+
+  useEffect(() => {
+    const generatedAnswers = Array.from({ length: mypoints + 1 }, (_, i) => i.toString());
+    const generatedCharacteristics = generatedAnswers.map((answer) => ({
+      characteristicId: characteristicId, 
+      points: parseInt(answer),
+    }));
+
+    onUpdate(index, {
+      content: questionName,
+      answers: generatedAnswers,
+      characteristics: generatedCharacteristics,
+    });
+  }, [questionName, sliderMax, onUpdate, index]);
+
 
   //increase slider max value
   const increaseSliderMax = () => {
@@ -760,35 +770,8 @@ const SliderQuestionItem = ({
     }
   };
 
-  useEffect(() => {
-    onUpdate(index, {
-      content: questionName,
-      points: sliderMax,
-      characteristics: characteristicId,
-    });
-  }, [questionName, sliderMax, onUpdate, index]);
-
-  //handles question
   const handleChangeQuestionName = (e) => {
     setQuestionName(e.target.value);
-  };
-
-  //get characteristics
-  const fetchCharacteristics = async () => {
-    const authToken = localStorage.getItem("authToken");
-    try {
-      const response = await axios.get(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
-      setCharacteristicsList(
-        response.data.map((char) => ({ _id: char._id, title: char.title }))
-      );
-    } catch (error) {
-      console.error("Error fetching characteristics:", error);
-    }
   };
 
   useEffect(() => {
@@ -814,37 +797,32 @@ const SliderQuestionItem = ({
   };
 
   return (
+    <>
     <div className="question-item">
-      <>
-        <div className="fristWrapper">
-          <div className="firstQuestion">{index + 1}</div>
-          <input
-            className="fristQuestionText"
-            contenteditable="true"
-            value={questionName}
-            required
-            onChange={handleChangeQuestionName}
-          />
-
-          <button className="closeButton" onClick={() => onDelete(index)}>
-            X
-          </button>
-        </div>
-        <div></div>
-        <div className="flex">
-          <Slider
-            className="questionSlider"
-            aria-label="Temperature"
-            defaultValue={2}
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={0}
-            max={sliderMax}
-            onChange={(e, newValue) => setPoints(newValue)}
-            sx={{ maxWidth: "500px" }}
-          />
-          <div style={{ minWidth: "100px" }}>
+      <div className="fristWrapper">
+        <div className="firstQuestion">{index + 1}</div>
+        <input
+          className="fristQuestionText"
+          contentEditable="true"
+          value={questionName}
+          required
+          onChange={handleChangeQuestionName}
+        />
+        <button className="closeButton" onClick={() => onDelete(index)}>X</button>
+      </div>
+      <div className="flex">
+        <Slider
+          aria-label="Maximum Value"
+          defaultValue={2}
+          valueLabelDisplay="auto"
+          step={1}
+          marks
+          min={0}
+          max={sliderMax}
+          onChange={(e, newValue) => setPoints(newValue)}
+          sx={{ maxWidth: "500px" }}
+        />
+       <div style={{ minWidth: "100px" }}>
             <button
               className="closeButton"
               onClick={decreaseSliderMax}
@@ -859,8 +837,8 @@ const SliderQuestionItem = ({
               +
             </button>
           </div>
-        </div>
-        <FormControl fullWidth>
+      </div>
+      <FormControl fullWidth>
           <Select
             displayEmpty
             className="ch_mult_txt"
@@ -895,10 +873,13 @@ const SliderQuestionItem = ({
             ))}
           </Select>
         </FormControl>
-      </>
     </div>
+
+   
+    </>
   );
 };
+
 
 const RadioButtonItem = ({
   question,
@@ -1225,6 +1206,7 @@ function DNDconstructor(key, value) {
   const [items, setItems] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  
 
 
   //add item to localstorage
@@ -1354,16 +1336,14 @@ function DNDconstructor(key, value) {
             ],
           };
         } else if (item.type === ItemTypes.SLIDER) {
-          return {
+        
+    
+        return {
             question: item.content,
             type: "slider",
-            characteristics: [
-              {
-                characteristicId: item.characteristics,
-                points: item.points,
-              },
-            ],
-          };
+            answers: item.answers,
+            characteristics: item.characteristics
+        };
         } else if (item.type === ItemTypes.RADIO) {
           //map answers and correctAnswers
           const answers = item.options.map((opt) => opt.label);
