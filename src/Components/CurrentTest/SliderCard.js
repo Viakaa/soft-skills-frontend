@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 
 const SliderCard = ({ question, number, onAnswerChange }) => {
-  const { question: title, characteristics } = question;
+  const { question: title, characteristics,questionId } = question;
 
   //SLIDER VALUE
   const [sliderValue, setSliderValue] = useState(0);
@@ -11,8 +11,8 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
   //slider change function
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
-    //get char based on id
-   
+    
+    onAnswerChange(questionId, [newValue-1]);
   };
 
   return (
@@ -34,16 +34,16 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
         <div></div>
         <div className="flex">
           <Slider
-            className="questionSlider"
-            aria-label="Temperature"
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={0}
-            max={characteristics[0].points}
-            value={sliderValue}
-        onChange={handleSliderChange}
-            sx={{ maxWidth: "500px" }}
+           className="questionSlider"
+           aria-label="Temperature"
+           valueLabelDisplay="auto"
+           step={1}
+           marks
+           min={0}
+           max={characteristics.length}
+           value={sliderValue}
+           onChange={handleSliderChange}
+           sx={{ maxWidth: "500px" }}
           />
         </div>
       </>
