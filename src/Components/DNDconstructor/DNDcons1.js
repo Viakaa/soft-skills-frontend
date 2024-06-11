@@ -741,7 +741,7 @@ const SliderQuestionItem = ({
   const [mypoints, setPoints] = useState(1);
 
   useEffect(() => {
-    const generatedAnswers = Array.from({ length: mypoints + 1 }, (_, i) => i.toString());
+    const generatedAnswers = Array.from({ length: sliderMax + 1 }, (_, i) => i.toString());
     const generatedCharacteristics = generatedAnswers.map((answer) => ({
       characteristicId: characteristicId, 
       points: parseInt(answer),
@@ -819,6 +819,7 @@ const SliderQuestionItem = ({
           marks
           min={0}
           max={sliderMax}
+          
           onChange={(e, newValue) => setPoints(newValue)}
           sx={{ maxWidth: "500px" }}
         />

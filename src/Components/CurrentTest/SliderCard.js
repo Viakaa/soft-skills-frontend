@@ -12,7 +12,7 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
     
-    onAnswerChange(questionId, [newValue-1]);
+    onAnswerChange(questionId, [newValue]);
   };
 
   return (
@@ -40,7 +40,7 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
            step={1}
            marks
            min={0}
-           max={characteristics.length}
+           max={characteristics.length-1}
            value={sliderValue}
            onChange={handleSliderChange}
            sx={{ maxWidth: "500px" }}
