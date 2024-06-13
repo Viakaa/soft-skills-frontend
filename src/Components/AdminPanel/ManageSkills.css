@@ -140,3 +140,7 @@
 .modalEditSoft{
     width: 50%;
 }
+
+.modalContent {
+    max-width: 620px;
+}

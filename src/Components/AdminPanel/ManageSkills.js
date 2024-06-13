@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, Modal, Form, Dropdown} from "react-bootstrap";
+import {Button, Modal, Form, Dropdown, Row, Col} from "react-bootstrap";
 import "./ManageSkills.css";
 import axios from "axios";
 
@@ -14,6 +14,9 @@ function ManageSkills() {
     type: "",
     characteristics: [],
   });
+  const [newCharacteristic, setNewCharacteristic] = useState('');
+  const [selectedAddedCharacteristics, setSelectedAddedCharacteristics] = useState([]);
+  
   const handleShowModal = () => {
     setShowModal(true);
     setNewSkill({
@@ -125,6 +128,28 @@ function ManageSkills() {
     setIsCharacteristicsValid(selectedOptions.length > 0);
   };
 
+  const handleSelectedCharacteristicChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (option) => ({
+        characteristicId: option.value,
+        title: option.textContent,
+      })
+    );
+    console.log('selectedOptions',selectedOptions, e.target.selectedOptions)
+    setSelectedAddedCharacteristics(selectedOptions);
+    
+    setIsCharacteristicsValid(selectedOptions.length > 0);
+  };
+
+  const deleteSelectedCharacteristic = () => {
+    console.log('deleteSelectedCharacteristic', selectedAddedCharacteristics, newSkill.characteristics)
+    const selectedCharacteristicId = new Set(selectedAddedCharacteristics.map(item => item.characteristicId));
+    setNewSkill({
+      ...newSkill,
+      characteristics: newSkill.characteristics.filter(characteristic => !selectedCharacteristicId.has(characteristic.characteristicId) ),
+    });
+  }
+  
   useEffect(() => {
     console.log("newskill");
     console.log(newSkill);
@@ -171,6 +196,33 @@ function ManageSkills() {
     }
   };
 
+  const addNewCharacteristic = async () => {
+    const authToken = localStorage.getItem("authToken");
+    
+    if (newCharacteristic.trim() === "") return;
+    
+    try {
+      console.log(authToken,'authToken')
+      const response = await axios.post(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        { title: newCharacteristic },
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      
+      const { _id, title } = response.data;
+
+      const fetchedCharacteristics = {
+        _id,
+        title
+      }
+      
+      setCharacteristics(characteristics => [...characteristics, fetchedCharacteristics]);
+      setNewCharacteristic('');
+    } catch (error) {
+      console.error("Error fetching characteristics:", error);
+    }
+  };
+  
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
@@ -217,47 +269,101 @@ function ManageSkills() {
         </table>
       </div>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal size="xl" show={showModal} onHide={handleCloseModal}>
         <Modal.Header className="modalHeader" closeButton>
           <Modal.Title className="titleModal">
             {isEditting ? "Edit Soft Skill" : "Add New Soft Skill"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="modalBody">
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                className="titleInput"
-                value={newSkill.type}
-                onChange={handleSkillChange}
-                style={{ color: "white" }}
-              />
-            </Form.Group>
-            <Form.Group required className="mb-3">
-              <Form.Label>Characteristics</Form.Label>
-              <Form.Control
-                as="select"
-                multiple
-                className="charactList"
-                onChange={handleCharacteristicChange}
-                required
-              >
-                {characteristics.map((char, index) => (
-                  <option key={index} value={char._id}>
-                    {char.title}
-                  </option>
-                ))}
-              </Form.Control>
-              {!isCharacteristicsValid && (
-                <div style={{ color: 'black' }}>
-                  Please select at least one characteristic.
-                </div>
-              )}
-            </Form.Group>
-          </Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              className="titleInput"
+              value={newSkill.type}
+              onChange={handleSkillChange}
+              style={{ color: "white" }}
+            />
+          </Form.Group>
+          <Row>
+            <Col xs={7}>
+              <Form.Group className="mb-3 d-flex">
+                <button type="button" className="manageTable__add" onClick={addNewCharacteristic}>
+                  <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
+                    <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
+                  </svg>
+                </button>
+                <Form.Control
+                  type="text"
+                  name="new_characteristic"
+                  className="titleInput"
+                  value={newCharacteristic}
+                  onChange={(e) => setNewCharacteristic(e.target.value)}
+                  style={{ color: "white" }}
+                  placeholder={'Title of new characteristic...'}
+                />
+                <button type="button" className="manageTable__add" onClick={deleteSelectedCharacteristic}>
+                  <svg className="manageTable__ico" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 11L33 33" stroke="#2A2E46" strokeOpacity="0.8" strokeWidth="5" strokeLinecap="round"/>
+                    <path d="M11 33L33 11" stroke="#2A2E46" strokeOpacity="0.8" strokeWidth="5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </Form.Group>
+            </Col>
+            <Col xs={6}>
+              <Form>
+                <Form.Group required className="mb-3">
+                  <Form.Label>Characteristics</Form.Label>
+                  <Form.Control
+                    as="select"
+                    multiple
+                    className="charactList"
+                    onChange={handleCharacteristicChange}
+                    required
+                  >
+                    {characteristics.map((char, index) => (
+                      <option key={index} value={char._id}>
+                        {char.title}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  {!isCharacteristicsValid && (
+                    <div style={{ color: 'black' }}>
+                      Please select at least one characteristic.
+                    </div>
+                  )}
+                </Form.Group>
+              </Form>
+            </Col>
+            <Col xs={6}>
+              <Form>
+                <Form.Group required className="mb-3">
+                  <Form.Label>Added characteristics:</Form.Label>
+                  <Form.Control
+                    as="select"
+                    multiple
+                    className="charactList"
+                    onChange={handleSelectedCharacteristicChange}
+                    required
+                  >
+                    {newSkill.characteristics.map((char, index) => (
+                      <option key={index} value={char.characteristicId}>
+                        {char.title}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  {!isCharacteristicsValid && (
+                    <div style={{ color: 'black' }}>
+                      Please select at least one characteristic.
+                    </div>
+                  )}
+                </Form.Group>
+              </Form>
+            </Col>
+          </Row>
         </Modal.Body>
         <Modal.Footer className="modalFooter">
           <Button variant="secondary" onClick={handleCloseModal}>
