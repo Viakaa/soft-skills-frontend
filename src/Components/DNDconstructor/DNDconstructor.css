@@ -11,7 +11,7 @@
   border-radius: 0px 20px 20px 0px;
   border: 3px dashed rgba(80, 97, 197, 0.35);
 
-  background: #F5E4C8;
+  background: #C499FF;
   padding: 10px;
 }
 
@@ -26,10 +26,10 @@
 
 .draggable-question {
   padding: 10px;
-  background-color: #ACB3DA;
+  background-color: #FFD699;
   margin: 10px 0;
   cursor: grab;
-  color: #F8FBFF;
+  color: #382A4A;
   font-size: 19px;
   font-weight: 400;
   border-radius: 4px;
@@ -52,7 +52,7 @@
 }
 
 .question-item {
-  background-color: #ACB3DA;
+  background-color: #FED799;
   padding: 20px 50px;
   margin: 10px 0;
   border-radius: 20px;
@@ -81,8 +81,8 @@
 }
 
 
+
 .firstQuestion {
-  background-color:#F9FBFF;
   height: 40px;
   width: 40px;
   display: flex;
@@ -104,7 +104,7 @@
   color: #292E46;
 }
 .SKILLS{
-  background-color: #A8A197 !important;
+  background-color: #9999FF !important;
 }
 
 .center {
@@ -157,7 +157,6 @@
 }
 
 .flex button {
-  background-color: #dbdff4;
   border-radius: 5px;
   font-size: 20px;
 }
@@ -187,8 +186,8 @@
 }
 
 .correct-answer-section label span svg {
- fill: #F9FBFF;
- border-radius: 100% !important;
+ fill: #382A4A;
+
 }
 
 .custom-checkbox {
@@ -238,14 +237,16 @@
   border-radius: 5px;
   border: 2px solid #736D64;
 
-  background: #F5E4C8;
+  background: #C499FF;
 }
 
 .item li div span {
   color: #292E46 ;
   font-size: 26px;
   font-style: normal;
-  font-weight: 400;
+  font-family: 'Mitr' !important;
+
+  font-weight: 500;
   line-height: normal;
 }
 
@@ -257,8 +258,9 @@
 }
 
 .MuiSlider-track {
-  background-color: #2A2E46 !important;
+  background-color: #382A4A !important;
   border: none !important;
+  height: 7px!important;
 }
 
 #searched-item {
@@ -266,12 +268,13 @@
   border: 2px solid #384699;
 
 
-  background: #dbdff4;
+  background: white;
   color: #000f67;
   font-size: 26px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-top: 10px;
 }
 
 /* ul {
@@ -312,14 +315,17 @@
   width: 31.744px !important;
   height: 29.114px !important;
   border-radius: 10px !important;
-  background: #dbdff4 !important;
+  background: white !important;
 }
 
 .MuiSlider-markActive {
-  width: 2px !important;
+  width: 6px !important;
   height: 9px !important;
 
-  background-color: #919cdb !important;
+  background-color: #FED799 !important;
+}
+.MuiSlider-valueLabelCircle{
+  color:black !important; 
 }
 
 .dasda {
@@ -362,7 +368,7 @@
   border: none;
   text-align: center;
   font-size: 30px;
-  color:#989EA9;
+  color:#382A4A;
   font-weight: 500;
   font-family: 'Mitr';
 }
@@ -414,16 +420,39 @@
 }
 
 .fristQuestionText{
-  background-color: transparent;
+  background-color: #9999FF;
+  border: none;
+  text-align: center;
+  font-family: 'Mitr';
+  color:#382A4A;
+  outline: none !important;
+  border-radius: 10px;
+  width: 60%;
+}
+
+.fristQuestionText{
+  background-color: #9999FF;
+  border: none;
+  text-align: center;
+  font-family: 'Mitr';
+  color:#382A4A;
+  outline: none !important;
+  border-radius: 10px;
+  width: 60%;
+}
+.SKILLS .fristQuestionText{
+  background-color: #9999FF;
   border: none;
   text-align: center;
   font-family: 'Mitr';
   color:#F9FBFF;
   outline: none !important;
+  border-radius: 10px;
+  width: 100% !important;
 }
 
 .create_test{
-background-color: #989EA9;
+background-color: #896BB3;
 border: none;
 color: white;
 width: 22%;
@@ -431,6 +460,13 @@ height: 60px;
 font-family: 'Mitr';
 font-size: 20px;
 border-radius: 10px;
+}
+
+.test_q .closeButton{
+  background-color: #FED799 !important;
+}
+.test_q{
+  margin-bottom: 50px;
 }
 
 .yesno_button{
@@ -448,7 +484,7 @@ border-radius: 10px;
   
 }
 .questionText input{
-  color: #F9FBFF !important;
+  color: #382A4A !important;
 }
 
 .ch_mult_txt{
@@ -460,4 +496,7 @@ border-radius: 10px;
 }
 .SKILLS #searched-item{
   margin-top: 0px !important;
+}
+
+.css-18a4awb-MuiSlider-root{
 }

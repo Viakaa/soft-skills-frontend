@@ -22,19 +22,19 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
 
   return (
     <>
-      <div className="firstQuestion" style={{ marginRight: "auto" }}>
-        {number}
-      </div>
-      <div
-        className="fristQuestionText"
-        style={{
-          textAlign: "center",
-          flexGrow: 1,
-          marginTop: "-6%",
-          marginBottom: "5%",
-        }}
-      >
-        {title}
+      <div className="fristWrapper test_q">
+        <div className="firstQuestion">{number}</div>
+        <input
+          className="fristQuestionText"
+          contenteditable="true"
+          value={title}
+          required
+          readOnly
+        />
+
+        <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >
+          
+        </div>
       </div>
       <div className="option-container">
         <div className="correct-answer-section" style={{ display: "flex" }}>

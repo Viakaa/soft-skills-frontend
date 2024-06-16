@@ -63,12 +63,12 @@ const DraggableSliderQuestion = ({ content }) => {
       <Slider
         className="questionSlider"
         aria-label="Temperature"
-        defaultValue={5}
+        defaultValue={4}
         valueLabelDisplay="auto"
         step={1}
         marks
         min={0}
-        max={10}
+        max={5}
         sx={{ maxWidth: "500px" }}
         disabled
       />
@@ -603,9 +603,9 @@ const YesNoQuestionItem = ({
           variant="contained"
           onClick={() => setAnswer("yes")}
           sx={{
-            backgroundColor: answer === "yes" ? "#1976d2" : "#979EA9", // Change color when selected
+            backgroundColor: answer === "yes" ? "#1976d2" : "#896BB3", // Change color when selected
             "&:hover": {
-              backgroundColor: answer === "yes" ? "#115293" : "#979EA9", // Darker on hover
+              backgroundColor: answer === "yes" ? "#115293" : "#896BB3", // Darker on hover
             },
             color: "white",
             fontSize: "34px",
@@ -624,9 +624,9 @@ const YesNoQuestionItem = ({
           variant="contained"
           onClick={() => setAnswer("no")}
           sx={{
-            backgroundColor: answer === "no" ? "#1976d2" : "#979EA9",
+            backgroundColor: answer === "no" ? "#1976d2" : "#896BB3",
             "&:hover": {
-              backgroundColor: answer === "no" ? "#115293" : "#979EA9",
+              backgroundColor: answer === "no" ? "#115293" : "#896BB3",
             },
             color: "white",
             width: "190px",

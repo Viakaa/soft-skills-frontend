@@ -19,25 +19,25 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
 
   return (
     <>
-      <div className="firstQuestion" style={{ marginRight: "auto" }}>
-        {number}
-      </div>
-      <div
-        className="fristQuestionText"
-        style={{
-          textAlign: "center",
-          flexGrow: 1,
-          marginTop: "-6%",
-          marginBottom: "5%",
-        }}
-      >
-        {title}
+    <div className="fristWrapper test_q">
+        <div className="firstQuestion">{number}</div>
+        <input
+          className="fristQuestionText"
+          contenteditable="true"
+          value={title}
+          required
+          readOnly
+        />
+
+        <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >
+          
+        </div>
       </div>
       <div className="yes-no-buttons">
         <Button
           variant="contained"
           sx={{
-            backgroundColor: selectedAnswer === 'yes' ? 'gray' : '#989EA9',
+            backgroundColor: selectedAnswer === 'yes' ? 'gray' : '#896BB3',
             color: selectedAnswer === 'yes' ? 'white' : 'default',
             
             color: "white",
@@ -59,7 +59,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
 
           variant="contained"
           sx={{
-            backgroundColor: selectedAnswer === 'no' ? 'gray' : '#989EA9',
+            backgroundColor: selectedAnswer === 'no' ? 'gray' : '#896BB3',
             color: selectedAnswer === 'no' ? 'white' : 'default',
             width: "190px",
             height: "41.158px",
