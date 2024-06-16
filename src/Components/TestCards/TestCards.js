@@ -3,15 +3,30 @@ import { Card, Button, Dropdown } from "react-bootstrap";
 import DropdownItems from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserInfo } from '../../Redux/Actions/userActions.js';
 import SecondTestImage from "../../Assets/Images/SecondTestImage.svg";
 import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
 import FirstTestImage from "../../Assets/Images/newTestImage.png";
 
 export default function TestCards() {
+  const Skeleton = () => (
+    <div className="skeleton">
+    
+    </div>
+  );
   const [tests, setTests] = useState([]);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const isLoading = useSelector((state) => state.auth.loading);
 
+ 
+  
+  useEffect(() => {
+      dispatch(getUserInfo());
+    
+  }, [dispatch]);
   const fetchTests = async (authToken) => {
 
     try {
@@ -40,7 +55,9 @@ export default function TestCards() {
     }
     fetchTests(authToken);
   }, []);
-
+  if (isLoading || !userInfo) {
+    return <Skeleton />;
+  }
   return (
     <>
       <div className="testcards_main">
@@ -58,7 +75,7 @@ export default function TestCards() {
               border:'2px solid black',
             }}
           >
-            Test Finished: 4
+            Test Finished: {userInfo.tests.length}
           </p>
           <p
             style={{

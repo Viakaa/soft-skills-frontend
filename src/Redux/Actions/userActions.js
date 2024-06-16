@@ -41,6 +41,7 @@ export const getUserInfo = (userId, token) => async (dispatch) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data);
       dispatch({ type: 'FETCH_USER_SUCCESS', payload: response.data });
     } catch (error) {
       dispatch({ type: 'FETCH_USER_FAIL', payload: error });
