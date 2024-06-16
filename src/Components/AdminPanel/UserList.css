@@ -1,6 +1,6 @@
 .a_usercard{
-    border: 3px solid #6C717B !important;
-    background-color: #979EA9!important;
+    border: 3px solid rgba(137, 107, 179, 1) !important;
+    background-color: rgba(196, 153, 255, 1) !important;
     font-family: 'Mitr';
     color: rgba(248, 251, 255, 1) !important;
     
@@ -13,6 +13,7 @@
 
 .a_usercard .card-title, .card-text{
     margin: 0 !important;
+    color: rgba(56, 43, 74, 1) !important;
 }
 
 .a_usercard .card-body{
@@ -24,14 +25,14 @@
 }
 
 .all_users {
-    background-color: #ACB3DA !important;
+    background-color: rgba(255, 214, 153, 1) !important;
     max-width: 1520px;
     border-radius: 10px;
     padding: 5px;
     font-family: 'Mitr' !important;
     margin-bottom: 15px;
-    color:#fff !important;
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(80, 97, 197, 0.82)' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
+    color:rgba(56, 43, 74, 1) !important;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(179, 150, 107, 1)' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
 }
 
 .pagination_{
