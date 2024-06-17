@@ -22,11 +22,12 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
     <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
         <input
-          className="fristQuestionText"
+          className="fristQuestionText d-flex"
           contenteditable="true"
           value={title}
           required
           readOnly
+          
         />
 
         <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >

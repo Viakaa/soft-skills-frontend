@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const RadioCard = ({ question, number, onAnswerChange }) => {
-  const { questionId, title, answers } = question;
+  const { question: questionId, title, answers } = question;
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (event) => {
@@ -42,7 +42,7 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
             name={`radio-group-${question.questionId}`}
             value={selectedValue}
             onChange={handleRadioChange}
-            style={{width:"69%"}}
+            style={{width:"94%"}}
           >
             {answers.map((option, idx) => (
               <Box
@@ -56,13 +56,15 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
                       control={<Radio  />}
                       label={
                         <TextField
-                          size="small"
-                          variant="outlined"
+                        fullWidth
+                        multiline
                           className="questionText"
-                          value={option}
+                          style={{ border: "none !important", width: "100%"}}
+                          defaultValue={option}
                           InputProps={{
                             readOnly: true,
                           }}
+                          sx={{ minWidth: '600px' }}
                         />
 
                       }

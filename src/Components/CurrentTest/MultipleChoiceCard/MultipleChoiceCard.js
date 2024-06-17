@@ -70,23 +70,22 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
                       }
                       label={
                         <TextField
-                          size="small"
-                          variant="outlined"
+                        fullWidth
+                        multiline
                           className="questionText"
-                          style={{ border: "none !important" }}
+                          style={{ border: "none !important", width: "100%"}}
                           defaultValue={option}
                           InputProps={{
                             readOnly: true,
                           }}
+                          sx={{ minWidth: '600px' }}
                         />
                       }
                     />
                 </div>
               </div>
 
-              <FormControl
-                style={{ width: "200px", marginLeft: "10px" }}
-              ></FormControl>
+             
             </Box>
           ))}
         </div>
