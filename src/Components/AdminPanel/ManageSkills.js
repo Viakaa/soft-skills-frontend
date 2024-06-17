@@ -284,7 +284,7 @@ function ManageSkills() {
               className="titleInput"
               value={newSkill.type}
               onChange={handleSkillChange}
-              style={{ color: "white" }}
+              style={{ color: "#382B4A" }}
             />
           </Form.Group>
           <Row>
@@ -331,7 +331,7 @@ function ManageSkills() {
                     ))}
                   </Form.Control>
                   {!isCharacteristicsValid && (
-                    <div style={{ color: 'black' }}>
+                    <div style={{ color: '#F8FBFF' }}>
                       Please select at least one characteristic.
                     </div>
                   )}
@@ -356,7 +356,7 @@ function ManageSkills() {
                     ))}
                   </Form.Control>
                   {!isCharacteristicsValid && (
-                    <div style={{ color: 'black' }}>
+                    <div style={{ color: '#F8FBFF' }}>
                       Please select at least one characteristic.
                     </div>
                   )}

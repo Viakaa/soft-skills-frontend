@@ -5,7 +5,7 @@
 .manageTable {
     padding: 12px 36px 110px;
     border-radius: 20px;
-    background: rgba(172, 179, 218, 1);
+    background: rgba(153, 153, 255, 1) !important;
 }
 
 .manageTable__title {
@@ -27,7 +27,7 @@
 }
 
 .modalHeader, .modalBody, .modalFooter {
-    background-color: rgba(172, 179, 218, 1) !important;
+    background-color: rgba(153, 153, 255, 1) !important;
     color: white;
 }
 
@@ -57,7 +57,6 @@
 
 .skill_admin {
     overflow: hidden;
-
 }
 
 .manageTable__td:nth-child(2) {
@@ -80,14 +79,13 @@
 }
 
 .char_skill{
-    background-color: #A8A197;
+    background-color: #896BB3 !important;
     width: 100%;
     border-left: 2px solid #292E46;
     border-radius: 2px;
     pointer-events: none;
-    overflow: unset !important;;
-
-
+    overflow: unset !important;
+    color: rgba(248, 251, 255, 1) !important;
 }
 
 .manageTable__td-wrap {
@@ -95,7 +93,8 @@
     border-radius: 5px;
     display: flex;
     width: 100%;
-    background-color: #979EA9 !important;
+    background-color: #C499FF !important;
+    color: #382B4A !important;
 }
 
 .manageTable__btn {
@@ -126,11 +125,12 @@
 }
 
 .saveButton {
-    background-color: rgba(151, 158, 169, 1) !important;
+    background-color: #896BB3 !important;
+    border: none !important;
 }
 
 .titleInput {
-    background-color: rgba(169, 161, 151, 1) !important;
+    background-color: #FFD699 !important;
 }
 
 .characteristicsList {
@@ -143,4 +143,14 @@
 
 .modalContent {
     max-width: 620px;
+}
+
+.charactList {
+    background-color: #896BB3 !important;
+    color: #F8FBFF !important;
+}
+
+.saveButton {
+    background-color: #896BB3 !important;
+    border: none;
 }

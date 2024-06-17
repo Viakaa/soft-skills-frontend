@@ -37,7 +37,6 @@ function TestList() {
 
       const testsWithData = await Promise.all(
         testsResponse.data.map(async (test) => {
-          
           return { ...test };
         })
       );
@@ -82,7 +81,6 @@ function TestList() {
                 {/*{test.questions.map((question, index) => (
                   <Card.Text key={index}>{question.question}</Card.Text>
                 ))}*/}
-                
               </Card.Body>
               <Button
                   className="test_edit"
