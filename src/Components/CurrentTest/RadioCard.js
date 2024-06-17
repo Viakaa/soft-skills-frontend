@@ -27,7 +27,7 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
         <input
           className="fristQuestionText"
           contenteditable="true"
-          value={title}
+          value={question.question}
           required
           readOnly
         />
