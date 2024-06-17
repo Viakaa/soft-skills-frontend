@@ -331,6 +331,11 @@
 .dasda {
   height: 500px;
 }
+.accordion-button{
+  background-color: #9999FF !important;
+  color:white !important;
+  width:100% !important;
+}
 
 .center button {
   margin: 0;
@@ -485,6 +490,7 @@ border-radius: 10px;
 }
 .questionText input{
   color: #382A4A !important;
+  
 }
 
 .ch_mult_txt{

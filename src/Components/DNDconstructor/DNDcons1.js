@@ -31,6 +31,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { Toast } from "react-bootstrap";
+import Accordion from 'react-bootstrap/Accordion';
 
 const ItemTypes = {
   SLIDER: "slider",
@@ -1537,7 +1538,11 @@ function DNDconstructor(key, value) {
             value={testTitle}
             onChange={(e) => setTestTitle(e.target.value)}
           />
-          <div className="question-item SKILLS">
+           <Accordion style={{margin:'10px'}}  defaultActiveKey={['0']} alwaysOpen>
+      <Accordion.Item   eventKey="0">
+        <Accordion.Header >Select characteristics</Accordion.Header>
+        <Accordion.Body>
+        <div className="question-item SKILLS">
             <div className="fristWrapper">
               {/*<p className="firstQuestion">1</p>*/}
               <span className="fristQuestionText">Select the categories of soft skills that will be used in the test.</span>
@@ -1582,6 +1587,11 @@ function DNDconstructor(key, value) {
               ))}
             </List>
           </div>
+        </Accordion.Body>
+      </Accordion.Item>
+  
+    </Accordion>
+          
           
           
 
