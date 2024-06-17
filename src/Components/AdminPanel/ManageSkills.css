@@ -84,9 +84,15 @@
     border-left: 2px solid #292E46;
     border-radius: 2px;
     pointer-events: none;
-    overflow: unset !important;
+    overflow:scroll !important;
+    display: flex !important;
     color: rgba(248, 251, 255, 1) !important;
 }
+.char_skill .manageTable__td{
+  
+    overflow: wrap !important;
+     width: 500px !important;
+ }
 
 .manageTable__td-wrap {
     border: 2px solid #292E46;
