@@ -16,7 +16,7 @@ import DNDcons from "./Components/DNDconstructor/DNDcons1";
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
-
+import Article1 from './Components/Articles/ArticleTeamwork.js';
 
 function App() {
   return (
@@ -31,6 +31,8 @@ function App() {
 
           <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
+
+          <Route path="/steps-to-building-a-successful-team" element={<PrivateRoute><Article1 /></PrivateRoute>} />
 
           <Route
             path="/profile"
