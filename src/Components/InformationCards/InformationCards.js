@@ -23,9 +23,9 @@ export default function InformationCards() {
                     <Image src={Book} rounded />
 
                     <div>
-                        <p className="main_text">8 Steps </p>
-
-                        <p className="details">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis...   <span className="read-more"> Read more >></span></p>
+                        <p className="main_text">10 methods</p>
+                        <p className="main_text">To Change Your Life</p>
+                        <p className="details">Writing a letter to yourself from your future self is a great way to clarify your life goals. This journaling method is particularly valuable if you’re...   <a className="read-more" href='/methods-to-change-your-life'> Read more >></a></p>
                     </div>
                 </div>
             </div>

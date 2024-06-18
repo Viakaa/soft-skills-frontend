@@ -17,6 +17,7 @@ import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
 import Article1 from './Components/Articles/ArticleTeamwork.js';
+import Article2 from './Components/Articles/ArticleChangeLife.js';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
           <Route path="/steps-to-building-a-successful-team" element={<PrivateRoute><Article1 /></PrivateRoute>} />
+          <Route path="/methods-to-change-your-life" element={<PrivateRoute><Article2 /></PrivateRoute>} />
 
           <Route
             path="/profile"
