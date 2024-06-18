@@ -379,7 +379,7 @@ const MultiChoiceItem = ({
     <div className="question-item">
       <div className="fristWrapper">
         <p className="firstQuestion">{index + 1}</p>
-        <input
+        <textarea
           className="fristQuestionText"
           contenteditable="true"
           value={questionName}
@@ -587,7 +587,7 @@ const YesNoQuestionItem = ({
     <div className="question-item">
       <div className="fristWrapper">
         <div className="firstQuestion">{index + 1}</div>
-        <input
+        <textarea 
           className="fristQuestionText"
           contenteditable="true"
           value={questionName}
@@ -802,7 +802,7 @@ const SliderQuestionItem = ({
     <div className="question-item">
       <div className="fristWrapper">
         <div className="firstQuestion">{index + 1}</div>
-        <input
+        <textarea
           className="fristQuestionText"
           contentEditable="true"
           value={questionName}
@@ -993,7 +993,7 @@ const RadioButtonItem = ({
     <div className="question-item">
       <div className="fristWrapper">
         <p className="firstQuestion">{index + 1}</p>
-        <input
+        <textarea
           className="fristQuestionText"
           contenteditable="true"
           value={questionName}

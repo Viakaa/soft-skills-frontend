@@ -10,7 +10,7 @@ export const YesNoQuestionItem = ({content, index, onDelete}) => {
     <div className="question-item">
       <div className="fristWrapper">
         <div className="firstQuestion">{index + 1}</div>
-        <span className="fristQuestionText">{content}</span>
+        <textarea className="fristQuestionText">{content}</textarea>
         <button className="closeButton" onClick={() => onDelete(index)}>
           X
         </button>

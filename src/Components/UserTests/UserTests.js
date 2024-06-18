@@ -6,14 +6,14 @@ import "./UserTests.css";
 export default function UserTests() {
   const [matchedData, setMatchedData] = useState({});
   const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("authToken"); 
+  const token = localStorage.getItem("authToken");
+
   useEffect(() => {
     fetchUserResults();
   }, [userId, token]);
 
   const fetchUserResults = async () => {
     try {
-      // get user with results
       const userResultsResponse = await axios.get(
         `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}`,
         {
@@ -25,29 +25,26 @@ export default function UserTests() {
       const userResults = userResultsResponse.data;
       console.log('User Results:', userResults);
 
-      //fetch characteristics from test results
       const characteristicsPromises = userResults.characteristics.map(async (char) => {
-          try {
-            const charResponse = await axios.get(
-              `http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics/${char.characteristicId}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            return { ...char, details: charResponse.data };
-          } catch (error) {
-            console.error(`Error fetching characteristic ID ${char.characteristicId}:`, error);
-            return null; //skip char if failed
-          }
-        })
-      
+        try {
+          const charResponse = await axios.get(
+            `http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics/${char.characteristicId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          return { ...char, details: charResponse.data };
+        } catch (error) {
+          console.error(`Error fetching characteristic ID ${char.characteristicId}:`, error);
+          return null; 
+        }
+      });
 
       const characteristicsDetails = await Promise.all(characteristicsPromises);
       const validCharacteristicsDetails = characteristicsDetails.filter(char => char !== null);
 
-      //orrganizing data by soft-skill
       const organizedData = validCharacteristicsDetails.reduce((acc, char) => {
         const softSkillType = char.details.softSkill.type;
         if (!acc[softSkillType]) {
@@ -66,6 +63,14 @@ export default function UserTests() {
     }
   };
 
+  const chunkArray = (array, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
   return (
     <div className="main_wrapper">
       {Object.keys(matchedData).length === 0 ? (
@@ -78,20 +83,20 @@ export default function UserTests() {
             </div>
 
             <Carousel>
-            
-                <Carousel.Item >
+              {chunkArray(matchedData[softSkill], 4).map((chunk, chunkIndex) => (
+                <Carousel.Item key={chunkIndex}>
                   <div className="test1_cards">
-                  {matchedData[softSkill].map((char, charIndex) => (
-                    <div className="test1_card1" key={charIndex}>
-                      <p>{char.title}</p>
-                      <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
-                        {char.points}
-                      </p>
-                    </div>
-                     ))}
+                    {chunk.map((char, charIndex) => (
+                      <div className="test1_card1" key={charIndex}>
+                        <p>{char.title}</p>
+                        <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
+                          {char.points}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </Carousel.Item>
-             
+              ))}
             </Carousel>
           </div>
         ))
@@ -99,6 +104,7 @@ export default function UserTests() {
     </div>
   );
 }
+
 
 /*
 export default function UserTests() {

@@ -432,19 +432,10 @@
   color:#382A4A;
   outline: none !important;
   border-radius: 10px;
-  width: 60%;
+  width: 85% !important;
+  max-height: 30%;
 }
 
-.fristQuestionText{
-  background-color: #9999FF;
-  border: none;
-  text-align: center;
-  font-family: 'Mitr';
-  color:#382A4A;
-  outline: none !important;
-  border-radius: 10px;
-  width: 60%;
-}
 .SKILLS .fristQuestionText{
   background-color: #9999FF;
   border: none;

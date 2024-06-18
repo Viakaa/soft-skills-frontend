@@ -12,7 +12,7 @@ export default function ProfileGraphic() {
   return (
     <>
       <div className="graphic_main">
-      <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+      <div className="mainWrapper" style={{ display: 'flex', justifyContent: 'space-between'}}>
       <Card className='skillsCard' style={{ width: '46%' }}>
         <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Level of soft skills</Card.Header>
         <ListGroup  variant="flush">
