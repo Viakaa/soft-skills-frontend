@@ -132,13 +132,13 @@ function RegistrationForm() {
         </Form.Control>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Course</Form.Label>
+        <Form.Label>Year of Study</Form.Label>
         <Form.Control as="select" value={formData.course} onChange={handleChange} name="course" required>
-          <option value="">Select course</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option value="">Select year</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
 
         </Form.Control>
   
@@ -147,11 +147,15 @@ function RegistrationForm() {
         <Form.Label>Direction</Form.Label>
         <Form.Control as="select" value={formData.direction} onChange={handleChange} name="direction" required>
           <option value="">Select direction</option>
-          <option value="Design">Design</option>
-          <option value="Programming">Programming</option>
-          <option value="QA">QA</option>
-          <option value="Managing">Managing</option>
-          <option value="4">Business Analysis</option>
+          <option value="Web-programming">Web-Programming</option>
+          <option value="Data science">Data Science</option>
+          <option value="Business Analysis">Business Analysis</option>
+          <option value="DevOps">DevOps</option>
+          <option value="Management">Management</option>
+          <option value="Digital Economy">Digital Economy</option>
+          <option value="Digital Marketing and sales">Digital Marketing and Sales</option>
+
+
 
         </Form.Control>
       
