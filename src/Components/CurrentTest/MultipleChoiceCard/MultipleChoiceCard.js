@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Form from "react-bootstrap/Form";
 import Box from "@mui/material/Box";
+import './quest_cards.css'
 
 const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
   const { question: title, answers } = question;
@@ -36,12 +37,17 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
     <>
       <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
-        <input
-          className="fristQuestionText"
-          contenteditable="true"
+        <TextField
+          className="question_wrap"
+          multiline
+          readOnly
+          InputProps={{
+            readOnly: true,
+          }}
           value={title}
           required
           readOnly
+          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 
         <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >

@@ -1,0 +1,19 @@
+.question_wrap{
+    background-color: #9999FF;
+    border: none;
+    text-align: center;
+    color:#382A4A;
+    outline: none !important;
+    border-radius: 10px;
+    width: 85% !important;
+    max-height: 30%;
+    display: flex;
+    justify-content: center;
+}
+.question_wrap .css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input{
+font-weight: 500 !important;
+font-family: 'Mitr';
+text-align: center;
+font-size: 23px;
+padding-top: 5px;
+}

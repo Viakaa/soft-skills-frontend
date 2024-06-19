@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
-
+import { TextField } from "@mui/material";
+import './MultipleChoiceCard/quest_cards.css';
 const SliderCard = ({ question, number, onAnswerChange }) => {
   const { question: title, characteristics,questionId } = question;
 
@@ -19,12 +20,17 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
       <>
           <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
-        <input
-          className="fristQuestionText"
-          contenteditable="true"
+        <TextField
+          className="question_wrap"
+          multiline
+          readOnly
+          InputProps={{
+            readOnly: true,
+          }}
           value={title}
           required
           readOnly
+          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 
         <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >

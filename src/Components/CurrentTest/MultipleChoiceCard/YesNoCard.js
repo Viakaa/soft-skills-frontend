@@ -1,5 +1,7 @@
 import React,{useState} from "react";
 import Button from "@mui/material/Button";
+import './quest_cards.css'
+import { TextField } from "@mui/material";
 
 const YesNoCard = ({ question, number, onAnswerChange }) => {
   const { question: title } = question;
@@ -21,13 +23,17 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
     <>
     <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
-        <input
-          className="fristQuestionText d-flex"
-          contenteditable="true"
+        <TextField
+          className="question_wrap"
+          multiline
+          readOnly
+          InputProps={{
+            readOnly: true,
+          }}
           value={title}
           required
           readOnly
-          
+          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 
         <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >

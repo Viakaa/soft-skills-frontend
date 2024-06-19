@@ -24,12 +24,17 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
     <>
       <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
-        <input
-          className="fristQuestionText"
-          contenteditable="true"
+        <TextField
+          className="question_wrap"
+          multiline
+          readOnly
+          InputProps={{
+            readOnly: true,
+          }}
           value={question.question}
           required
           readOnly
+          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 
         <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >
