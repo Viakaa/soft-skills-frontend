@@ -5,37 +5,41 @@ import axios from "axios";
 import React, {useState, useEffect} from "react";
 
 export default function ProfileGraphic() {
-  const data = [
-    { name: "Skill 1", level: 3 },
-    { name: "Skill 2", level: 9 },
-    { name: "Skill 3", level: 6 },
-    { name: "Skill 4", level: 10 },
-  ];
+
+  const [data, setData] = useState([]);
+
   const [skills, setSkills] = useState([]);
   useEffect(() => {
-  
     const authToken = localStorage.getItem("authToken");
-
     fetchSkills(authToken);
-  });
+  }, []);
 
   const fetchSkills = async (authToken) => {
     try {
       const response = await axios.get(
         "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
         {
-          headers: {Authorization: `Bearer ${authToken}`},
+          headers: { Authorization: `Bearer ${authToken}` },
         }
       );
       const fetchedSkills = response.data.map((skill) => ({
-        id:skill._id,
+        id: skill._id,
         title: skill.type,
-        characteristics: skill.characteristics.map((c) => c.title), //Taking just name of characteristic
+        characteristics: skill.characteristics.map((c) => c.title),
       }));
       setSkills(fetchedSkills);
+      generateData(fetchedSkills);
     } catch (error) {
       console.error("Error fetching skills:", error);
     }
+  };
+
+  const generateData = (skills) => {
+    const newData = skills.map((skill) => ({
+      name: skill.title,
+      level: Math.floor(Math.random() * 11),
+    }));
+    setData(newData);
   };
   return (
     <>
