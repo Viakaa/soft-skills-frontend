@@ -132,13 +132,13 @@ function RegistrationForm() {
         </Form.Control>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Year of Study</Form.Label>
+        <Form.Label>Year of study</Form.Label>
         <Form.Control as="select" value={formData.course} onChange={handleChange} name="course" required>
-          <option value="">Select year</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
+          <option value="">Select year of study</option>
+          <option value="1">2021</option>
+          <option value="2">2022</option>
+          <option value="3">2023</option>
+          <option value="4">2024</option>
 
         </Form.Control>
   

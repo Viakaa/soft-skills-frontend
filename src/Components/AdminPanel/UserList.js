@@ -12,7 +12,7 @@ function UserList() {
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [directionOptions] = useState(['Web', 'Design', 'Programming', 'QA','Managing','Business Analysis']);
+  const [directionOptions] = useState(['Web-programming', 'Data science', 'Business Analysis', 'DevOps','Management','Digital Economy','Digital Marketing and sales']);
   const [editFormData, setEditFormData] = useState({
     firstName: "",
     lastName: "",
