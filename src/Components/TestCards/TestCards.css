@@ -35,6 +35,7 @@
     font-size: 23px !important;
     border-radius: 12px;
     padding:0px;
+    margin-top: auto !important;
   }
 .custom-dropdown .btn::after {
     border-top: 18px solid !important;
