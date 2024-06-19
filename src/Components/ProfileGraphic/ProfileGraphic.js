@@ -1,6 +1,8 @@
 import "./ProfileGraphic.css";
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import axios from "axios";
+import React, {useState, useEffect} from "react";
 
 export default function ProfileGraphic() {
   const data = [
@@ -9,15 +11,41 @@ export default function ProfileGraphic() {
     { name: "Skill 3", level: 6 },
     { name: "Skill 4", level: 10 },
   ];
+  const [skills, setSkills] = useState([]);
+  useEffect(() => {
+  
+    const authToken = localStorage.getItem("authToken");
+
+    fetchSkills(authToken);
+  });
+
+  const fetchSkills = async (authToken) => {
+    try {
+      const response = await axios.get(
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
+        {
+          headers: {Authorization: `Bearer ${authToken}`},
+        }
+      );
+      const fetchedSkills = response.data.map((skill) => ({
+        id:skill._id,
+        title: skill.type,
+        characteristics: skill.characteristics.map((c) => c.title), //Taking just name of characteristic
+      }));
+      setSkills(fetchedSkills);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
   return (
     <>
       <div className="graphic_main">
       <div className="mainWrapper" style={{ display: 'flex', justifyContent: 'space-between'}}>
       <Card className='skillsCard' style={{ width: '46%' }}>
-        <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Level of soft skills</Card.Header>
+        <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Soft Skills</Card.Header>
         <ListGroup  variant="flush">
-          {data.map((item, idx) => (
-            <ListGroup.Item className='skill_item' key={idx}>{item.name}: <span style={{color:'#2A2E46'}}>{item.level}</span></ListGroup.Item>
+          {skills.map((item, idx) => (
+            <ListGroup.Item className='skill_item' key={idx}>{item.title}</ListGroup.Item>
           ))}
         </ListGroup>
       </Card>
