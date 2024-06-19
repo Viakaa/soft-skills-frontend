@@ -111,9 +111,7 @@ export default function TestCards() {
                     {test.title}
                   </Card.Title>
                   <Card.Text style={{ color: "#292E46",textAlign:'center',fontSize:'13px',paddingLeft:'10%',paddingRight:'10%' }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                  Click "Start" to begin the test and discover you soft-skills.
                   </Card.Text>
                   <Button
                     href={`/test/${test.id}`}
