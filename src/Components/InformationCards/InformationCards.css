@@ -17,22 +17,25 @@
 
 .first_inform_card {
     display: flex;
-    gap: 110px;
+    gap: 100px;
     background-color: #FED799;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='gray' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
     border-radius: 20px;
     padding: 36px 47px;
     flex-wrap: wrap !important;
+    width: 45%;
 }
 
 .second_inform_card {
     display: flex;
-    gap: 110px;
+    gap: 100px;
     background-color: #FED799;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='gray' stroke-width='7' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
     border-radius: 20px;
     padding: 36px 47px;
     flex-wrap: wrap !important;
+    width: 45%;
+
 }
 
 .main_text, .details {
@@ -40,7 +43,7 @@
 }
 
 .main_text {
-    font-size: 25px;
+    font-size: 24px;
     font-weight: bold;
 }
 
