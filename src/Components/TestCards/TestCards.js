@@ -107,7 +107,7 @@ export default function TestCards() {
               <Card style={{ width: "23rem",height:'36.5rem', backgroundColor: "white" }}>
                 <Card.Img style={{marginTop:'-2.1%',marginLeft:'-3.4%', width:'107%'}} variant="top" src={FirstTestImage} />
                 <Card.Body className="d-flex flex-column align-items-center">
-                  <Card.Title style={{ color: "#292E46", fontWeight: "500" }}>
+                  <Card.Title style={{ color: "#292E46", fontWeight: "500",textAlign:'center' }}>
                     {test.title}
                   </Card.Title>
                   <Card.Text style={{ color: "#292E46",textAlign:'center',fontSize:'13px',paddingLeft:'10%',paddingRight:'10%' }}>
