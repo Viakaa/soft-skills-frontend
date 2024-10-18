@@ -33,7 +33,6 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
           }}
           value={question.question}
           required
-          readOnly
           style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 

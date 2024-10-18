@@ -15,7 +15,7 @@ const questions = [
 ];
 
 const Question = ({ question, index, value, updateResponse }) => {
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     updateResponse(index, newValue);
   };
 
