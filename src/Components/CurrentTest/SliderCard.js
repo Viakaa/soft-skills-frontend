@@ -29,7 +29,6 @@ const SliderCard = ({ question, number, onAnswerChange }) => {
           }}
           value={title}
           required
-          readOnly
           style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
 

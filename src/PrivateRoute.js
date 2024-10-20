@@ -5,9 +5,10 @@ export default function PrivateRoute({ children }) {
     const authToken = window.localStorage.getItem("authToken");
 
 
-    if (authToken) {
-        return children;
-    } else {
-        return <Navigate to="/login" />;
-    }
+    // if (authToken) {
+    //     return children;
+    // } else {
+    //     return <Navigate to="/login" />;
+    // }
+    return children;
 }
