@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Toast } from "react-bootstrap"; 
-import axios from "axios";
-import { useHistory } from 'react-router';
+// import axios from "axios";
+// import { useHistory } from 'react-router';
 import {useNavigate } from "react-router-dom";
-import authService from '../../Services/authService.js'
+// import authService from '../../Services/authService.js'
 import "./Registration.css";
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { registerUser } from '../../Redux/Actions/userActions.js'; 
 import { useDispatch } from 'react-redux';
 
@@ -162,7 +162,7 @@ function RegistrationForm() {
       </Form.Group>
 
       <Button className='register_button' variant="primary" type="submit">
-        Register
+        Sign up
       </Button>
       <div className='agree_terms'><p>By creating an account, you agree to all terms of use and data collection</p></div>
     </Form>

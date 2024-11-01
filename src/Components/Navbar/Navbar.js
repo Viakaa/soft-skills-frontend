@@ -66,7 +66,7 @@ export default function NavbarMain() {
                     Login
                   </Nav.Link>
                   <Nav.Link className="navbar_link" href="/registration">
-                    Registration
+                    Sign up
                   </Nav.Link>
                 </>
               )}

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const getAllUsers = async () => {
   try {
-      const response = await axios.get("http://ec2-34-239-91-8.compute-1.amazonaws.com/users");
+      const response = await axios.get("http://ec2-13-61-7-222.compute-1.amazonaws.com/users");
       return response.data; //return users data
   } catch (error) {
       console.error("Error retrieving users:", error);
@@ -23,7 +23,7 @@ export const registerUser = (formData) => async (dispatch) => {
       throw new Error("Email already exists. Please use a different email.");
     }*/
 
-    const response = await axios.post("http://ec2-34-239-91-8.compute-1.amazonaws.com/auth/signup", formData);
+    const response = await axios.post("http://ec2-13-61-7-222.compute-1.amazonaws.com/auth/signup", formData);
     dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
     return response.data;
   } catch (error) {
@@ -36,7 +36,7 @@ export const getUserInfo = (userId, token) => async (dispatch) => {
     try {
       const token = localStorage.getItem('authToken');
       const userId = localStorage.getItem('userId');
-      const response = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}`, {
+      const response = await axios.get(`http://ec2-13-61-7-222.compute-1.amazonaws.com/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -62,11 +62,11 @@ function LoginForm() {
 
   return (
     <>
-      <p className="text-center" style={{ color: '#2A2E46', fontSize: "40px", fontFamily: "Mitr"}}>Soft Skills School</p>
+      <p className="text-center" >Soft Skills School</p>
 
     <div className='d-flex justify-content-center'>
 
-      <Form className='registrater_main' onSubmit={handleSubmit}>
+      <Form className='login_main' onSubmit={handleSubmit}>
 
         <Form.Group>
           <Form.Label className="emailLabel">Username</Form.Label>
@@ -107,11 +107,10 @@ function LoginForm() {
         </div>
 
         <Button variant="primary" type="submit" className='register_button'>
-          Sign In
+          Log in
         </Button>
-
         <Button  variant="primary" href='/registration' type="submit" className='register_button2'>
-          Register
+        Sign up
         </Button>
         <div style={{marginBottom:'50px'}}></div>
       </Form>
@@ -122,13 +121,7 @@ function LoginForm() {
         show={showSuccessToast}
         delay={3000}
         autohide
-        style={{
-          position: "fixed",
-          top: 20,
-          right: 20,
-          zIndex: 1000,
-          backgroundColor: "#dff0d8",
-        }}
+        className='success-toast'
       >
         <Toast.Header style={{ backgroundColor: "#5cb85c", color: "white" }}>
           <strong className="me-auto">Login Successful</strong>
@@ -142,13 +135,7 @@ function LoginForm() {
         show={showErrorToast}
         delay={5000}
         autohide
-        style={{
-          position: "fixed",
-          top: 20,
-          right: 20,
-          zIndex: 1000,
-          backgroundColor: "#f8d7da",
-        }}
+        className='error-toast'
       >
         <Toast.Header style={{ backgroundColor: "#d9534f", color: "white" }}>
           <strong className="me-auto">Login Error</strong>
