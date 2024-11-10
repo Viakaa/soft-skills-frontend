@@ -101,72 +101,12 @@ function DNDconstructor() {
     }
   };
 
-
-
   useEffect(() => {
     const savedItems = JSON.parse(localStorage.getItem("dnd-items"));
-    //const savedTitle = localStorage.getItem("dnd-test-title");
-
     if (savedItems) {
       setItems(savedItems);
     }
-    /*if (savedTitle) {
-      setTestTitle(savedTitle);
-    }*/
   }, []);
-
-  /*const handleCreateTest1 = async () => {
-    try {
-      const authToken = localStorage.getItem("authToken");
-
-      // Filter for Yes/No questions only
-      const yesNoQuestions = items.filter(
-        (item) => item.type === ItemTypes.YES_NO_QUESTION
-      );
-
-      const questionPromises = yesNoQuestions.map((question) =>
-        axios.post(
-          "http://ec2-34-239-91-8.compute-1.amazonaws.com/questions",
-          {
-            question: "Question",
-            type: "yes_no",
-            category: "communication",
-            points: 3,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        )
-      );
-
-      // Wait for all questions to be posted
-      const questionResponses = await Promise.all(questionPromises);
-
-      // Extract IDs from the responses
-      const questionIds = questionResponses.map((res) => res.data._id);
-      console.log(questionIds);
-      // Create the test with the question IDs
-      const testResponse = await axios.post(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/tests",
-        {
-          title: testTitle,
-          questions: questionIds,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
-
-      console.log("Test created:", testResponse.data);
-      localStorage.removeItem("dnd-items");
-    } catch (error) {
-      console.error("Error creating test:", error);
-    }
-  };*/
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -174,10 +114,6 @@ function DNDconstructor() {
         <aside className="side-panel">
           <ExampleQuestion1 question="Click and drag this Slider." />
           <DraggableYesNoQuestion content="Drag this 'Yes/No' question format." />
-
-          {/* These are additional draggable components that can be uncommented to use */}
-          {/* <ExampleQuestion2 question="Grab and move this alternative example question." /> */}
-          {/* <ExampleQuestion3 /> */}
           <DraggableRadioButton content="Apply this radio button format by dragging and dropping." />
           <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
           <DraggableSkillSelector content="Select and place the soft skill categories." />

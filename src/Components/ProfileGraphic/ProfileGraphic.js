@@ -17,7 +17,7 @@ export default function ProfileGraphic() {
   const fetchSkills = async (authToken) => {
     try {
       const response = await axios.get(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/soft-skills",
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }

@@ -1,5 +1,23 @@
+import axios from 'axios';
 
-import axios from "axios";
+export const loginUser = (formData) => async (dispatch) => {
+  try {
+    const response = await axios.post('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/signin', formData);
+
+    if (response.data && response.data.token) {
+      localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem('userId', response.data._id);
+      dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+
+      return response.data;
+    } else {
+      throw new Error('Помилка авторизації.');
+    }
+  } catch (error) {
+    dispatch({ type: 'LOGIN_FAIL', payload: error.message || 'Помилка авторизації.' });
+    throw error;
+  }
+};
 
 const getAllUsers = async () => {
   try {
