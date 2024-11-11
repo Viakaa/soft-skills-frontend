@@ -1,0 +1,51 @@
+{
+    "Coordinator": {
+      "description": "A distinctive feature of Coordinators is the ability to get others to work on distributed goals. Mature, experienced, and confident, the Coordinator is eager to give out assignments. In interpersonal relationships, they are quick to recognize individual aptitudes and talents and use them wisely to achieve the team's goal. They are not necessarily the smartest members of the team, but people with a broad outlook and experience who are universally respected by the team. They perform well when leading a team of people with different skills and personalities. They work better with colleagues of equal rank or position than with lower-level employees. Their motto may be “consultation with control”. They believe that problems can be solved peacefully. In some companies, Coordinators may get into conflicts because of differences of opinion with the Creators.",
+      "strengths": "Maturity, confidence, good leadership, encourages decision-making, delegates authority",
+      "weaknesses": "Often perceived as a manipulator",
+      "position": "Managing position"
+    },
+    "Expert": {
+      "description": "They are very serious and prudent people with an innate immunity to excessive enthusiasm. They are slow to make decisions and prefer to think things through. They are able to think critically. They are able to be insightful in their opinions, taking into account all factors. Experts are rarely wrong. Experts are best suited to analyze problems and evaluate ideas and proposals. They are good at weighing the pros and cons of proposed options. Compared to others, Experts seem callous, boring, and overly critical. Some wonder how they manage to become leaders. Nevertheless, many Experts hold strategic positions and succeed in senior positions. Very rarely does the success or failure of a business depend on making hasty decisions. This is an ideal “sphere” for Experts, people who are rarely wrong and ultimately win.",
+      "strengths": "Moderation, strategy, insight. Sees all the possibilities. Able to give an accurate and objective assessment",
+      "weaknesses": "Lack of assertiveness, inability to inspire others.",
+      "position": "Expert"
+    },
+    "Creator": {
+      "description": "As a rule, Creators are pronounced extroverts with strong assertiveness. They like to challenge others, their goal is to win. They like to lead others and push them to take action. If obstacles arise, they quickly find workarounds. Self-willed and stubborn, confident and assertive, they tend to respond emotionally to any form of disappointment or plan failure. They are goal-oriented and like to argue. But they often lack simple human understanding. Their role is the most competitive in the team. They usually make good leaders because they know how to generate action and work well under pressure. They can easily inspire a team, and are very useful in groups with different views, as they are able to tame passions. Creators are able to rise above problems of any kind, continuing to lead despite them. They can easily make the necessary changes and are not afraid to take unconventional solutions. True to their name, they try to impose certain patterns or forms of behavior and activity on the group. They are the most effective team members who can guarantee positive action",
+      "strengths": "Creativity, originality, out-of-the-box thinking.",
+      "weaknesses": "A tendency to provoke. Humiliates feelings of others.",
+      "position": "Middle manager"
+    },
+    "Idea Generator": {
+      "description": "Idea generators are innovators and inventors and can be very creative. They sow the seeds and ideas from which most developments and projects sprout. They usually prefer to work independently, separating themselves from other team members, using their imagination and often following an unconventional path. They tend to be introverted and react strongly to both criticism and praise. Often their ideas are radical and lack practicality. They are independent, intelligent, and original, but can be weak in communicating with people of a different level or direction.The main function of Idea Generators is to create new proposals and solve complex problems. They are very necessary at the initial stages of projects or when the project is at risk of failure. They are usually the founders of companies or organizers of new industries. However, a large number of Idea Generators in one company can be counterproductive, as they tend to spend time reinforcing their own ideas and coming into conflict with each other.",
+      "strengths": "Motivation, enthusiasm, idea generation.",
+      "weaknesses": "Can be overly optimistic or lose focus on practical details.",
+      "position": "Founder of the company"
+    },
+    "Researcher": {
+      "description": "Researchers are often enthusiastic and bright extroverts. They know how to communicate with people inside and outside the company. They are born to negotiate, explore new opportunities, and establish contacts. Although they are not generators of original ideas, they very easily pick up the ideas of others and develop them. They recognize very easily what is available and what can still be done. They are usually very warmly received in the team due to their open-minded nature. They are always open and curious, ready to find opportunities in everything new. But, if they are not stimulated by others, their enthusiasm quickly diminishes. They respond very well to new ideas and developments and can find resources outside the group. They are the most appropriate people to establish external contacts and conduct further negotiations. They are able to think for themselves while receiving information from others.",
+      "strengths": "Networking, curiosity, resourcefulness.",
+      "weaknesses": "May lack follow-through or be easily distracted.",
+      "position": "Head of the supply department"
+    },
+    "Diplomat": {
+      "description": "These are the people who enjoy the most support from the team. They are very polite and sociable. They can be flexible and adapt to any situation and different people. Diplomats are very diplomatic and receptive. They know how to listen to others and empathize, and are very popular in the team. They rely on sensitivity in their work, but may have difficulty making decisions in urgent and emergency situations. The role of Diplomats is to prevent interpersonal problems that arise in the team, and therefore it allows all team members to work effectively. Avoiding problems, they will go to great lengths to avoid them. They do not often become leaders, especially if their immediate superior is subordinate to the Creator. This creates a climate in which the diplomacy and receptivity of this type of person is a real asset to the team, especially in a management style where conflicts can arise and must be artificially suppressed. Such people as leaders do not pose a threat to anyone and are therefore always desirable for subordinates. ",
+      "strengths": "Conflict resolution, empathy, reliability.",
+      "weaknesses": "May avoid confrontation and struggle with making tough decisions.",
+      "position": "Communications Manager"
+    },
+    "Implementer": {
+      "description": "Implementers are characterized by practical common sense and a good sense of self-control and discipline.They like hard work and overcoming problems in a systematic way. To a greater extent, Implementers are typical individuals whose loyalty and interest are aligned with the company's values. They are less focused on pursuing their own interests. However, they may lack spontaneity and can be rigid and unyielding.They are very useful to the company due to their reliability and diligence. They succeed because they are very efficient and can clearly identify what is feasible and relevant. It is said that many doers do only the work they want to do and neglect tasks they find unpleasant. Implementers, on the other hand, will do what is necessary for the business. Good Implementers are often promoted to high positions in management due to their good organizational skills and competence in dealing with all important issues.",
+      "strengths": "creativity, imagination, originality, uniqueness, solves complex problems.",
+      "weaknesses": "Ignores randomness, too busy to share information effectively.",
+      "position": "Wholesale trade agent"
+    },
+    "Specialist": {
+      "description": "These are individuals who are proud of their technical skills and abilities in a narrow field. Their priorities are to provide professional services, assistance and advancement in their field of activity. Being professional in their subject, they are rarely interested in the affairs of others. They may become experts by following their own standards and working on a narrow range of specific problems. In general, there are few people who are unconditionally committed to their work and strive to become first-class specialists. Specialists play their specific role in the team due to their rare skills, on which the company's service or production is based. As leaders, they are respected because they know much more about their subject than anyone else and are usually forced to make decisions based on their deep experience.",
+      "strengths": "Commitment, quality focus, expertise.",
+      "weaknesses": "May be overly critical or set unrealistic standards.",
+      "position": "Senior sales agent"
+    }
+  }
+  
