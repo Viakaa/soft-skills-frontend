@@ -62,6 +62,13 @@
         justify-content: center !important;
         text-align: center !important;
         gap: 50px !important;
+        display: none;
+    }
+
+    .information_main{
+        padding: 0;
+    padding-left: 0;
+    padding-right: 0;
     }
 }
 
@@ -77,5 +84,7 @@
         justify-content: center !important;
         text-align: center !important;
         gap: 50px !important;
+        display: none;
+
     }
 }
