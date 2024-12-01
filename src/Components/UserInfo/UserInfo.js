@@ -1,9 +1,8 @@
 import "./UserInfo.css";
 import avatar from "../../Assets/Images/avatar.png";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserInfo } from '../../Redux/Actions/userActions.js';
-import axios from "axios";
 
 export default function UserInfo() {
   const Skeleton = () => (
@@ -34,67 +33,38 @@ export default function UserInfo() {
             <div class="col-md-3 border-right">
               <div class="d-flex flex-column align-items-center text-center p-3 ">
                 <img
-                  class="rounded-circle  "
+                  class="avatar"
                   src={avatar}
                 />
-                <span style={{marginTop:'10px', color:'white'}} class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
+                <span class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
               </div>
             </div>
             <div class="col-md-4 border-right ">
               <div class="p-4 ">
-              <div className='basic_info'>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <label class="labels">{userInfo.direction}</label>
-                  
-                  </div>
-                  <div class="col-md-12">
-                    <label class="labels">Course: {userInfo.course}</label>
-             
-                  </div>
-                  <div class="col-md-12">
-                    <label class="labels">Sex: {userInfo.sex}</label>
-             
-                  </div>
-                  <div class="col-md-12">
-                    <label class="labels">Some other information</label>
-             
-                  </div>
-                  </div>
-
-                </div>
-                <div style={{marginTop:'30px'}} className='basic_info'>
-                <div class="row">
-                
-                  <div class="col-md-12">
-                    <label class="labels">Test B Result</label>
-                
-                  </div>
-                  
-                </div>
-                </div>
-                
-              </div>
-            </div>
-            <div class="col-md-5">
-              <div class="p-4">
-
-              <div  className='basic_info'>
-                <div class="row">
-                
-                  <div class="col-md-12">
-                    <label class="labels">{userInfo.email}</label>
-                  </div>
-                </div>
-                </div>
-                <div style={{marginTop:'20%'}} class="row text-center">
-              </div>
-              {/*
-                <div>
-                  <button className='change_password_btn'>Change Password</button>
-  </div>*/}
-              </div>
+              <div className="basic_info">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="info">
+        <label class="labels">Role in the team:</label>
+        <span class="infotext">{userInfo.direction}</span>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="info">
+        <label class="labels">Course:</label>
+        <span class="infotext">{userInfo.course}</span>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="info">
+        <label class="labels">Email:</label>
+        <span class="infotext">{userInfo.email}</span>
+      </div>
+    </div>
+  </div>
+</div>
+                </div> 
+              
             </div>
           </div>
         </div>

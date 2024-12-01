@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
+import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import DNDcons from "./Components/DNDconstructor/DNDcons1";
 
@@ -56,6 +57,7 @@ function App() {
           <Route path="/test/:id" element={<TestPage />} />
 
           <Route path="/belbin" element={<BelbinTest />} />
+          <Route path="/belbinresult" element={<BelbinResult />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

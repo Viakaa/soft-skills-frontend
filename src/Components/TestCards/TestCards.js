@@ -62,32 +62,10 @@ export default function TestCards() {
     <>
       <div className="testcards_main">
         <div className="d-flex justify-content-between">
-          <p
-            style={{
-              color: "#292E46",
-              backgroundColor: "white",
-              textAlign: "center",
-              padding: "4px 0px",
-              borderRadius: "12px",
-              fontWeight: "500",
-              fontSize: "40px",
-              width: "30%",
-              border:'2px solid black',
-            }}
-          >
+          <p className="testcard_text">
             Test Finished: {userInfo.tests.length}
           </p>
-          <p
-            style={{
-              color: "white",
-              textAlign: "center",
-              padding: "12px 0px",
-              borderRadius: "12px",
-              fontWeight: "500",
-              fontSize: "36px",
-              width: "30%",
-            }}
-          >
+          <p className="testcards_test_text">
             Tests
           </p>
           <div

@@ -4,6 +4,33 @@
     width: 100% !important;
 }
 
+.graph_card{
+    width:46%;
+
+}
+
+.testcard_text{
+    color: "#292E46";
+    background-color: white;
+    text-align: center;
+    padding: 4px 0px;
+    border-radius:12px;
+    font-weight: 500;
+    font-size: 40px;
+    width: 30%;
+    border:2px solid black;
+}
+
+.testcards_test_text{
+    color: white;
+    text-align: center;
+    padding: 12px 0px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 36px;
+    width: 30%;
+}
+
 .cards_wrapper {
     margin-top: 50px;
     max-width: 1520px;
@@ -77,3 +104,39 @@
 }
 
   
+@media only screen and (max-width: 600px) {
+    .graph_card{
+        height: 330px;
+        width:80%;
+        margin-left:10%
+    }
+    .card-header,.testcard_text{
+        font-size:25px !important;
+    }
+
+    .mainWrapper{
+        flex-direction: column;
+        gap: 30px
+    }
+
+    .testcards_test_text{
+        font-size:25px !important
+    }
+   
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+    .graph_card{
+        height: 350px;
+        width:80%;
+        margin-left:10%
+    }
+    .card-header{
+        font-size:25px !important;
+    }
+
+    .mainWrapper{
+        flex-direction: column;
+        gap: 30px
+    }
+}

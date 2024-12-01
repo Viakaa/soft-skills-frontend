@@ -1,6 +1,6 @@
+
 .main_wrapper {
-    background-color: rgba(255, 214, 153, 1);
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(179, 150, 107, 1)' stroke-width='6' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
+    background-color: #9999FF;
     max-width: 1320px;
     margin: 0 auto;
     border-radius: 20px;
@@ -9,6 +9,7 @@
     flex-direction: column;
     gap: 35px;
 }
+
 
 .test1 {
     background-color: rgba(248, 251, 255, 1);
@@ -23,7 +24,7 @@
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  filter: invert(1); 
+    filter: invert(1);
 }
 
 .carousel-control-prev-icon {
@@ -33,7 +34,6 @@
 .carousel-control-next-icon {
     margin-left: 140px;
 }
-
 
 .test1_label {
     background-color: rgba(255, 214, 153, 1);
@@ -59,4 +59,40 @@
     border-radius: 10px;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='15' ry='15' stroke='rgba(137, 107, 179, 1)' stroke-width='6' stroke-dasharray='3%2c8%2c10%2c18' stroke-dashoffset='42' stroke-linecap='round'/%3e%3c/svg%3e");
     padding: 6px 50px 0px 50px;
+}
+
+@media only screen and (max-width: 768px) {
+    .main_wrapper {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .test1 {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .test1_label {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    .test1_cards {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .test1_card1, .test1_card2, .test1_card3, .test1_card4 {
+        padding: 10px 20px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        margin: 0;
+        transform: scale(0.8);
+    }
 }
