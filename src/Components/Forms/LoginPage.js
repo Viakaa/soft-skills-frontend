@@ -16,6 +16,8 @@ function LoginForm() {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  
+  const [emails, setEmails] = useState([]);
 
   //handle inputs changes
   const handleChange = (e) => {
@@ -31,33 +33,48 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('http://ec2-34-239-91-8.compute-1.amazonaws.com/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userId', data._id);
-        //show toast
-        setShowSuccessToast(true);
-        setTimeout(() => {
-          navigate("/profile");
-        }, 1500); 
-      } else {
-        //credentials error 
-        setErrorMessage('Error during authentication. Please check your credentials.');
-        setShowErrorToast(true); 
-      }
-    } catch (error) {
-      setErrorMessage('An unexpected error occurred. Please try again.');
-      setShowErrorToast(true); 
+    const obj = { email: formData.email, password: formData.password };
+  
+    const isEmailRegistered = emails.some(item => item.email === obj.email);
+  
+    if (isEmailRegistered) {
+      console.log("This email is already registered");
+      throw new Error("This Email is already registered");
+    } else {
+      setEmails([...emails, obj]); 
+      console.log("Email registered successsfully");
     }
+  
+    console.log(emails);
+
+
+    // try {
+    //   const response = await fetch('http://ec2-34-239-91-8.compute-1.amazonaws.com/auth/signin', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     localStorage.setItem('authToken', data.token);
+    //     localStorage.setItem('userId', data._id);
+    //     //show toast
+    //     setShowSuccessToast(true);
+    //     setTimeout(() => {
+    //       navigate("/profile");
+    //     }, 1500); 
+    //   } else {
+    //     //credentials error 
+    //     setErrorMessage('Error during authentication. Please check your credentials.');
+    //     setShowErrorToast(true); 
+    //   }
+    // } catch (error) {
+    //   setErrorMessage('An unexpected error occurred. Please try again.');
+    //   setShowErrorToast(true); 
+    // }
   };
 
   return (
