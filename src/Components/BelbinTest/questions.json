@@ -1,6 +1,6 @@
 [
     {
-      "category": "WHAT CAN I OFFER THE TEAM?",
+      "block": "WHAT CAN I OFFER THE TEAM?",
       "limit": 10,
       "questions": [
         "1. I am capable of involving people whom I believe can make a great contribution to achieving team goals",
@@ -14,7 +14,7 @@
       ]
     },
     {
-      "category": "WHAT CHARACTERIZES ME AS A TEAM MEMBER?",
+      "block": "WHAT CHARACTERIZES ME AS A TEAM MEMBER?",
       "limit": 10,
       "questions": [
         "1. I tend to rely on people who can articulate their viewpoints effectively, even before those views are fully discussed",
@@ -28,7 +28,7 @@
       ]
     },
     {
-        "category": "WHEN I WORK WITH OTHERS ON A PROJECT",
+        "block": "WHEN I WORK WITH OTHERS ON A PROJECT",
         "limit": 10,
         "questions": [
         "1. I can influence others well, without exerting strong pressure",
@@ -42,7 +42,7 @@
         ]
       },
       {
-        "category": "MY ATTITUDE AND INTEREST IN GROUP WORK",
+        "block": "MY ATTITUDE AND INTEREST IN GROUP WORK",
         "limit": 10,
         "questions": [
           "1. I do not have difficulties making decisions, although I am always open to different points of view",
@@ -56,7 +56,7 @@
         ]
       },
       {
-        "category": "I DERIVE SATISFACTION FROM WORK BECAUSE...",
+        "block": "I DERIVE SATISFACTION FROM WORK BECAUSE...",
         "limit": 10,
         "questions": [
         "1. I can persuade people of the necessity of a certain course of action",
@@ -70,7 +70,7 @@
         ]
       },
       {
-        "category": "WHEN THE TASK IS DIFFICULT AND UNFAMILIAR",
+        "block": "WHEN THE TASK IS DIFFICULT AND UNFAMILIAR",
         "limit": 10,
         "questions": [
         "1. I try to make the task easier by finding people in the group who can take on part of the problem-solving",
@@ -84,7 +84,7 @@
         ]
       },
       {
-        "category": "PROBLEMS THAT ARISE WHEN WORKING IN GROUPS",
+        "block": "PROBLEMS THAT ARISE WHEN WORKING IN GROUPS",
         "limit": 10,
         "questions": [
         "1. I know that I demand from others what I myself cannot perform",
