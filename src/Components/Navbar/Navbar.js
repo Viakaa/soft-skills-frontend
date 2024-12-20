@@ -9,8 +9,8 @@ import UserIcon from "../../Assets/Images/UserIcon.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, getUserInfo } from "../../Redux/Actions/userActions";
 import React, { useEffect, useState } from "react";
-import NotificationSidebar from "../Notification/Notifications";
-import NotificationIcon from "../../Assets/Images/notification.png"
+import NotificationSidebar from "../Notifications/Notifications";
+import NotificationIcon from "../../Assets/Images/notifications.png"
 
 const NavbarMain = () => {
   const dispatch = useDispatch();
