@@ -8,13 +8,21 @@ import "./Navbar.css";
 import UserIcon from "../../Assets/Images/UserIcon.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, getUserInfo } from "../../Redux/Actions/userActions";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import NotificationSidebar from "../Notification/Notifications";
+import NotificationIcon from "../../Assets/Images/notification.png"
 
-export default function NavbarMain() {
+const NavbarMain = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const isLoggedIn = Boolean(userInfo);
   const isAdmin = userInfo?.role === 'ADMIN';
+
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const openSidebar = () => setIsSidebarVisible(true);
+  const closeSidebar = () => setIsSidebarVisible(false);
+
 
   const handleLogout = () => {
     dispatch(logout());
@@ -61,21 +69,27 @@ export default function NavbarMain() {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
+     
             {isLoggedIn ? (
-              <div>
-               <Nav.Link className="navbar_link_end" onClick={handleLogout}>
-                <img
-                  style={{ width: "45px", marginRight: "5px" }}
-                  src={UserIcon}
-                  alt="User Icon"
-                />
-                Logout
-              </Nav.Link>
-              </div>
+                 <>
+                 <div className="notification" onClick={openSidebar}>
+                   <img id="notification-icon" src={NotificationIcon} />
+                 </div>
+                 <div>
+                   <Nav.Link className="navbar_link_end" onClick={handleLogout}>
+                     <img style={{ width: "45px", marginRight: "5px" }} src={UserIcon} alt="User Icon" />
+                     Logout
+                   </Nav.Link>
+                 </div>
+               </>
+               
             ) : null}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </div>
+          
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+    <NotificationSidebar isVisible={isSidebarVisible} onClose={closeSidebar} />
+  </div>
   );
 }
+export default NavbarMain;

@@ -55,3 +55,25 @@ Nav .navbar_link
         border-radius: 0;
     }
 }
+
+#notification-icon{
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+}
+
+.notification{
+    margin-right: 10px;
+    border-radius: 10px;
+    display: flex
+;
+    height: 40px;
+    background-color: white;
+    width: 55px;
+    align-items: center;
+    justify-content: center;
+}
