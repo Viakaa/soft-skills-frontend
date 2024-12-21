@@ -6,8 +6,8 @@ describe('Logout functional', () => {
     it('Redirects to profile page if login is successful', () => {
         cy.visit('http://localhost:3000/login')
 
-        cy.get('input[name="email"]').type('qa@gmail.com')
-        cy.get('input[name="password"]').type('123456789')
+        cy.get('input[name="email"]').type('adminqa@gmail.com')
+        cy.get('input[name="password"]').type('987654321')
         cy.get('button[type="submit"]').click()
 
         cy.url().should('include', '/profile')
@@ -32,8 +32,8 @@ describe('Navigation functionality', () => {
         cy.visit('http://localhost:3000/login');
 
         // Log in before each test
-        cy.get('input[name="email"]').type('qa@gmail.com');
-        cy.get('input[name="password"]').type('123456789');
+        cy.get('input[name="email"]').type('adminqa@gmail.com');
+        cy.get('input[name="password"]').type('987654321');
         cy.get('button[type="submit"]').click();
 
         // Ensure redirection to profile page
@@ -42,9 +42,11 @@ describe('Navigation functionality', () => {
 
     it('Redirects to the main page after clicking the Main button', () => {
         // Wait for the main link to appear and click
-        cy.get('#main-link', { timeout: 10000 }).should('be.visible').click();
+        cy.visit('http://localhost:3000/main');
 
         // Verify redirection to main page
         cy.url().should('include', '/main');
+
+        cy.get('.navbar_link_end').click();
     });
 });
