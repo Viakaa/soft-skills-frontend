@@ -52,8 +52,8 @@ const NavbarMain = () => {
               )}
               {isAdmin && (
                 <NavDropdown className='navbar_link' title="Admin" id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="/adminpanel">Admin Panel</NavDropdown.Item>
-                  <NavDropdown.Item href="/test_constructor">Constructor</NavDropdown.Item>
+                  <NavDropdown.Item id="adminpanel" href="/adminpanel">Admin Panel</NavDropdown.Item>
+                  <NavDropdown.Item id ="constructor" href="/test_constructor">Constructor</NavDropdown.Item>
                 </NavDropdown>
               )}
               {!isLoggedIn && (

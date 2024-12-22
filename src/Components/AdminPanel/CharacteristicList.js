@@ -87,7 +87,7 @@ function ManageSkills() {
       <div className="manageTable">
         <h1 className="manageTable__title">Characteristics</h1>
         
-        <button type="button" className="manageTable__add" onClick={handleShowModal}>
+        <button type="button" id="add_characteristic" className="manageTable__add" onClick={handleShowModal}>
           <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
             <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
@@ -121,6 +121,7 @@ function ManageSkills() {
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
+                name="characteristic_input"
                 type="text"
                 placeholder="Enter characteristic title"
                 value={newCharacteristic}
