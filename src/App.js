@@ -13,6 +13,7 @@ import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import DNDcons from "./Components/DNDconstructor/DNDcons1";
+import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
 
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
@@ -28,6 +29,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/adminnotifications" element={<NotificationForm />} />
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
 

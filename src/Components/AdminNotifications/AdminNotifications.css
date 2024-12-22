@@ -1,0 +1,129 @@
+.notification-form {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 2px solid #9999FF;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.header .active {
+  background-color: #ccc;
+}
+
+h1 {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease; 
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none; 
+  border-color: #9999FF; 
+}
+
+textarea {
+  resize: none;
+}
+
+.user-list,
+.added-users {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.user-item,
+.added-user {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.user-list h3,
+.added-users h3 {
+  margin: 0 0 10px;
+  margin-right: 430px;
+}
+
+.user-list h3 {
+  margin-right: 500px;
+}
+
+.picture-upload {
+  display: flex;
+  gap: 10px;
+}
+
+.picture-preview {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.picture-preview {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.remove-picture-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: black;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
