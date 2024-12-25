@@ -1,77 +1,89 @@
-import React, { useState } from "react";
-import belbinData from "./questions.json";
-import "./BelbinTest.css"; 
+import React, { useEffect, useState } from "react";
 
-const App = () => {
-  const [questions, setQuestions] = useState(
-    belbinData.map((block) => ({
-      ...block,
-      questions: block.questions.map((q) => ({ text: q, points: 0 })), 
-    }))
-  );
+const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests/67320c98e3d58089a93379db"; 
 
-  const calculateTotalPoints = (blockIndex) =>
-    questions[blockIndex].questions.reduce((sum, q) => sum + q.points, 0);
+const BelbinTest = () => {
+  const [test, setTest] = useState(null);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM1MTQ3MzA1LCJleHAiOjE3MzUyMzM3MDV9.4G8s1xifHLuKULnUXOmpAakXzox0_YJdBhmnsPmKUnI"; // JWT token
 
-  const countFilledQuestions = (blockIndex) =>
-    questions[blockIndex].questions.filter((q) => q.points > 0).length;
+  useEffect(() => {
+    const fetchTest = async () => {
+      try {
+        const response = await fetch(API_URL, { 
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  const handleChangePoints = (blockIndex, questionIndex, value) => {
-    const newQuestions = [...questions];
-    const currentBlock = newQuestions[blockIndex];
+        if (!response.ok) {
+          throw new Error(`Failed to fetch test: ${response.statusText}`);
+        }
 
-    const totalPoints = calculateTotalPoints(blockIndex);
-    const currentPoints = currentBlock.questions[questionIndex].points;
-    const filledCount = countFilledQuestions(blockIndex);
+        const data = await response.json();
+        setTest(data); 
+      } catch (err) {
+        setError(err.message); 
+      } finally {
+        setLoading(false); 
+      }
+    };
 
-    const isAssigningPoints = value > 0 && currentPoints === 0; 
-    if (
-      value >= 0 &&
-      totalPoints - currentPoints + value <= currentBlock.limit &&
-      (!isAssigningPoints || filledCount < 4)
-    ) {
-      newQuestions[blockIndex].questions[questionIndex].points = value;
-      setQuestions(newQuestions);
-    }
+    fetchTest();
+  }, []); 
+
+  const handleChangePoints = (questionIndex, value) => {
+    if (!test) return;
+
+    const updatedQuestions = [...test.questions];
+    updatedQuestions[questionIndex].points = value;
+
+    setTest({
+      ...test,
+      questions: updatedQuestions,
+    });
   };
+
+  if (loading) {
+    return <div>Loading test...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="test-container">
-      <h1>Belbin Team Roles Test</h1>
-      {questions.map((block, blockIndex) => (
-        <div className="question-block" key={blockIndex}>
-          <h2>{block.block}</h2>
-          {block.questions.map((question, questionIndex) => (
-            <div className="question" key={questionIndex}>
-              <p>{question.text}</p>
-              <div className="input-group">
-                <input
-                  type="number"
-                  value={question.points}
-                  onChange={(e) =>
-                    handleChangePoints(
-                      blockIndex,
-                      questionIndex,
-                      parseInt(e.target.value) || 0
-                    )
-                  }
-                  min="0"
-                  max="10"
-                />
-              </div>
-            </div>
-          ))}
-          <div className="summary">
-            <p>
-              Total Points for {block.block}: {calculateTotalPoints(blockIndex)}{" "}
-              / {block.limit}
-            </p>
+      <h1>{test.title}</h1>
+      {test.questions.length === 0 ? (
+        <p>No questions available for this test.</p>
+      ) : (
+        test.questions.map((question, index) => (
+          <div className="question" key={question._id}>
+            <p>{question.text || `Question ${index + 1}`}</p>
+            <input
+              type="number"
+              value={question.points || 0}
+              min="0"
+              max="10"
+              onChange={(e) =>
+                handleChangePoints(index, parseInt(e.target.value) || 0)
+              }
+            />
           </div>
-        </div>
-      ))}
+        ))
+      )}
+      <div className="summary">
+        <p>
+          Total Points:{" "}
+          {test.questions.reduce((sum, q) => sum + (q.points || 0), 0)}
+        </p>
+      </div>
     </div>
   );
 };
 
-export default App;
-
+export default BelbinTest;

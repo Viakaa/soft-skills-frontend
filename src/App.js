@@ -20,6 +20,7 @@ import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
 import Article1 from './Components/Articles/ArticleTeamwork.js';
 import Article2 from './Components/Articles/ArticleChangeLife.js';
+import UserGrid from './Components/AllUsers/AllUsers.js'
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
           <Route path="/adminnotifications" element={<NotificationForm />} />
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
+          <Route path="/allusers" element={<UserGrid />}/>
+
 
           <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />

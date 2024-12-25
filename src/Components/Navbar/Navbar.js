@@ -1,16 +1,16 @@
+import React, { useEffect, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, getUserInfo } from "../../Redux/Actions/userActions";
+import "./Navbar.css";
+import NotificationSidebar from "../Notifications/Notifications";
+import UserIcon from "../../Assets/Images/UserIcon.svg";
+import NotificationIcon from "../../Assets/Images/notifications.png";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import "./Navbar.css";
-import UserIcon from "../../Assets/Images/UserIcon.svg";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, getUserInfo } from "../../Redux/Actions/userActions";
-import React, { useEffect, useState } from "react";
-import NotificationSidebar from "../Notifications/Notifications";
-import NotificationIcon from "../../Assets/Images/notifications.png"
 
 const NavbarMain = () => {
   const dispatch = useDispatch();
@@ -19,14 +19,18 @@ const NavbarMain = () => {
   const isAdmin = userInfo?.role === 'ADMIN';
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
-  const openSidebar = () => setIsSidebarVisible(true);
-  const closeSidebar = () => setIsSidebarVisible(false);
+  const openSidebar = useCallback(() => setIsSidebarVisible(true), []);
+  const closeSidebar = useCallback(() => setIsSidebarVisible(false), []);
 
+  const handleUnreadCountChange = useCallback((count) => {
+    setUnreadCount(count);
+  }, []);  
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(logout());
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -36,11 +40,7 @@ const NavbarMain = () => {
 
   return (
     <div className="navbar_main">
-      <Navbar
-        expand="lg"
-        style={{ height: "auto" }}
-        className="bg-body-tertiary navbar text-center"
-      >
+      <Navbar expand="lg" className="bg-body-tertiary navbar text-center">
         <Container fluid>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -51,9 +51,9 @@ const NavbarMain = () => {
                 </Nav.Link>
               )}
               {isAdmin && (
-                <NavDropdown className='navbar_link' title="Admin" id="navbarScrollingDropdown">
-                  <NavDropdown.Item id="adminpanel" href="/adminpanel">Admin Panel</NavDropdown.Item>
-                  <NavDropdown.Item id ="constructor" href="/test_constructor">Constructor</NavDropdown.Item>
+                <NavDropdown className="navbar_link" title="Admin" id="navbarScrollingDropdown">
+                  <NavDropdown.Item href="/adminpanel">Admin Panel</NavDropdown.Item>
+                  <NavDropdown.Item href="/test_constructor">Constructor</NavDropdown.Item>
                 </NavDropdown>
               )}
               {!isLoggedIn && (
@@ -69,27 +69,39 @@ const NavbarMain = () => {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-     
-            {isLoggedIn ? (
-                 <>
-                 <div className="notification" onClick={openSidebar}>
-                   <img id="notification-icon" src={NotificationIcon} />
-                 </div>
-                 <div>
-                   <Nav.Link className="navbar_link_end" onClick={handleLogout}>
-                     <img style={{ width: "45px", marginRight: "5px" }} src={UserIcon} alt="User Icon" />
-                     Logout
-                   </Nav.Link>
-                 </div>
-               </>
-               
-            ) : null}
-          
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-    <NotificationSidebar isVisible={isSidebarVisible} onClose={closeSidebar} />
-  </div>
+  {isLoggedIn && (
+    <>
+      <div className="notification" onClick={openSidebar} style={{ position: "relative" }}>
+        <img id="notification-icon" src={NotificationIcon} alt="Notification Icon" />
+        {unreadCount > 0 && (
+          <span className="notification-badge">{unreadCount}</span>
+        )}
+      </div>
+
+      <div 
+        className="user-profile" 
+        onClick={() => window.location.href = "/profile"} 
+        style={{ cursor: "pointer", marginRight: "10px" }}
+      >
+        <img style={{ width: "45px", borderRadius: "25%",backgroundColor: "white" }} src={UserIcon} alt="User Icon" />
+      </div>
+
+      <Nav.Link className="navbar_link_end" onClick={handleLogout} style={{ width: "85px",backgroundColor: "white" }}>
+        Logout
+      </Nav.Link>
+    </>
+  )}
+</Navbar.Collapse>
+
+        </Container>
+      </Navbar>
+      <NotificationSidebar 
+        isVisible={isSidebarVisible} 
+        onClose={closeSidebar} 
+        onUnreadCountChange={handleUnreadCountChange} 
+      />
+    </div>
   );
-}
+};
+
 export default NavbarMain;

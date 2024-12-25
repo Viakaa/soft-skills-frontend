@@ -14,12 +14,20 @@ const NotificationForm = () => {
     fullDescription: "",
     picture: null,
   });
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users")
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM0OTY2ODI4LCJleHAiOjE3MzUwNTMyMjh9.Iyj4mxC6HlzpxPcINORzXBcsOliTZCX0xrwJ43jlhqo";
+  
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);  
+        console.log(data);
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
@@ -34,6 +42,7 @@ const NotificationForm = () => {
         setUsers([]);
       });
   }, []);
+  
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -114,14 +123,15 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>Date of event:</label>
-        <input
-          type="datetime-local"
-          name="dateOfEvent"
-          value={formData.dateOfEvent}
-          onChange={handleInputChange}
-        />
-      </div>
+  <label>{formData.type === "Test Invitation" ? "Deadline:" : "Date of event:"}</label>
+  <input
+    type="datetime-local"
+    name="dateOfEvent"
+    value={formData.dateOfEvent}
+    onChange={handleInputChange}
+  />
+</div>
+
 
       <div className="form-group">
         <label>Recipients:</label>
@@ -236,7 +246,6 @@ const NotificationForm = () => {
         </div>
       </div>
 
-      {/* Form Actions */}
       <div className="form-actions">
         <button onClick={handleClearForm}>Clear Form</button>
         <button>Save</button>

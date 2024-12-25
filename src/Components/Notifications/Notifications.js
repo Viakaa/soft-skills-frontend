@@ -1,16 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import './Notifications.css'; 
-import HistoryIcon from '../../Assets/Images/history.png'
+import React, { useEffect, useState, useCallback, memo } from 'react';
+import './Notifications.css';
+import HistoryIcon from '../../Assets/Images/history.png';
 
-const NotificationSidebar = ({ isVisible, onClose }) => {
+let eventSourceInstance;
+
+function getEventSource() {
+  if (!eventSourceInstance) {
+    eventSourceInstance = new EventSource('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/notifications/stream');
+  }
+  return eventSourceInstance;
+}
+
+const NotificationSidebar = ({ isVisible, onClose, onUnreadCountChange }) => {
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
-
-  const exampleNotifications = [
-    { sender: 'John Doe', theme: 'New Update', time: '14:30', date: '12/17/24', content: 'We just released a new version of the application.' },
-    { sender: 'Jane Smith', theme: 'Meeting Reminder', time: '09:00', date: '12/17/24', content: 'Don\'t forget about the team meeting at 10 AM.' },
-    { sender: 'Admin', theme: 'System Maintenance', time: '22:00', date: '12/16/24', content: 'Scheduled maintenance will occur tonight from 11 PM to 2 AM.' },
-  ];
 
   const scrollToBottom = useCallback(() => {
     const list = document.getElementById('notification-list');
@@ -18,62 +21,58 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
   }, []);
 
   useEffect(() => {
-    const eventSource = new EventSource('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/notifications/stream');
+    const eventSource = getEventSource();
 
-    eventSource.addEventListener('message', (event) => {
+    const handleMessage = (event) => {
       const newNotification = JSON.parse(event.data);
-      setNotifications((prev) => [...prev, newNotification]);
+      setNotifications((prev) => {
+        const updated = [...prev, newNotification];
+        const unreadCount = updated.filter((n) => n.status === 'Unread').length;
+        onUnreadCountChange(unreadCount);
+        return updated;
+      });
       scrollToBottom();
-    });
+    };
+
+    eventSource.addEventListener('message', handleMessage);
 
     eventSource.onerror = () => {
       setError('Failed to connect to the notifications service.');
-      eventSource.close();
     };
 
-    return () => eventSource.close();
-  }, [scrollToBottom]);
+    return () => {
+      eventSource.removeEventListener('message', handleMessage);
+    };
+  }, [scrollToBottom, onUnreadCountChange]);
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
       <div className='notification-page'>
-        <img src={HistoryIcon}/>
-        </div>
+        <img src={HistoryIcon} alt="History Icon" />
+      </div>
       <div className="close-btn" onClick={onClose}>×</div>
       <h3>Notifications</h3>
       <div className='viewAll'>
         View all
       </div>
-      {error && <div className="error">{error}</div>}
-      {notifications.length === 0 && exampleNotifications.length > 0 ? (
-        <ul id="notification-list" className="list">
-          {exampleNotifications.map((notification, index) => (
-            <li key={index} className="item-notification">
-              <div className="notification-header">
-                <span>{notification.sender}</span>
-                <div className='date-time'>
-                <span className="date">{`${notification.date}`}</span>
-                <span className='time'>{`${notification.time}`}</span>
-                </div>              
-                </div>
-              <div className="theme">{notification.theme}</div>
-              <div className="content">{notification.content}</div>
-            </li>
-          ))}
-        </ul>
-      ) : notifications.length > 0 ? (
-        <ul id="notification-list" className="list">
-          {notifications.map((notification, index) => (
-            <li key={index} className="item">
-              {JSON.stringify(notification)}
-            </li>
-          ))}
-        </ul>
+      {error && <div className="error">{error}</div>}   {notifications.length === 0 ? (
+        <p className='noNotifications'>No notifications</p>
       ) : (
-        <div className="noNotifications">No notifications</div>
+        <ul id="notification-list" className="list">
+          {notifications.map((notification) => (
+            <li key={notification._id} className="item-notification">
+              <strong>{notification.title}</strong>
+              <p>{notification.meta}</p>
+              <small>{new Date(notification.created_at).toLocaleString()}</small>
+              <span className={notification.status === 'Unread' ? 'unread' : 'read'}>
+                {notification.status}
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
 };
 
-export default NotificationSidebar;
+export default memo(NotificationSidebar);
