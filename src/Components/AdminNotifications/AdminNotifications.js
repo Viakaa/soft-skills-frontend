@@ -17,7 +17,7 @@ const NotificationForm = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM0OTY2ODI4LCJleHAiOjE3MzUwNTMyMjh9.Iyj4mxC6HlzpxPcINORzXBcsOliTZCX0xrwJ43jlhqo";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM1MjA3ODYzLCJleHAiOjE3MzUyOTQyNjN9.dsUGnZY33TPY7CnfL2bPBxevhl09WQVQJanmundXGVw";
   
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
@@ -123,7 +123,7 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-  <label>{formData.type === "Test Invitation" ? "Deadline:" : "Date of event:"}</label>
+  <label>{formData.type === "Test Invitation" ? "Due to" : "Date of event:"}</label>
   <input
     type="datetime-local"
     name="dateOfEvent"
