@@ -17,7 +17,7 @@ const NotificationForm = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM1MjA3ODYzLCJleHAiOjE3MzUyOTQyNjN9.dsUGnZY33TPY7CnfL2bPBxevhl09WQVQJanmundXGVw";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
   
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
@@ -42,7 +42,6 @@ const NotificationForm = () => {
         setUsers([]);
       });
   }, []);
-  
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -95,6 +94,40 @@ const NotificationForm = () => {
     }));
   };
 
+  const handleSendNotification = () => {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
+
+    const notificationData = {
+      type: formData.type,
+      nameOrArticle: formData.nameOrArticle,
+      dateOfEvent: formData.dateOfEvent,
+      role: formData.role,
+      shortDescription: formData.shortDescription,
+      fullDescription: formData.fullDescription,
+      picture: formData.picture,
+      recipients: addedUsers.map((user) => user._id), // Send the user IDs of added users
+    };
+
+    fetch("http://your-api-endpoint/notifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(notificationData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Notification sent:", data);
+        // Handle success (e.g., show a success message or clear the form)
+        handleClearForm();
+      })
+      .catch((error) => {
+        console.error("Error sending notification:", error);
+        setError("Failed to send notification");
+      });
+  };
+
   return (
     <div className="notification-form">
       <h1>Create Notification</h1>
@@ -123,15 +156,14 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-  <label>{formData.type === "Test Invitation" ? "Due to" : "Date of event:"}</label>
-  <input
-    type="datetime-local"
-    name="dateOfEvent"
-    value={formData.dateOfEvent}
-    onChange={handleInputChange}
-  />
-</div>
-
+        <label>{formData.type === "Test Invitation" ? "Due to" : "Date of event:"}</label>
+        <input
+          type="datetime-local"
+          name="dateOfEvent"
+          value={formData.dateOfEvent}
+          onChange={handleInputChange}
+        />
+      </div>
 
       <div className="form-group">
         <label>Recipients:</label>
@@ -248,8 +280,7 @@ const NotificationForm = () => {
 
       <div className="form-actions">
         <button onClick={handleClearForm}>Clear Form</button>
-        <button>Save</button>
-        <button>Send</button>
+        <button onClick={handleSendNotification}>Send</button>
       </div>
     </div>
   );

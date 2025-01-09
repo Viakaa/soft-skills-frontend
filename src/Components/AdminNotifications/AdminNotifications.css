@@ -77,14 +77,14 @@ textarea {
   margin-bottom: 5px;
 }
 
-.user-list h3,
-.added-users h3 {
-  margin: 0 0 10px;
-  margin-right: 430px;
-}
 
 .user-list h3 {
   margin-right: 500px;
+}
+
+.added-users h3 {
+  margin-right: 500px
+
 }
 
 .picture-upload {
