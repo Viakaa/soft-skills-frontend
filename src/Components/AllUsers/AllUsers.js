@@ -3,10 +3,11 @@ import "./AllUsers.css";
 
 const UserGrid = () => {
   const [users, setUsers] = useState([]); // All users
+  const [filteredUsers, setFilteredUsers] = useState([]); // Filtered users
   const [error, setError] = useState(""); // Error state
 
   useEffect(() => {
-    const token = "your_token_here"; // Replace with actual token
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
 
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
@@ -18,6 +19,7 @@ const UserGrid = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setUsers(data); 
+          setFilteredUsers(data); 
         } else {
           console.error("Unexpected API response:", data);
           setError("Failed to load users");
@@ -34,16 +36,17 @@ const UserGrid = () => {
       <h1>All Users</h1>
       {error && <p className="error">{error}</p>} 
       <div className="user-grid">
-        {users.length === 0 ? (
+        {filteredUsers.length === 0 ? (
           <p>No users found</p> 
         ) : (
-          users.map((user, index) => (
+          filteredUsers.map((user, index) => (
             <div key={index} className="user-card">
               <img
                 src={user.avatar || "default-avatar.jpg"}
                 alt={`${user.firstName} ${user.lastName}`}
-                className="user-avatar"
               />
+              <p>{`${user.firstName} ${user.lastName}`}</p>
+              <p>{user.role || "Role not specified"}</p>
             </div>
           ))
         )}

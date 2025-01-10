@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
+import './BelbinTest.css';
 
-const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests/67320c98e3d58089a93379db"; 
+const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests/677ffc10bc648d0df2743ff7";
 
 const BelbinTest = () => {
   const [test, setTest] = useState(null);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM1MTQ3MzA1LCJleHAiOjE3MzUyMzM3MDV9.4G8s1xifHLuKULnUXOmpAakXzox0_YJdBhmnsPmKUnI"; // JWT token
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQ3MTM5LCJleHAiOjE3MzY1MzM1Mzl9.N-9FnZV3S1GXJHMNxtC-D2HwtN1mmYX0FbMyv-FGF2g"; // JWT token
 
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        const response = await fetch(API_URL, { 
+        const response = await fetch(API_URL, {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -24,27 +25,53 @@ const BelbinTest = () => {
         }
 
         const data = await response.json();
-        setTest(data); 
+        setTest(data);
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchTest();
-  }, []); 
+  }, []);
 
-  const handleChangePoints = (questionIndex, value) => {
+  const handleChangePoints = (questionIndex, subQuestionIndex, value) => {
     if (!test) return;
-
+  
     const updatedQuestions = [...test.questions];
-    updatedQuestions[questionIndex].points = value;
+    const updatedSubQuestions = [...updatedQuestions[questionIndex].subQuestions];
+  
+    updatedSubQuestions[subQuestionIndex].points = value;
+  
+    const subQuestionsWithPoints = updatedSubQuestions.filter(subQuestion => subQuestion.points > 0).length;
 
-    setTest({
-      ...test,
-      questions: updatedQuestions,
-    });
+    const totalPointsForQuestion = updatedSubQuestions.reduce(
+      (sum, subQuestion) => sum + (subQuestion.points || 0),
+      0
+    );
+  
+    if (totalPointsForQuestion <= 10 && subQuestionsWithPoints <= 4) {
+      updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
+  
+      setTest({
+        ...test,
+        questions: updatedQuestions,
+      });
+    } else {
+    
+      
+    }
+  };
+  
+  
+
+  const calculateTotalPointsForQuestion = (question) => {
+    return question.subQuestions.reduce((sum, subQuestion) => sum + (subQuestion.points || 0), 0);
+  };
+
+  const calculateTotalPoints = () => {
+    return test.questions.reduce((sum, question) => sum + calculateTotalPointsForQuestion(question), 0);
   };
 
   if (loading) {
@@ -57,30 +84,47 @@ const BelbinTest = () => {
 
   return (
     <div className="test-container">
-      <h1>{test.title}</h1>
-      {test.questions.length === 0 ? (
-        <p>No questions available for this test.</p>
-      ) : (
-        test.questions.map((question, index) => (
-          <div className="question" key={question._id}>
-            <p>{question.text || `Question ${index + 1}`}</p>
-            <input
-              type="number"
-              value={question.points || 0}
-              min="0"
-              max="10"
-              onChange={(e) =>
-                handleChangePoints(index, parseInt(e.target.value) || 0)
-              }
-            />
+      <h1>{test.title || "Test Title"}</h1>
+      <p>Created by: {test.created_by || "Unknown"}</p>
+
+      {test.questions && test.questions.length > 0 ? (
+        test.questions.map((question, questionIndex) => (
+          <div className="question" key={question._id || questionIndex}>
+            <h3>{question.question || `Question ${questionIndex + 1}`}</h3>
+
+            {question.subQuestions && question.subQuestions.length > 0 ? (
+              question.subQuestions.map((subQuestion, subIndex) => (
+                <div className="sub-question" key={subIndex}>
+                  <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>
+                  <input
+                    type="number"
+                    value={subQuestion.points || 0}
+                    min="0"
+                    max="10"
+                    onChange={(e) =>
+                      handleChangePoints(questionIndex, subIndex, parseInt(e.target.value) || 0)
+                    }
+                  />
+                  
+                </div>
+              ))
+            ) : (
+              <p>No sub-questions available.</p>
+            )}
+
+       
+            <div className="question-total">
+              <p>Total Points for this block: {calculateTotalPointsForQuestion(question)}</p>
+            </div>
           </div>
         ))
+      ) : (
+        <p>No questions available for this test.</p>
       )}
+
+  
       <div className="summary">
-        <p>
-          Total Points:{" "}
-          {test.questions.reduce((sum, q) => sum + (q.points || 0), 0)}
-        </p>
+        <p>Total Points for all questions: {calculateTotalPoints()}</p>
       </div>
     </div>
   );

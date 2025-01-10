@@ -10,38 +10,42 @@ const NotificationForm = () => {
     nameOrArticle: "",
     dateOfEvent: "",
     role: "Web-Programming",
-    shortDescription: "",
+    shortDescription: {
+      title: "",
+      content: "",
+    },
     fullDescription: "",
     picture: null,
   });
   const [error, setError] = useState(null);
 
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NTQ4MjA0LCJleHAiOjE3MzY2MzQ2MDR9.FrZYxRjsrhngwhz94cA9Vs4_lFOU33kS9rUuHz_5zTw"; 
+
   useEffect(() => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
-  
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        return response.json();
+      })
       .then((data) => {
-        console.log(data);
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
-          console.error("Unexpected API response:", data);
-          setError("Unexpected API response");
-          setUsers([]);
+          throw new Error("Unexpected API response");
         }
       })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        setError("Failed to load users");
-        setUsers([]);
+      .catch((err) => {
+        console.error(err);
+        setError(err.message || "Failed to load users");
       });
-  }, []);
+  }, [token]);
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -61,7 +65,10 @@ const NotificationForm = () => {
       nameOrArticle: "",
       dateOfEvent: "",
       role: "Web-Programming",
-      shortDescription: "",
+      shortDescription: {
+        title: "",
+        content: "",
+      },
       fullDescription: "",
       picture: null,
     });
@@ -71,10 +78,20 @@ const NotificationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (["title", "content"].includes(name)) {
+      setFormData((prev) => ({
+        ...prev,
+        shortDescription: {
+          ...prev.shortDescription,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleFileChange = (e) => {
@@ -95,36 +112,43 @@ const NotificationForm = () => {
   };
 
   const handleSendNotification = () => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
+    if (!formData.nameOrArticle || !formData.shortDescription.content) {
+      setError("Name or Article and Short Description Content are required.");
+      return;
+    }
 
-    const notificationData = {
+    const apiData = {
+      studentId: addedUsers[0]?._id || "default-student-id",
+      ownerId: "67682b0b12bc42810b4707ef",
+      title: formData.nameOrArticle,
       type: formData.type,
-      nameOrArticle: formData.nameOrArticle,
-      dateOfEvent: formData.dateOfEvent,
-      role: formData.role,
-      shortDescription: formData.shortDescription,
-      fullDescription: formData.fullDescription,
-      picture: formData.picture,
-      recipients: addedUsers.map((user) => user._id), // Send the user IDs of added users
+      meta: formData.shortDescription.content,
     };
 
-    fetch("http://your-api-endpoint/notifications", {
+    fetch("http://your-api-url.com/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(notificationData),
+      body: JSON.stringify(apiData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Notification sent:", data);
-        // Handle success (e.g., show a success message or clear the form)
-        handleClearForm();
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.message || "Failed to send notification");
+          });
+        }
+        return response.json();
       })
-      .catch((error) => {
-        console.error("Error sending notification:", error);
-        setError("Failed to send notification");
+      .then((data) => {
+        console.log("Notification sent successfully:", data);
+        handleClearForm();
+        setError(null);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(err.message || "Failed to send notification due to a network error.");
       });
   };
 
@@ -149,7 +173,7 @@ const NotificationForm = () => {
         <input
           type="text"
           name="nameOrArticle"
-          placeholder="Some text"
+          placeholder="Enter name or article"
           value={formData.nameOrArticle}
           onChange={handleInputChange}
         />
@@ -178,7 +202,7 @@ const NotificationForm = () => {
       <div className="user-list">
         <h3>Users:</h3>
         {error ? (
-          <div>{error}</div>
+          <div className="error">{error}</div>
         ) : users.length === 0 ? (
           <div>Loading users...</div>
         ) : (
@@ -228,14 +252,16 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>Short Description:</label>
-        <textarea
-          name="shortDescription"
-          rows="2"
-          value={formData.shortDescription}
+        <label>Short Description Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.shortDescription.title}
           onChange={handleInputChange}
         />
       </div>
+
+
 
       <div className="form-group">
         <label>Full Description:</label>
