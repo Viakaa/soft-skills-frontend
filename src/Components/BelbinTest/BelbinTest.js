@@ -7,7 +7,7 @@ const BelbinTest = () => {
   const [test, setTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQ3MTM5LCJleHAiOjE3MzY1MzM1Mzl9.N-9FnZV3S1GXJHMNxtC-D2HwtN1mmYX0FbMyv-FGF2g"; // JWT token
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; // JWT token
 
   useEffect(() => {
     const fetchTest = async () => {

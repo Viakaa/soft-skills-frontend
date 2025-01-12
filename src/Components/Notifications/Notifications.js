@@ -20,6 +20,20 @@ const NotificationSidebar = ({ isVisible, onClose, onUnreadCountChange }) => {
     if (list) list.scrollTop = list.scrollHeight;
   }, []);
 
+  const renderNotificationContent = (notification) => {
+    // Check the type of the notification and render accordingly
+    switch (notification.type) {
+      case 'message':
+        return <p>{notification.message}</p>;
+      case 'alert':
+        return <p className="alert-message">{notification.alertMessage}</p>;
+      case 'info':
+        return <p className="info-message">{notification.infoMessage}</p>;
+      default:
+        return <p>{JSON.stringify(notification.meta)}</p>;
+    }
+  };
+
   useEffect(() => {
     const eventSource = getEventSource();
 
@@ -55,14 +69,15 @@ const NotificationSidebar = ({ isVisible, onClose, onUnreadCountChange }) => {
       <div className='viewAll'>
         View all
       </div>
-      {error && <div className="error">{error}</div>}   {notifications.length === 0 ? (
+      {error && <div className="error">{error}</div>}
+      {notifications.length === 0 ? (
         <p className='noNotifications'>No notifications</p>
       ) : (
         <ul id="notification-list" className="list">
           {notifications.map((notification) => (
             <li key={notification._id} className="item-notification">
               <strong>{notification.title}</strong>
-              <p>{JSON.stringify(notification.meta)}</p>
+              {renderNotificationContent(notification)}
               <small>{new Date(notification.created_at).toLocaleString()}</small>
               <span className={notification.status === 'Unread' ? 'unread' : 'read'}>
                 {notification.status}
