@@ -5,21 +5,19 @@ const NotificationForm = () => {
   const [users, setUsers] = useState([]);
   const [addedUsers, setAddedUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const [tests, setTests] = useState([]);
   const [formData, setFormData] = useState({
     type: "Test Invitation",
     nameOrArticle: "",
     dateOfEvent: "",
     role: "Web-Programming",
-    shortDescription: {
-      title: "",
-      content: "",
-    },
-    fullDescription: "",
+    selectedTest: "",
+    additionalDescription: "",
     picture: null,
   });
   const [error, setError] = useState(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NTQ4MjA0LCJleHAiOjE3MzY2MzQ2MDR9.FrZYxRjsrhngwhz94cA9Vs4_lFOU33kS9rUuHz_5zTw"; 
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; 
 
   useEffect(() => {
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
@@ -45,6 +43,30 @@ const NotificationForm = () => {
         console.error(err);
         setError(err.message || "Failed to load users");
       });
+
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch tests");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setTests(data);
+        } else {
+          throw new Error("Unexpected API response");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(err.message || "Failed to load tests");
+      });
   }, [token]);
 
   const handleAddUser = (user) => {
@@ -65,11 +87,8 @@ const NotificationForm = () => {
       nameOrArticle: "",
       dateOfEvent: "",
       role: "Web-Programming",
-      shortDescription: {
-        title: "",
-        content: "",
-      },
-      fullDescription: "",
+      selectedTest: "",
+      additionalDescription: "",
       picture: null,
     });
     setSearch("");
@@ -78,54 +97,55 @@ const NotificationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (["title", "content"].includes(name)) {
-      setFormData((prev) => ({
-        ...prev,
-        shortDescription: {
-          ...prev.shortDescription,
-          [name]: value,
-        },
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        picture: URL.createObjectURL(file),
-      }));
-    }
-  };
-
-  const handleRemovePicture = () => {
     setFormData((prev) => ({
       ...prev,
-      picture: null,
+      [name]: value,
     }));
   };
 
   const handleSendNotification = () => {
-    if (!formData.nameOrArticle || !formData.shortDescription.content) {
-      setError("Name or Article and Short Description Content are required.");
+    if (!formData.nameOrArticle) {
+      setError("Title is required.");
       return;
     }
 
-    const apiData = {
-      studentId: addedUsers[0]?._id || "default-student-id",
-      ownerId: "67682b0b12bc42810b4707ef",
-      title: formData.nameOrArticle,
-      type: formData.type,
-      meta: formData.shortDescription.content,
-    };
+    if (addedUsers.length === 0) {
+      setError("At least one recipient must be added.");
+      return;
+    }
 
-    fetch("http://your-api-url.com/notifications", {
+    let apiData;
+
+    if (formData.type === "Test Invitation") {
+      if (!formData.selectedTest) {
+        setError("Please select a test for the invitation.");
+        return;
+      }
+
+      apiData = {
+        studentIds: addedUsers.map((user) => user._id),
+        type: "testInvitation",
+        meta: {
+          dueDate: formData.dateOfEvent,
+          testId: formData.selectedTest,
+          message: formData.additionalDescription || "No additional message provided.",
+        },
+      };
+    } else {
+      apiData = {
+        studentIds: addedUsers.map((user) => user._id),
+        title: formData.nameOrArticle,
+        type: "event",
+        meta: {
+          date: formData.dateOfEvent,
+          role: formData.role,
+          description: formData.additionalDescription || "No description provided.",
+          shortDescription: formData.nameOrArticle,
+        },
+      };
+    }
+
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,6 +162,7 @@ const NotificationForm = () => {
         return response.json();
       })
       .then((data) => {
+        debugger
         console.log("Notification sent successfully:", data);
         handleClearForm();
         setError(null);
@@ -169,7 +190,7 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>Name or Article:</label>
+        <label>Name</label>
         <input
           type="text"
           name="nameOrArticle"
@@ -180,7 +201,7 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>{formData.type === "Test Invitation" ? "Due to" : "Date of event:"}</label>
+        <label>{formData.type === "Test Invitation" ? "Due Date:" : "Event Date:"}</label>
         <input
           type="datetime-local"
           name="dateOfEvent"
@@ -235,74 +256,76 @@ const NotificationForm = () => {
         )}
       </div>
 
-      <div className="form-group">
-        <label>Roles:</label>
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleInputChange}
-        >
-          <option>Web-Programming</option>
-          <option>Designer</option>
-          <option>Data Science</option>
-          <option>Business Analysis</option>
-          <option>Management</option>
-          <option>DevOps</option>
-        </select>
-      </div>
-
-      <div className="form-group">
-        <label>Short Description Title:</label>
-        <input
-          type="text"
-          name="title"
-          value={formData.shortDescription.title}
-          onChange={handleInputChange}
-        />
-      </div>
-
-
-
-      <div className="form-group">
-        <label>Full Description:</label>
-        <textarea
-          name="fullDescription"
-          rows="5"
-          value={formData.fullDescription}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Pictures:</label>
-        <div className="picture-upload">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-            id="file-input"
-          />
-          <button onClick={() => document.getElementById("file-input").click()}>
-            Add photo
-          </button>
-          {formData.picture && (
-            <div
-              className="picture-preview"
-              style={{
-                backgroundImage: `url(${formData.picture})`,
-              }}
-            >
-              <button
-                onClick={handleRemovePicture}
-                className="remove-picture-btn"
-              >
-                X
-              </button>
-            </div>
-          )}
+      {formData.type === "Test Invitation" ? (
+        <div className="form-group">
+          <label>Choose Test:</label>
+          <select
+            name="selectedTest"
+            value={formData.selectedTest}
+            onChange={handleInputChange}
+          >
+            <option value="">Select a test</option>
+            {tests.map((test) => (
+              <option key={test._id} value={test._id}>
+                {test.name}
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
+      ) : (
+        <div className="form-group">
+          <label>Additional Description:</label>
+          <textarea
+            name="additionalDescription"
+            rows="5"
+            value={formData.additionalDescription}
+            onChange={handleInputChange}
+          />
+        </div>
+      )}
+
+      {formData.type !== "Test Invitation" && (
+        <div className="form-group">
+          <label>Pictures:</label>
+          <div className="picture-upload">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  picture: URL.createObjectURL(e.target.files[0]),
+                }))
+              }
+              style={{ display: "none" }}
+              id="file-input"
+            />
+            <button onClick={() => document.getElementById("file-input").click()}>
+              Add photo
+            </button>
+            {formData.picture && (
+              <div
+                className="picture-preview"
+                style={{
+                  backgroundImage: `url(${formData.picture})`,
+                }}
+              >
+                <button
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      picture: null,
+                    }))
+                  }
+                  className="remove-picture-btn"
+                >
+                  X
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="form-actions">
         <button onClick={handleClearForm}>Clear Form</button>
