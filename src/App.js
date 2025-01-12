@@ -30,7 +30,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/adminnotifications" element={<NotificationForm />} />
+          <Route path="/adminnotifications" element={<PrivateRoute><NotificationForm /></PrivateRoute>} />
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/allusers" element={<UserGrid />}/>

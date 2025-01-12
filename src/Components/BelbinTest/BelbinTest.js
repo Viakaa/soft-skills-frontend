@@ -7,6 +7,7 @@ const BelbinTest = () => {
   const [test, setTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [answers, setAnswers] = useState([]); // Store the answers here
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; // JWT token
 
   useEffect(() => {
@@ -38,33 +39,71 @@ const BelbinTest = () => {
 
   const handleChangePoints = (questionIndex, subQuestionIndex, value) => {
     if (!test) return;
-  
+
     const updatedQuestions = [...test.questions];
     const updatedSubQuestions = [...updatedQuestions[questionIndex].subQuestions];
-  
+
     updatedSubQuestions[subQuestionIndex].points = value;
-  
+
     const subQuestionsWithPoints = updatedSubQuestions.filter(subQuestion => subQuestion.points > 0).length;
 
     const totalPointsForQuestion = updatedSubQuestions.reduce(
       (sum, subQuestion) => sum + (subQuestion.points || 0),
       0
     );
-  
+
     if (totalPointsForQuestion <= 10 && subQuestionsWithPoints <= 4) {
       updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
-  
+
       setTest({
         ...test,
         questions: updatedQuestions,
       });
-    } else {
-    
-      
+
+      // Update the answers state
+      const updatedAnswers = [...answers];
+      const answerIndex = updatedAnswers.findIndex(answer => answer.questionId === updatedQuestions[questionIndex]._id);
+
+      if (answerIndex !== -1) {
+        updatedAnswers[answerIndex].answers = {
+          role: updatedSubQuestions[subQuestionIndex].text,
+          value: value,
+        };
+      } else {
+        updatedAnswers.push({
+          questionId: updatedQuestions[questionIndex]._id,
+          answers: {
+            role: updatedSubQuestions[subQuestionIndex].text,
+            value: value,
+          },
+        });
+      }
+
+      setAnswers(updatedAnswers);
     }
   };
-  
-  
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("YOUR_BACKEND_API_URL", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to submit answers: ${response.statusText}`);
+      }
+
+      alert("Test submitted successfully!");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   const calculateTotalPointsForQuestion = (question) => {
     return question.subQuestions.reduce((sum, subQuestion) => sum + (subQuestion.points || 0), 0);
@@ -105,14 +144,12 @@ const BelbinTest = () => {
                       handleChangePoints(questionIndex, subIndex, parseInt(e.target.value) || 0)
                     }
                   />
-                  
                 </div>
               ))
             ) : (
               <p>No sub-questions available.</p>
             )}
 
-       
             <div className="question-total">
               <p>Total Points for this block: {calculateTotalPointsForQuestion(question)}</p>
             </div>
@@ -122,10 +159,11 @@ const BelbinTest = () => {
         <p>No questions available for this test.</p>
       )}
 
-  
       <div className="summary">
         <p>Total Points for all questions: {calculateTotalPoints()}</p>
       </div>
+
+      <button onClick={handleSubmit}>Submit Test</button>
     </div>
   );
 };
