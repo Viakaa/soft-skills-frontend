@@ -13,14 +13,14 @@ import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import DNDcons from "./Components/DNDconstructor/DNDcons1";
-import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
+import AllUsers from "./Components/AllUsers/AllUsers.js";
 
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
 import Article1 from './Components/Articles/ArticleTeamwork.js';
 import Article2 from './Components/Articles/ArticleChangeLife.js';
-import UserGrid from './Components/AllUsers/AllUsers.js'
+import NotificationSidebar from "./Components/Notifications/Notifications.js";
 
 function App() {
   return (
@@ -30,11 +30,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/adminnotifications" element={<PrivateRoute><NotificationForm /></PrivateRoute>} />
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
-          <Route path="/allusers" element={<UserGrid />}/>
-
 
           <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
@@ -59,6 +56,15 @@ function App() {
                 </AdminRoute>
             }
           />
+          <Route
+            path="/all-users"
+            element={
+              <AdminRoute>
+                <AllUsers />
+                </AdminRoute>
+            }
+          />
+
           <Route path="/test/:id" element={<TestPage />} />
 
           <Route path="/belbin" element={<BelbinTest />} />
@@ -66,6 +72,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
+      <NotificationSidebar />
     </>
   );
 }
