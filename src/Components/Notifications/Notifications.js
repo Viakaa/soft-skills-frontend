@@ -62,7 +62,7 @@ const NotificationSidebar = ({ isVisible, onClose, onUnreadCountChange }) => {
           {notifications.map((notification) => (
             <li key={notification._id} className="item-notification">
               <strong>{notification.title}</strong>
-              <p>{notification.meta}</p>
+              <p>{JSON.stringify(notification.meta)}</p>
               <small>{new Date(notification.created_at).toLocaleString()}</small>
               <span className={notification.status === 'Unread' ? 'unread' : 'read'}>
                 {notification.status}

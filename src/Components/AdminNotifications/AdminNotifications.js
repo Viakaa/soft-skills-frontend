@@ -17,9 +17,10 @@ const NotificationForm = () => {
   });
   const [error, setError] = useState(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; 
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; // Replace with your actual token
 
   useEffect(() => {
+    // Fetch users
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
       headers: {
@@ -36,7 +37,7 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
-          throw new Error("Unexpected API response");
+          throw new Error("Unexpected API response for users");
         }
       })
       .catch((err) => {
@@ -44,6 +45,7 @@ const NotificationForm = () => {
         setError(err.message || "Failed to load users");
       });
 
+    // Fetch tests
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests", {
       method: "GET",
       headers: {
@@ -60,7 +62,7 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setTests(data);
         } else {
-          throw new Error("Unexpected API response");
+          throw new Error("Unexpected API response for tests");
         }
       })
       .catch((err) => {
@@ -125,6 +127,7 @@ const NotificationForm = () => {
       apiData = {
         studentIds: addedUsers.map((user) => user._id),
         type: "testInvitation",
+        title: formData.nameOrArticle,
         meta: {
           dueDate: formData.dateOfEvent,
           testId: formData.selectedTest,
@@ -162,7 +165,6 @@ const NotificationForm = () => {
         return response.json();
       })
       .then((data) => {
-        debugger
         console.log("Notification sent successfully:", data);
         handleClearForm();
         setError(null);
@@ -258,20 +260,31 @@ const NotificationForm = () => {
 
       {formData.type === "Test Invitation" ? (
         <div className="form-group">
-          <label>Choose Test:</label>
+        <label>Choose Test:</label>
+        {tests.length === 0 ? (
+          <p>Loading tests...</p>
+        ) : (
           <select
             name="selectedTest"
             value={formData.selectedTest}
             onChange={handleInputChange}
           >
             <option value="">Select a test</option>
-            {tests.map((test) => (
-              <option key={test._id} value={test._id}>
-                {test.name}
-              </option>
-            ))}
+            {tests
+              .filter(
+                (test) => typeof test.title === "string" && test.title.trim() !== ""
+              )
+              .map((test, index) => (
+                <option key={test._id} value={test._id}>
+                  {test.title}
+                </option>
+              ))}
           </select>
-        </div>
+        )}
+      </div>
+      
+      
+      
       ) : (
         <div className="form-group">
           <label>Additional Description:</label>
@@ -281,49 +294,6 @@ const NotificationForm = () => {
             value={formData.additionalDescription}
             onChange={handleInputChange}
           />
-        </div>
-      )}
-
-      {formData.type !== "Test Invitation" && (
-        <div className="form-group">
-          <label>Pictures:</label>
-          <div className="picture-upload">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  picture: URL.createObjectURL(e.target.files[0]),
-                }))
-              }
-              style={{ display: "none" }}
-              id="file-input"
-            />
-            <button onClick={() => document.getElementById("file-input").click()}>
-              Add photo
-            </button>
-            {formData.picture && (
-              <div
-                className="picture-preview"
-                style={{
-                  backgroundImage: `url(${formData.picture})`,
-                }}
-              >
-                <button
-                  onClick={() =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      picture: null,
-                    }))
-                  }
-                  className="remove-picture-btn"
-                >
-                  X
-                </button>
-              </div>
-            )}
-          </div>
         </div>
       )}
 
