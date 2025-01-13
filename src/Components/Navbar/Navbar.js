@@ -70,30 +70,27 @@ const NavbarMain = () => {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
-  {isLoggedIn && (
-    <>
-      <div className="notification" onClick={openSidebar} style={{ position: "relative" }}>
-        <img id="notification-icon" src={NotificationIcon} alt="Notification Icon" />
-        {unreadCount > 0 && (
-          <span className="notification-badge">{unreadCount}</span>
-        )}
-      </div>
-
-      <div 
-        className="user-profile" 
-        onClick={() => window.location.href = "/profile"} 
-        style={{ cursor: "pointer", marginRight: "10px" }}
-      >
-        <img style={{ width: "45px", borderRadius: "25%",backgroundColor: "white" }} src={UserIcon} alt="User Icon" />
-      </div>
-
-      <Nav.Link className="navbar_link_end" onClick={handleLogout} style={{ width: "85px",backgroundColor: "white" }}>
-        Logout
-      </Nav.Link>
-    </>
-  )}
-</Navbar.Collapse>
-
+            {isLoggedIn && (
+              <>
+                <div className="notification" onClick={openSidebar} style={{ position: "relative" }}>
+                  <img id="notification-icon" src={NotificationIcon} alt="Notification Icon" />
+                  {unreadCount > 0 && (
+                    <span className="notification-badge">{unreadCount}</span>
+                  )}
+                </div>
+                <div className="navbar_link_end">
+                  <Nav.Link href="/profile" className="navbar_link">
+                    <img style={{ width: "40px",  }} src={UserIcon} alt="User Icon" />
+                  </Nav.Link>
+                </div>
+                <div className="navbar_link_end">
+                  <Nav.Link className="navbar_link" onClick={handleLogout}>
+                    Logout
+                  </Nav.Link>
+                </div>
+              </>
+            )}
+          </Navbar.Collapse>
         </Container>
       </Navbar>
       <NotificationSidebar 

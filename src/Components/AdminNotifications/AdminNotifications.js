@@ -17,10 +17,9 @@ const NotificationForm = () => {
   });
   const [error, setError] = useState(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Njc3MDU3LCJleHAiOjE3MzY3NjM0NTd9.d6E7N6Q5mtE1Y_vysRMFV3WSj-i1jbWiP7rj_gmeB6Q"; // Replace with your actual token
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Nzk0MjAzLCJleHAiOjE3MzY4ODA2MDN9.kVL6B61toQIQy78rLTvlaPUEPAg2hTTEILsao2gPsPg"; 
 
   useEffect(() => {
-    // Fetch users
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
       method: "GET",
       headers: {
@@ -45,7 +44,6 @@ const NotificationForm = () => {
         setError(err.message || "Failed to load users");
       });
 
-    // Fetch tests
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests", {
       method: "GET",
       headers: {
@@ -223,26 +221,29 @@ const NotificationForm = () => {
       </div>
 
       <div className="user-list">
-        <h3>Users:</h3>
-        {error ? (
-          <div className="error">{error}</div>
-        ) : users.length === 0 ? (
-          <div>Loading users...</div>
-        ) : (
-          users
-            .filter((user) =>
-              `${user.firstName} ${user.lastName}`
-                .toLowerCase()
-                .includes(search.toLowerCase())
-            )
-            .map((user) => (
-              <div key={user._id} className="user-item">
-                {user.firstName} {user.lastName}
-                <button onClick={() => handleAddUser(user)}>Add</button>
-              </div>
-            ))
-        )}
-      </div>
+  <h3>Users:</h3>
+  {error ? (
+    <div className="error">{error}</div>
+  ) : users.length === 0 ? (
+    <div>Loading users...</div>
+  ) : (
+    users
+      .filter(
+        (user) =>
+          !addedUsers.some((addedUser) => addedUser._id === user._id) &&
+          `${user.firstName} ${user.lastName}`
+            .toLowerCase()
+            .includes(search.toLowerCase())
+      )
+      .map((user) => (
+        <div key={user._id} className="user-item">
+          {user.firstName} {user.lastName}
+          <button onClick={() => handleAddUser(user)}>Add</button>
+        </div>
+      ))
+  )}
+</div>
+
 
       <div className="added-users">
         <h3>Added Users:</h3>

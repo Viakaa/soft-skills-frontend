@@ -13,7 +13,8 @@ import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import DNDcons from "./Components/DNDconstructor/DNDcons1";
-import AllUsers from "./Components/AllUsers/AllUsers.js";
+import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
+import UserGrid from './Components/AllUsers/AllUsers.js'
 
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
@@ -35,6 +36,8 @@ function App() {
 
           <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
           <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
+          <Route path="/adminnotifications" element={<AdminRoute><NotificationForm /></AdminRoute>} />
+          <Route path="/allusers" element={<AdminRoute><UserGrid /></AdminRoute>}/>
 
           <Route path="/steps-to-building-a-successful-team" element={<PrivateRoute><Article1 /></PrivateRoute>} />
           <Route path="/methods-to-change-your-life" element={<PrivateRoute><Article2 /></PrivateRoute>} />
@@ -56,14 +59,7 @@ function App() {
                 </AdminRoute>
             }
           />
-          <Route
-            path="/all-users"
-            element={
-              <AdminRoute>
-                <AllUsers />
-                </AdminRoute>
-            }
-          />
+        
 
           <Route path="/test/:id" element={<TestPage />} />
 

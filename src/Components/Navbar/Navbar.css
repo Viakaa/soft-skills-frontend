@@ -18,7 +18,7 @@ Nav{
 }
 Nav .navbar_link
 {
-    margin-right:5% ;
+    margin-right:10% ;
     width:100%;
 }
 .navbar_link_end,.navbar_link{
@@ -30,6 +30,10 @@ Nav .navbar_link
    
 
 
+}
+
+.navbar_link{
+    margin-right: 20px;
 }
 
 @media only screen and (max-width: 600px) {
