@@ -46,4 +46,20 @@
     color: #333;
     margin-bottom: 30px;
   }
+
+  .top-roles-container {
+    margin-top: 20px;
+  }
+  
+  .top-role {
+    margin-bottom: 10px;
+  }
+  
+  .result-section {
+    font-weight: bold;
+  }
+  
+  .result-text {
+    margin-bottom: 10px;
+  }
   

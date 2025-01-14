@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const loginUser = (formData) => async (dispatch) => {
   try {
     const response = await axios.post('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/signin', formData);
@@ -16,6 +17,42 @@ export const loginUser = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: 'LOGIN_FAIL', payload: error.message || 'Помилка авторизації.' });
     throw error;
+  }
+};
+
+
+
+export const fetchUserNotifications = async (userId, token) => {
+  try {
+    const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const user = response.data;
+    if (!user || !user.notifications) return [];
+
+    const notificationsWithUser = await Promise.all(
+      user.notifications.map(async (notification) => {
+        const userResponse = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users/${notification.ownerId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const notificationOwner = userResponse.data;
+        return {
+          ...notification,
+          ownerName: `${notificationOwner.firstName} ${notificationOwner.lastName}`,
+        };
+      })
+    );
+
+    return notificationsWithUser;
+
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return [];
   }
 };
 

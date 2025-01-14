@@ -18,7 +18,7 @@ Nav{
 }
 Nav .navbar_link
 {
-    margin-right:10% ;
+    margin-right:5% ;
     width:100%;
 }
 .navbar_link_end,.navbar_link{
@@ -30,10 +30,6 @@ Nav .navbar_link
    
 
 
-}
-
-.navbar_link{
-    margin-right: 20px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -81,3 +77,20 @@ Nav .navbar_link
     align-items: center;
     justify-content: center;
 }
+
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

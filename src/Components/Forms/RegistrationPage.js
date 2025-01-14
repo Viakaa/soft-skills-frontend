@@ -19,7 +19,7 @@ function RegistrationForm() {
     confirmPassword: "",
     sex: "", 
     course: "",
-    phoneNumber: "",
+    direction: "",
   });
 
   const handleChange = (e) => {
@@ -40,8 +40,8 @@ function RegistrationForm() {
         email: formData.email,
         password: formData.password,
         sex: formData.sex,
-        course:formData.course,
-        phoneNumber: formData.phoneNumber,
+        course: parseInt(formData.course, 10),
+        direction: formData.direction,
       }));
       setShowSuccessToast(true);
       setTimeout(() => {
@@ -119,7 +119,7 @@ function RegistrationForm() {
           />
         </Form.Group>
         
-        <Form.Group>
+        {/* <Form.Group>
           <Form.Label>Phone Number</Form.Label>
           <Form.Control
             value={formData.phoneNumber}
@@ -129,7 +129,7 @@ function RegistrationForm() {
             required
           />
         </Form.Group>
-        
+         */}
         <Form.Group>
           <Form.Label>Sex</Form.Label>
           <Form.Control required as="select" value={formData.sex} onChange={handleChange} name="sex">
@@ -150,7 +150,7 @@ function RegistrationForm() {
           </Form.Control>
         </Form.Group>
         
-{/* 
+
           <Form.Group>
             <Form.Label>Direction</Form.Label>
             <Form.Control as="select" value={formData.direction} onChange={handleChange} name="direction" required>
@@ -163,7 +163,7 @@ function RegistrationForm() {
               <option value="Digital Economy">Digital Economy</option>
               <option value="Digital Marketing and sales">Digital Marketing and Sales</option>
             </Form.Control>
-          </Form.Group> */}
+          </Form.Group>
 
         <Button className="register_button" variant="primary" type="submit">
           Sign up
