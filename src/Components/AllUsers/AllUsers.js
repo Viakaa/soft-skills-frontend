@@ -9,7 +9,7 @@ const UserGrid = () => {
   useEffect(() => {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2NDQwMzgxLCJleHAiOjE3MzY1MjY3ODF9.AnL5Jw9PfT5JpKHkFBWdTJtabKdTwcc0zG9UXsORhcE";
 
-    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Corrected the Authorization header

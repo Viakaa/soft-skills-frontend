@@ -68,3 +68,68 @@
 
 
 }
+
+@media (max-width: 1199px) and (min-width: 750px) {
+    .registrater_main {
+      padding: 30px;
+      width: 90%; 
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  
+    .create_txt {
+      font-size: 22px;
+    }
+  
+    .registrater_main .form-label {
+      font-size: 22px;
+    }
+  
+    .register_button {
+      font-size: 18px;
+      height: 45px;
+    }
+  
+    .agree_terms {
+      font-size: 14px;
+    }
+
+    .registration-container {
+        margin-top: 20px;
+    }
+}
+  
+@media (max-width: 750px) {
+    .registrater_main {
+      padding: 20px;
+      width: 90%; 
+      max-width: 350px; 
+      margin: 0 auto;
+    }
+  
+    .create_txt {
+      font-size: 20px;
+    }
+  
+    .registrater_main .form-label {
+      font-size: 18px;
+    }
+  
+    .registrater_main input,
+    .form-control {
+      height: 45px;
+    }
+  
+    .register_button {
+      font-size: 16px;
+      height: 40px;
+    }
+  
+    .agree_terms {
+      font-size: 12px;
+    }
+
+    .registration-container {
+        margin-top: 20px;
+    }
+}

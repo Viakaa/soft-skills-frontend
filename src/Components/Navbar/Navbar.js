@@ -16,7 +16,8 @@ import { useNotifications } from "../Notifications/NotificationsContext";
 const NavbarMain = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const isLoggedIn = Boolean(userInfo);
+
+  const isLoggedIn = Boolean(userInfo) || Boolean(localStorage.getItem("authToken"));
   const isAdmin = userInfo?.role === 'ADMIN';
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -34,10 +35,11 @@ const NavbarMain = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !userInfo) {
       dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn]);
+  
 
   return (
     <div className="navbar_main">

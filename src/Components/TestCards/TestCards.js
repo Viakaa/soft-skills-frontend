@@ -31,15 +31,15 @@ export default function TestCards() {
 
     try {
       const response = await axios.get(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/tests",
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/tests",
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }
       );
       const fetchedTests = response.data.map((test) => ({
-        id: test._id, // id of the test
+        id: test._id, 
 
-        title: test.title, // test title
+        title: test.title,
       }));
       setTests(fetchedTests);
     } catch (error) {
@@ -61,7 +61,7 @@ export default function TestCards() {
   return (
     <>
       <div className="testcards_main">
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between test-text">
           <p className="testcard_text">
             Test Finished: {userInfo.tests.length}
           </p>

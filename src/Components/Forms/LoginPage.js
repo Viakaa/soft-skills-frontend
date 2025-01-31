@@ -14,14 +14,12 @@ function LoginForm() {
     password: '',
   });
 
-  //toasts
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
   const [emails, setEmails] = useState([]);
 
-  // handle inputs changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -30,7 +28,6 @@ function LoginForm() {
     });
   };
 
-  // sign in submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 

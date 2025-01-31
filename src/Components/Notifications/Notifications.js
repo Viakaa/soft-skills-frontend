@@ -1,13 +1,29 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import './Notifications.css';
 import { useNotifications } from './NotificationsContext';
 
 const NotificationSidebar = ({ isVisible, onClose }) => {
-  const { notifications, error } = useNotifications();
+  const { notifications, error, loading, markNotificationAsRead, unreadCount, setUnreadCount } = useNotifications();
 
   const handleViewAllClick = () => {
     window.location.href = '/notifications';
   };
+
+  useEffect(() => {
+    if (isVisible) {
+      const unreadNotifications = notifications.filter(n => n.status !== 'read');
+  
+      if (unreadNotifications.length > 0) {
+        Promise.all(unreadNotifications.map(n => markNotificationAsRead(n._id)))
+          .then(() => setUnreadCount(0))
+          .catch(error => console.error('Failed to mark all notifications as read:', error));
+      }
+    }
+  }, [isVisible, notifications, markNotificationAsRead]);
+  
+  
+
+  console.log("Notifications in Sidebar:", notifications);
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
@@ -17,7 +33,9 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
         View all
       </div>
       {error && <div className="error">{error}</div>}
-      {notifications.length === 0 ? (
+      {loading ? (
+        <p>Loading notifications...</p>
+      ) : notifications.length === 0 ? (
         <p className="noNotifications">No notifications</p>
       ) : (
         <ul id="notification-list" className="list">
@@ -26,18 +44,14 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
               <div className="notification-header">
                 <div className="profile-placeholder"></div>
                 <div className="notification-info">
-                <strong className="name">{notification.ownerName || notification.title}</strong>
-                <span className="theme">
-                    {typeof notification.meta.link === 'string'
-                      ? notification.meta.link
-                      : JSON.stringify(notification.meta.link)}
-                  </span>
+                  <strong className="name">{notification.ownerName || notification.title}</strong>
+                  <span className="theme">{notification.meta.message || notification.meta.shortDescription}</span> 
                 </div>
                 <div className="date-time">
                   {new Date(notification.created_at).toLocaleString()}
                 </div>
               </div>
-              <div className="content">{notification.content}</div>
+              <div className="content">{notification.meta.fullDescription || notification.content}</div> 
             </li>
           ))}
         </ul>

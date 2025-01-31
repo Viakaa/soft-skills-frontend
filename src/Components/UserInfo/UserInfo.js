@@ -6,69 +6,66 @@ import { getUserInfo } from '../../Redux/Actions/userActions.js';
 
 export default function UserInfo() {
   const Skeleton = () => (
-    <div className="skeleton">
-    
+    <div className="skeleton-container">
+      <div className="skeleton-avatar"></div>
+      <div className="skeleton-line"></div>
+      <div className="skeleton-line"></div>
+      <div className="skeleton-line"></div>
     </div>
   );
+
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.auth.loading);
 
-
   useEffect(() => {
-      dispatch(getUserInfo());
-    
+    dispatch(getUserInfo());
   }, [dispatch]);
 
   if (isLoading || !userInfo) {
     return <Skeleton />;
   }
 
-
   return (
-    <>
-      <div className="userinfo_main">
-        <div class="container rounded mt-2 mb-5 userinfo" >
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div class="d-flex flex-column align-items-center text-center p-3 ">
-                <img
-                  class="avatar"
-                  src={avatar}
-                />
-                <span class="font-weight-bold">           {userInfo.firstName} {userInfo.lastName}</span>
-              </div>
+    <div className="userinfo_main">
+      <div className="container rounded mt-2 mb-5 userinfo">
+        <div className="row">
+          <div className="col-md-3 border-right">
+            <div className="d-flex flex-column align-items-center text-center p-3">
+              <img className="avatar" src={avatar} alt="Avatar" />
+              <span className="font-weight-bold">
+                {userInfo.firstName} {userInfo.lastName}
+              </span>
             </div>
-            <div class="col-md-4 border-right ">
-              <div class="p-4 ">
+          </div>
+          <div className="col-md-9 border-right">
+            <div className="p-4">
               <div className="basic_info">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="info">
-        <label class="labels">Role in the team:</label>
-        <span class="infotext">{userInfo.direction}</span>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="info">
-        <label class="labels">Course:</label>
-        <span class="infotext">{userInfo.course}</span>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="info">
-        <label class="labels">Email:</label>
-        <span class="infotext">{userInfo.email}</span>
-      </div>
-    </div>
-  </div>
-</div>
-                </div> 
-              
-            </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="info">
+                      <label className="labels">Role in the team:</label>
+                      <span className="infotext">{userInfo.direction}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="info">
+                      <label className="labels">Course:</label>
+                      <span className="infotext">{userInfo.course}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="info">
+                      <label className="labels">Email:</label>
+                      <span className="infotext">{userInfo.email}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

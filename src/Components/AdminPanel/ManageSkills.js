@@ -54,7 +54,7 @@ function ManageSkills() {
     try {
       console.log("Attempting to edit skill:", newSkill);
       const response = await axios.patch(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${skillToEdit.id}`,
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/soft-skills/${skillToEdit.id}`,
         newSkill,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
@@ -73,7 +73,7 @@ function ManageSkills() {
 
     try {
       await axios.delete(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills/${_id}`,
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/soft-skills/${_id}`,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
 
@@ -95,7 +95,7 @@ function ManageSkills() {
     try {
       console.log("Attempting to save skill:", newSkill);
       const response = await axios.post(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/soft-skills",
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/soft-skills",
         newSkill,
         {headers: {Authorization: `Bearer ${authToken}`}}
       );

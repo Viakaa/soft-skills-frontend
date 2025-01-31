@@ -107,32 +107,83 @@
         font-size: 16px;
         padding: 15px 0;
     }
+
+    .col-md-3 {
+        width: 35%;
+    }
+
+    .col-md-9 {
+        flex: 0 0 auto;
+        width: 65%;
+    }
 }
 
 @media only screen and (max-width: 480px) {
     .avatar {
-        width: 120px;
-        height: 120px;
+        width: 50%;
+        height: 50%;
     }
 
-    .basic_info {
-        font-size: 18px;
+    .font-weight-bold {
+        font-size: 20px;
+    }
+
+    .labels, .infotext {
+        font-size: 14px;
+    }
+
+    .edit-profile-btn {
+        font-size: 14px;
         padding: 8px;
     }
 
-    .labels {
-        font-size: 16px;
-        padding: 8px;
-        margin-top: 10px;
-    }
 
-    .infotext {
-        font-size: 14px;
-        padding-left: 5px;
-    }
-
-    .change_password_btn {
-        font-size: 14px;
-        padding: 10px 0;
-    }
 }
+
+
+.skeleton-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .skeleton-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite ease-in-out;
+  }
+  
+  .skeleton-line {
+    width: 80%;
+    height: 20px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite ease-in-out;
+    margin-top: 10px;
+  }
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
