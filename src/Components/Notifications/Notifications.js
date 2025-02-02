@@ -21,9 +21,9 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
     }
   }, [isVisible, notifications, markNotificationAsRead]);
   
-  
-
-  console.log("Notifications in Sidebar:", notifications);
+  const sortedNotifications = [...notifications]
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 10);
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
@@ -35,11 +35,11 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
       {error && <div className="error">{error}</div>}
       {loading ? (
         <p>Loading notifications...</p>
-      ) : notifications.length === 0 ? (
+      ) : sortedNotifications.length === 0 ? (
         <p className="noNotifications">No notifications</p>
       ) : (
         <ul id="notification-list" className="list">
-          {notifications.map((notification) => (
+          {sortedNotifications.map((notification) => (
             <li key={notification._id} className="item-notification">
               <div className="notification-header">
                 <div className="profile-placeholder"></div>

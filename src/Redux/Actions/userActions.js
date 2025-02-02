@@ -37,8 +37,6 @@ export const fetchUserNotifications = async () => {
       },
     });
 
-    console.log("API Response:", response.data);
-
     return response.data;
   } catch (error) {
     console.error('Failed to fetch notifications:', error);
