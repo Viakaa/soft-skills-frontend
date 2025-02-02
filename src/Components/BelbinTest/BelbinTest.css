@@ -1,4 +1,3 @@
-/* General Container Styling */
 .test-container {
   max-width: 960px;
   margin: 0 auto;
@@ -6,16 +5,15 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
-/* Question Section - PC View */
 .questions-column {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Navigation Buttons - Mobile */
 .question-navigation {
   display: flex;
   justify-content: space-between;
@@ -46,7 +44,6 @@
   transform: scale(1.05);
 }
 
-/* Question Block */
 .question-block {
   padding: 20px;
   background: #f9f9fb;
@@ -59,12 +56,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Sub-questions */
 .sub-question {
   margin-top: 15px;
 }
 
-/* Number Input */
 input[type="number"] {
   width: 100%;
   padding: 12px;
@@ -81,7 +76,6 @@ input[type="number"]:focus {
   outline: none;
 }
 
-/* Submit Button */
 button.submit-button {
   display: block;
   width: 100%;
@@ -101,7 +95,6 @@ button.submit-button:hover {
   transform: scale(1.05);
 }
 
-/* Point Selection Buttons (Mobile) */
 .point-buttons {
   display: flex;
   gap: 8px;
@@ -134,7 +127,6 @@ button.submit-button:hover {
   border-color: #4444FF;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .test-container {
     padding: 20px;

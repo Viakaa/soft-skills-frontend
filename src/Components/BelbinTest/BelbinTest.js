@@ -9,11 +9,21 @@ const BelbinTest = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);  // State to track the current question being displayed
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); 
   const navigate = useNavigate();
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM4NTIwNjQ5LCJleHAiOjE3Mzg2MDcwNDl9.0eI8nyQJbbW6blqBGfkqfktDUGYiQO51g9H-XXxTVP0";
+
+  const getToken = () => {
+    return localStorage.getItem("authToken"); 
+  };
 
   useEffect(() => {
+    const token = getToken(); 
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const fetchTest = async () => {
       try {
         const response = await fetch(API_URL, {
@@ -45,7 +55,7 @@ const BelbinTest = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [navigate]);
 
   const handleChangePoints = (questionIndex, subQuestionIndex, value) => {
     if (!test) return;
@@ -55,20 +65,13 @@ const BelbinTest = () => {
 
     const previousValue = updatedSubQuestions[subQuestionIndex].points || 0;
 
-    // Calculate the total points for the current question block
     const currentTotal = updatedQuestions[questionIndex].subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
 
-    // Ensure the total points in the block don't exceed 10
     if (currentTotal - previousValue + value > 10) {
-      return; // Prevent update if total exceeds 10
+      return; 
     }
 
-    // Count how many sub-questions have points assigned in the current question block
-    const pointsAssignedCount = updatedQuestions[questionIndex].subQuestions.filter(sq => sq.points > 0).length;
-
-    const newValue = value === previousValue ? undefined : value;
-
-    updatedSubQuestions[subQuestionIndex].points = newValue;
+    updatedSubQuestions[subQuestionIndex].points = value === previousValue ? undefined : value;
     updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
 
     setTest({
@@ -93,6 +96,15 @@ const BelbinTest = () => {
     }
   };
 
+  const calculateTotalPoints = (questionIndex) => {
+    const question = test.questions[questionIndex];
+    return question.subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
+  };
+
+  const calculateAllTotalPoints = () => {
+    return test.questions.reduce((sum, question) => sum + calculateTotalPoints(test.questions.indexOf(question)), 0);
+  };
+
   if (loading) return <div>Loading test...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -103,7 +115,6 @@ const BelbinTest = () => {
 
       {test.questions && test.questions.length > 0 ? (
         isSmallScreen ? (
-          // Mobile version with one question at a time
           <div className="mobile-navigation">
             <button
               className="nav-button"
@@ -143,19 +154,21 @@ const BelbinTest = () => {
                   </div>
                 );
               })}
+
+              <p>Total Points: {calculateTotalPoints(currentQuestionIndex)} / 10</p>
             </div>
             <button
               className="nav-button"
               onClick={handleNext}
               disabled={currentQuestionIndex === test.questions.length - 1}
             >
-              Next → 
+              Next →
             </button>
           </div>
         ) : (
           <div className="questions-column">
             {test.questions.map((question, index) => {
-              const totalPoints = question.subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
+              const totalPoints = calculateTotalPoints(index);
 
               return (
                 <div className="question-block" key={index}>
@@ -181,9 +194,14 @@ const BelbinTest = () => {
                       </div>
                     );
                   })}
+                  <p>Total Points: {totalPoints} / 10</p>
                 </div>
               );
             })}
+
+            <div className="total-points">
+              <h3>Total Points for All Questions: {calculateAllTotalPoints()} / {test.questions.length * 10}</h3>
+            </div>
           </div>
         )
       ) : (
