@@ -20,7 +20,7 @@ const NotificationForm = () => {
   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2OTU1MTk3LCJleHAiOjE3MzcwNDE1OTd9.Gs2IXC6i5WJWED9rJiBLGMHpkENDPkZHsoktxf7AYpk"; 
 
   useEffect(() => {
-    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users", {
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

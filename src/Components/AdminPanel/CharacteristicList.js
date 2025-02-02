@@ -31,7 +31,7 @@ function ManageSkills() {
 
     try {
       const response = await axios.post(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+        "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/characteristics",
         { title: newCharacteristic },
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
@@ -47,7 +47,7 @@ function ManageSkills() {
     const authToken = localStorage.getItem("authToken");
     try {
       await axios.delete(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics/${deleteCharacteristicId}`,
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/characteristics/${deleteCharacteristicId}`,
         { headers: { Authorization: `Bearer ${authToken}` } }
       );
       setCharacteristics(characteristics.filter(char => char._id !== deleteCharacteristicId));
@@ -67,7 +67,7 @@ function ManageSkills() {
     const fetchCharacteristics = async () => {
       try {
         const response = await axios.get(
-          "http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics",
+          "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/characteristics",
           { headers: { Authorization: `Bearer ${authToken}` } }
         );
         setCharacteristics(response.data.map((char) => ({

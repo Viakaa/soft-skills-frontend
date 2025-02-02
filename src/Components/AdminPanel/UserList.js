@@ -39,7 +39,7 @@ function UserList() {
   //get users data
   const fetchUsers = async (authToken) => {
     try {
-      const response = await axios.get("http://ec2-34-239-91-8.compute-1.amazonaws.com/users", {
+      const response = await axios.get("http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/users", {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       setUsers(response.data);
@@ -73,7 +73,7 @@ function UserList() {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
     try {
-      await axios.patch(`http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${currentUser._id}`, editFormData, {
+      await axios.patch(`http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/users/${currentUser._id}`, editFormData, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       setShowModal(false);

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const loginUser = (formData) => async (dispatch) => {
   try {
-    const response = await axios.post('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/signin', formData);
+    const response = await axios.post('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/auth/signin', formData);
 
     if (response.data && response.data.token) {
       localStorage.setItem('authToken', response.data.token);
@@ -22,61 +22,44 @@ export const loginUser = (formData) => async (dispatch) => {
 
 
 
-export const fetchUserNotifications = async (userId, token) => {
+export const fetchUserNotifications = async () => {
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('authToken');
+
+  if (!userId || !token) {
+    throw new Error('User is not authenticated');
+  }
+
   try {
-    const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users/${userId}`, {
+    const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const user = response.data;
-    if (!user || !user.notifications) return [];
-
-    const notificationsWithUser = await Promise.all(
-      user.notifications.map(async (notification) => {
-        const userResponse = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users/${notification.ownerId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const notificationOwner = userResponse.data;
-        return {
-          ...notification,
-          ownerName: `${notificationOwner.firstName} ${notificationOwner.lastName}`,
-        };
-      })
-    );
-
-    return notificationsWithUser;
-
+    return response.data;
   } catch (error) {
-    console.error('Error fetching notifications:', error);
-    return [];
+    console.error('Failed to fetch notifications:', error);
+    throw new Error('Failed to fetch notifications');
   }
 };
 
 const getAllUsers = async () => {
   try {
-      const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users");
-      return response.data; //return users data
+      const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users");
+      return response.data;
   } catch (error) {
       console.error("Error retrieving users:", error);
       throw error;
   }
 };
 
-//check if email exists
 const emailExists = (users, email) => {
   return users.some(user => user.email.toLowerCase() === email.toLowerCase());
 };
 
 export const registerUser = (formData) => async (dispatch) => {
   try {
-   /* const users = await getAllUsers();
-    if (emailExists(users, formData.email)) {
-      throw new Error("Email already exists. Please use a different email.");
-    }*/
 
     const response = await axios.post("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/signup", formData);
     dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
@@ -91,7 +74,7 @@ export const getUserInfo = (userId, token) => async (dispatch) => {
     try {
       const token = localStorage.getItem('authToken');
       const userId = localStorage.getItem('userId');
-      const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/users/${userId}`, {
+      const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

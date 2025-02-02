@@ -15,7 +15,7 @@ export default function UserTests() {
   const fetchUserResults = async () => {
     try {
       const userResultsResponse = await axios.get(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}`,
+        `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ export default function UserTests() {
       const characteristicsPromises = userResults.characteristics.map(async (char) => {
         try {
           const charResponse = await axios.get(
-            `http://ec2-34-239-91-8.compute-1.amazonaws.com/characteristics/${char.characteristicId}`,
+            `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/characteristics/${char.characteristicId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

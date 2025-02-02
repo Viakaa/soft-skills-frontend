@@ -101,6 +101,7 @@
     margin: 5%;
     background-color: #9999FF;
     border-radius: 10px;
+    
 }
 
   
@@ -111,7 +112,8 @@
         margin-left:10%
     }
     .card-header,.testcard_text{
-        font-size:25px !important;
+        font-size:20px !important;
+        font-weight: bold;
     }
 
     .mainWrapper{
@@ -120,9 +122,23 @@
     }
 
     .testcards_test_text{
-        font-size:25px !important
+        font-size:25px !important;
+        margin-left: 33%;
     }
-   
+
+    .testcards_main {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+   .test-text{
+        flex-direction: column;
+   }
+
+   .testcard_text{
+    width: 80%;
+    
+   }
 }
 
 @media only screen and (min-width: 601px) and (max-width: 992px) {
@@ -140,3 +156,4 @@
         gap: 30px
     }
 }
+

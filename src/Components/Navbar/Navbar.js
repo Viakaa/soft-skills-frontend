@@ -16,7 +16,8 @@ import { useNotifications } from "../Notifications/NotificationsContext";
 const NavbarMain = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const isLoggedIn = Boolean(userInfo);
+
+  const isLoggedIn = Boolean(userInfo) || Boolean(localStorage.getItem("authToken"));
   const isAdmin = userInfo?.role === 'ADMIN';
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -34,10 +35,11 @@ const NavbarMain = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !userInfo) {
       dispatch(getUserInfo());
     }
   }, [dispatch, isLoggedIn]);
+  
 
   return (
     <div className="navbar_main">
@@ -73,19 +75,18 @@ const NavbarMain = () => {
           <Navbar.Collapse className="justify-content-end">
   {isLoggedIn && (
     <>
-      <div className="notification" onClick={openSidebar} style={{ position: "relative" }}>
-         <img id="notification-icon" src={NotificationIcon} alt="Notification Icon" />
-         {unreadCount > 0 && (
-          <span className="notification-badge">{unreadCount}</span>
-           )}
-         </div>
-      <div 
-        className="user-profile" 
-        onClick={() => window.location.href = "/profile"} 
-        style={{ cursor: "pointer", marginRight: "10px" }}
-      >
-        <img style={{ width: "45px", borderRadius: "25%",backgroundColor: "white" }} src={UserIcon} alt="User Icon" />
-      </div>
+     <div className="nav-right">
+   <div className="notification" onClick={openSidebar} style={{ position: "relative" }}>
+      <img id="notification-icon" src={NotificationIcon} alt="Notification Icon" />
+      {unreadCount > 0 && (
+        <span className="notification-badge">{unreadCount}</span>
+      )}
+   </div>
+   <div className="user-profile" onClick={() => window.location.href = "/profile"}>
+      <img src={UserIcon} alt="User Icon" />
+   </div>
+</div>
+
 
       <Nav.Link className="navbar_link_end" onClick={handleLogout} style={{ width: "85px",backgroundColor: "white" }}>
         Logout
