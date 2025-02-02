@@ -24,7 +24,6 @@ import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
 import Article1 from './Components/Articles/ArticleTeamwork.js';
 import Article2 from './Components/Articles/ArticleChangeLife.js';
-import UserGrid from './Components/AllUsers/AllUsers.js'
 
 function App() {
   return (
@@ -50,7 +49,6 @@ function App() {
         <Route path="/belbin" element={<BelbinTest />} />
         <Route path="/belbinresult" element={<BelbinResult />} />
         <Route path="/belbinchart" element={<PrivateRoute><BelbinChart /></PrivateRoute>} />
-        <Route path="/allusers" element={<UserGrid />} />
         <Route path="*" element={<NotFoundPage />} />
         
       </Routes>
