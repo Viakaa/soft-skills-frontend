@@ -17,9 +17,18 @@ const NotificationForm = () => {
   });
   const [error, setError] = useState(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2OTU1MTk3LCJleHAiOjE3MzcwNDE1OTd9.Gs2IXC6i5WJWED9rJiBLGMHpkENDPkZHsoktxf7AYpk"; 
+  const getToken = () => {
+    return localStorage.getItem("authToken");
+  };
 
   useEffect(() => {
+    const token = getToken();
+
+    if (!token) {
+      setError("No token found. Please log in.");
+      return;
+    }
+
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users", {
       method: "GET",
       headers: {
@@ -44,7 +53,7 @@ const NotificationForm = () => {
         setError(err.message || "Failed to load users");
       });
 
-    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests", {
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -67,7 +76,7 @@ const NotificationForm = () => {
         console.error(err);
         setError(err.message || "Failed to load tests");
       });
-  }, [token]);
+  }, []); 
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -104,6 +113,8 @@ const NotificationForm = () => {
   };
 
   const handleSendNotification = () => {
+    const token = getToken();
+
     if (!formData.nameOrArticle) {
       setError("Title is required.");
       return;
@@ -146,7 +157,7 @@ const NotificationForm = () => {
       };
     }
 
-    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/notifications", {
+    fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -221,29 +232,28 @@ const NotificationForm = () => {
       </div>
 
       <div className="user-list">
-  <h3>Users:</h3>
-  {error ? (
-    <div className="error">{error}</div>
-  ) : users.length === 0 ? (
-    <div>Loading users...</div>
-  ) : (
-    users
-      .filter(
-        (user) =>
-          !addedUsers.some((addedUser) => addedUser._id === user._id) &&
-          `${user.firstName} ${user.lastName}`
-            .toLowerCase()
-            .includes(search.toLowerCase())
-      )
-      .map((user) => (
-        <div key={user._id} className="user-item">
-          {user.firstName} {user.lastName}
-          <button onClick={() => handleAddUser(user)}>Add</button>
-        </div>
-      ))
-  )}
-</div>
-
+        <h3>Users:</h3>
+        {error ? (
+          <div className="error">{error}</div>
+        ) : users.length === 0 ? (
+          <div>Loading users...</div>
+        ) : (
+          users
+            .filter(
+              (user) =>
+                !addedUsers.some((addedUser) => addedUser._id === user._id) &&
+                `${user.firstName} ${user.lastName}`
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+            )
+            .map((user) => (
+              <div key={user._id} className="user-item">
+                {user.firstName} {user.lastName}
+                <button onClick={() => handleAddUser(user)}>Add</button>
+              </div>
+            ))
+        )}
+      </div>
 
       <div className="added-users">
         <h3>Added Users:</h3>
@@ -261,31 +271,28 @@ const NotificationForm = () => {
 
       {formData.type === "Test Invitation" ? (
         <div className="form-group">
-        <label>Choose Test:</label>
-        {tests.length === 0 ? (
-          <p>Loading tests...</p>
-        ) : (
-          <select
-            name="selectedTest"
-            value={formData.selectedTest}
-            onChange={handleInputChange}
-          >
-            <option value="">Select a test</option>
-            {tests
-              .filter(
-                (test) => typeof test.title === "string" && test.title.trim() !== ""
-              )
-              .map((test, index) => (
-                <option key={test._id} value={test._id}>
-                  {test.title}
-                </option>
-              ))}
-          </select>
-        )}
-      </div>
-      
-      
-      
+          <label>Choose Test:</label>
+          {tests.length === 0 ? (
+            <p>Loading tests...</p>
+          ) : (
+            <select
+              name="selectedTest"
+              value={formData.selectedTest}
+              onChange={handleInputChange}
+            >
+              <option value="">Select a test</option>
+              {tests
+                .filter(
+                  (test) => typeof test.title === "string" && test.title.trim() !== ""
+                )
+                .map((test, index) => (
+                  <option key={test._id} value={test._id}>
+                    {test.title}
+                  </option>
+                ))}
+            </select>
+          )}
+        </div>
       ) : (
         <div className="form-group">
           <label>Additional Description:</label>
