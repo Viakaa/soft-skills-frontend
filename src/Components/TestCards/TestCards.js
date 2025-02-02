@@ -31,7 +31,7 @@ export default function TestCards() {
 
     try {
       const response = await axios.get(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/tests",
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
         {
           headers: { Authorization: `Bearer ${authToken}` },
         }
