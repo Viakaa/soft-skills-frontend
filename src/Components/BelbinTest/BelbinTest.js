@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './BelbinTest.css';
+import "./BelbinTest.css";
 
-const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/tests/677ffc10bc648d0df2743ff7";
+const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/677ffc10bc648d0df2743ff7";
 
 const BelbinTest = () => {
   const [test, setTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);  // State to track the current question being displayed
   const navigate = useNavigate();
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM2Nzk0MjAzLCJleHAiOjE3MzY4ODA2MDN9.kVL6B61toQIQy78rLTvlaPUEPAg2hTTEILsao2gPsPg";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY4MmIwYjEyYmM0MjgxMGI0NzA3ZWYiLCJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzM4NTIwNjQ5LCJleHAiOjE3Mzg2MDcwNDl9.0eI8nyQJbbW6blqBGfkqfktDUGYiQO51g9H-XXxTVP0";
 
   useEffect(() => {
     const fetchTest = async () => {
@@ -36,6 +38,13 @@ const BelbinTest = () => {
     };
 
     fetchTest();
+
+    const handleResize = () => setIsSmallScreen(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const handleChangePoints = (questionIndex, subQuestionIndex, value) => {
@@ -44,69 +53,48 @@ const BelbinTest = () => {
     const updatedQuestions = [...test.questions];
     const updatedSubQuestions = [...updatedQuestions[questionIndex].subQuestions];
 
-    updatedSubQuestions[subQuestionIndex].points = value;
+    const previousValue = updatedSubQuestions[subQuestionIndex].points || 0;
 
-    const totalPointsForQuestion = updatedSubQuestions.reduce(
-      (sum, subQuestion) => sum + (subQuestion.points || 0),
-      0
-    );
+    // Calculate the total points for the current question block
+    const currentTotal = updatedQuestions[questionIndex].subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
 
-    if (totalPointsForQuestion <= 10) {
-      updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
-
-      setTest({
-        ...test,
-        questions: updatedQuestions,
-      });
+    // Ensure the total points in the block don't exceed 10
+    if (currentTotal - previousValue + value > 10) {
+      return; // Prevent update if total exceeds 10
     }
-  };
 
-  const calculateRoles = () => {
-    const pointsByRole = {};
+    // Count how many sub-questions have points assigned in the current question block
+    const pointsAssignedCount = updatedQuestions[questionIndex].subQuestions.filter(sq => sq.points > 0).length;
 
-    test.questions.forEach((question) => {
-      question.subQuestions.forEach((subQuestion) => {
-        if (!pointsByRole[subQuestion.role]) {
-          pointsByRole[subQuestion.role] = 0;
-        }
-        pointsByRole[subQuestion.role] += subQuestion.points || 0;
-      });
+    const newValue = value === previousValue ? undefined : value;
+
+    updatedSubQuestions[subQuestionIndex].points = newValue;
+    updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
+
+    setTest({
+      ...test,
+      questions: updatedQuestions,
     });
-
-    
-    const sortedRoles = Object.entries(pointsByRole)
-      .sort((a, b) => b[1] - a[1]) 
-      .slice(0, 3); 
-
-    return sortedRoles.map((role) => role[0]); 
   };
 
   const handleSubmit = () => {
-    const topRoles = calculateRoles();
-    const pointsForRoles = {};
-  
-    test.questions.forEach((question) => {
-      question.subQuestions.forEach((subQuestion) => {
-        if (subQuestion.points && subQuestion.role) {
-          if (!pointsForRoles[subQuestion.role]) {
-            pointsForRoles[subQuestion.role] = 0;
-          }
-          pointsForRoles[subQuestion.role] += subQuestion.points;
-        }
-      });
-    });
-  
-    navigate("/belbinresult", { state: { roles: topRoles, points: pointsForRoles } });
+    navigate("/belbinresult");
   };
-  
 
-  if (loading) {
-    return <div>Loading test...</div>;
-  }
+  const handleNext = () => {
+    if (currentQuestionIndex < test.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  if (loading) return <div>Loading test...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="test-container">
@@ -114,40 +102,90 @@ const BelbinTest = () => {
       <p>Created by: {test.created_by || "Unknown"}</p>
 
       {test.questions && test.questions.length > 0 ? (
-        <div className="horizontal-scroll-container">
-          {test.questions.map((question, questionIndex) => {
-            const totalPoints = question.subQuestions.reduce(
-              (sum, subQuestion) => sum + (subQuestion.points || 0),
-              0
-            );
+        isSmallScreen ? (
+          // Mobile version with one question at a time
+          <div className="mobile-navigation">
+            <button
+              className="nav-button"
+              onClick={handlePrevious}
+              disabled={currentQuestionIndex === 0}
+            >
+              ← Previous
+            </button>
+            <div className="question-block">
+              <h3>{test.questions[currentQuestionIndex].question || `Question ${currentQuestionIndex + 1}`}</h3>
+              {test.questions[currentQuestionIndex].subQuestions.map((subQuestion, subIndex) => {
+                const previousValue = subQuestion.points || 0;
+                const remainingPoints = 10 - test.questions[currentQuestionIndex].subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0) + previousValue;
 
-            return (
-              <div className="question-block" key={question._id || questionIndex}>
-                <h3>{question.question || `Question ${questionIndex + 1}`}</h3>
-                
-                {question.subQuestions && question.subQuestions.length > 0 ? (
-                  question.subQuestions.map((subQuestion, subIndex) => (
-                    <div className="sub-question" key={subIndex}>
-                      <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>
-                      <input
-                        type="number"
-                        value={subQuestion.points || 0}
-                        min="0"
-                        max="10"
-                        onChange={(e) =>
-                          handleChangePoints(questionIndex, subIndex, parseInt(e.target.value) || 0)
-                        }
-                      />
+                return (
+                  <div className="sub-question" key={subIndex}>
+                    <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>
+                    <div className="point-input">
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
+                        const isSelected = subQuestion.points === num;
+                        const isDisabled = num > remainingPoints;
+
+                        return (
+                          <button
+                            key={num}
+                            className={`point-button ${isSelected ? "selected" : ""}`}
+                            onClick={() => {
+                              if (!isDisabled) handleChangePoints(currentQuestionIndex, subIndex, num);
+                            }}
+                            style={isDisabled ? { pointerEvents: "none", opacity: 0.5 } : {}}
+                          >
+                            {num}
+                          </button>
+                        );
+                      })}
                     </div>
-                  ))
-                ) : (
-                  <p>No sub-questions available.</p>
-                )}
-                <p className="total-points">Total Points: {totalPoints} / 10</p>
-              </div>
-            );
-          })}
-        </div>
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              className="nav-button"
+              onClick={handleNext}
+              disabled={currentQuestionIndex === test.questions.length - 1}
+            >
+              Next → 
+            </button>
+          </div>
+        ) : (
+          <div className="questions-column">
+            {test.questions.map((question, index) => {
+              const totalPoints = question.subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
+
+              return (
+                <div className="question-block" key={index}>
+                  <h3>{question.question || `Question ${index + 1}`}</h3>
+                  {question.subQuestions.map((subQuestion, subIndex) => {
+                    const previousValue = subQuestion.points || 0;
+                    const remainingPoints = 10 - totalPoints + previousValue;
+
+                    return (
+                      <div className="sub-question" key={subIndex}>
+                        <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>
+                        <div className="point-input">
+                          <input
+                            type="number"
+                            value={subQuestion.points || 0}
+                            min="0"
+                            max="10"
+                            onChange={(e) =>
+                              handleChangePoints(index, subIndex, parseInt(e.target.value) || 0)
+                            }
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        )
       ) : (
         <p>No questions available for this test.</p>
       )}
