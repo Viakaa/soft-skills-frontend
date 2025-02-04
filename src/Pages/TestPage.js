@@ -26,7 +26,7 @@ const TestPage = () => {
     try {
       console.log(id)
       //get current test
-      const testResp = await axios.get(`http://ec2-34-239-91-8.compute-1.amazonaws.com/tests/${id}`, {
+      const testResp = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/${id}`, {
         headers: {Authorization: `Bearer ${authToken}`},
       });
       //get questions from current test
@@ -85,7 +85,7 @@ const handleSubmit = async (e) => {
   
   console.log("abcd",abcd);
   
-  const url = `http://ec2-34-239-91-8.compute-1.amazonaws.com/users/${userId}/tests/${id}/results`;
+  const url = `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/${id}/results`;
   console.log('URL:', url);
 
   try {
@@ -111,12 +111,6 @@ useEffect(() => {
     return () => clearTimeout(timer);  // Cleanup the timer
   }
 }, [showCompletionToast, navigate]);
-
-  
-  
-  
-  
-
 
   return (
     <div>

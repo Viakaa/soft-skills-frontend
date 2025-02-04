@@ -55,7 +55,7 @@ function DNDconstructor() {
       // Add each question to the database and collect their IDs
       const questionPromises = savedItems.map((item) =>
         axios.post(
-          "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/questions",
+          "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/questions",
           {
             question: "Question",
             type: item.type,
@@ -78,7 +78,7 @@ function DNDconstructor() {
 
       // Create the test with the question IDs
       const testResponse = await axios.post(
-        "http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/tests",
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
         {
           title: testTitle,
           questions: questionIds,

@@ -38,15 +38,15 @@ function App() {
         <Route path="/" element={<PrivateRoute><MainPage /></PrivateRoute>} />
         <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
-        <Route path="/adminnotifications" element={<NotificationForm />} />
+        <Route path="/adminnotifications" element={<AdminRoute><NotificationForm /></AdminRoute>} />
         <Route path="/notifications" element={<PrivateRoute><NotificationsPage /></PrivateRoute>} />
         <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/steps-to-building-a-successful-team" element={<PrivateRoute><Article1 /></PrivateRoute>} />
         <Route path="/methods-to-change-your-life" element={<PrivateRoute><Article2 /></PrivateRoute>} />
         <Route path="/test_constructor1" element={<DNDconstructor />} />
-        <Route path="/test_constructor" element={<AdminRoute><DNDcons /></AdminRoute>} />
+        <Route path="/test_constructor" element={<AdminRoute><DNDconstructor /></AdminRoute>} />
         <Route path="/test/:id" element={<TestPage />} />
-        <Route path="/belbin" element={<BelbinTest />} />
+        <Route path="/test/677ffc10bc648d0df2743ff7" element={<BelbinTest />} />
         <Route path="/belbinresult" element={<BelbinResult />} />
         <Route path="/belbinchart" element={<PrivateRoute><BelbinChart /></PrivateRoute>} />
         <Route path="*" element={<NotFoundPage />} />

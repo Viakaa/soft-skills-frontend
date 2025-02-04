@@ -61,7 +61,7 @@ const emailExists = (users, email) => {
 export const registerUser = (formData) => async (dispatch) => {
   try {
 
-    const response = await axios.post("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/signup", formData);
+    const response = await axios.post("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/auth/signup", formData);
     dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
     return response.data;
   } catch (error) {
