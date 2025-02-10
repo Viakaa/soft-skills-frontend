@@ -9,5 +9,5 @@ background-color: transparent !important;;
 #notfound_text{
     font-weight: 600;
     font-size:40px;
-    color:#4F60C5;
+    color:var(--primary-color);
 }

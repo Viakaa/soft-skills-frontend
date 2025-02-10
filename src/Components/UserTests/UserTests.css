@@ -1,6 +1,6 @@
 
 .main_wrapper {
-    background-color: #9999FF;
+    background-color:var(--primary-color);
     max-width: 1320px;
     margin: 0 auto;
     border-radius: 20px;
@@ -36,7 +36,7 @@
 }
 
 .test1_label {
-    background-color: rgba(255, 214, 153, 1);
+    background-color:var(--secondary-color);
     font-size: 28px;
     font-family: "Mitr";
     color: rgba(56, 43, 74, 1);

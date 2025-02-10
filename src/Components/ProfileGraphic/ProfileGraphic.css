@@ -9,13 +9,13 @@
 
 .skillsCard{
     border: solid 1px rgb(95, 90, 90);
-    background-color: #FED799;
+    background-color:var(--primary-color);
     border-width: 3px;
     border-radius: 15px;
     border-radius: 15px;
     height:450px;
     font-size: 25px;
-    color:#000967 ;
+    color:var(--text-color);
     display: flex;
     padding:10px;
     width: 46%;
@@ -23,7 +23,7 @@
 
 .graph_card{
     border: solid 1px rgb(95, 90, 90);
-    background-color: #C499FF;
+    background-color: var(--primary-color);
     border-width: 3px;
     border-radius: 15px;
     border-radius: 15px;

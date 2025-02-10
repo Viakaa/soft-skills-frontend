@@ -21,7 +21,7 @@ p.text-center {
 .login_main {
     width: 90%; 
     max-width: 500px;
-    background-color: #9999FF !important;
+    background-color: var(--primary-color) !important;
     margin: auto;
     padding: 20px; 
     border-radius: 10px; 

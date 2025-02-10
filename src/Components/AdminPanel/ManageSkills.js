@@ -331,7 +331,7 @@ function ManageSkills() {
                     ))}
                   </Form.Control>
                   {!isCharacteristicsValid && (
-                    <div style={{ color: '#F8FBFF' }}>
+                    <div style={{ color: '#fffff' }}>
                       Please select at least one characteristic.
                     </div>
                   )}
@@ -356,7 +356,7 @@ function ManageSkills() {
                     ))}
                   </Form.Control>
                   {!isCharacteristicsValid && (
-                    <div style={{ color: '#F8FBFF' }}>
+                    <div style={{ color: '#fffff' }}>
                       Please select at least one characteristic.
                     </div>
                   )}

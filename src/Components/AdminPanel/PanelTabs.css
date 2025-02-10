@@ -1,5 +1,5 @@
 .navcol{
-    background-color: rgba(153, 153, 255, 1) !important;
+    background-color:var(--primary-color) !important;
     border-radius: 0 !important;
     color: white !important;
     border-radius: 20px !important;
@@ -16,7 +16,7 @@
 }
 
 .navitm:hover{
-    color: #C3CCED !important;
+    color: var(--secondary-color);
 }
 .adm_nav{
     margin-left: 6%;

@@ -25,7 +25,7 @@
 .nav-button {
   padding: 12px 24px;
   font-size: 1rem;
-  background: linear-gradient(135deg, #6666FF, #9999FF);
+  background: linear-gradient(135deg,var(--primary-color));
   color: white;
   border: none;
   border-radius: 8px;
@@ -40,7 +40,7 @@
 }
 
 .nav-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5555FF, #8888FF);
+  background: linear-gradient(135deg,var(--primary-color));
   transform: scale(1.05);
 }
 
@@ -48,7 +48,7 @@
   padding: 20px;
   background: #f9f9fb;
   border-radius: 10px;
-  border: 3px solid #6666FF;
+  border: 3px solid var(--primary-color);
   transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -72,7 +72,7 @@ input[type="number"] {
 }
 
 input[type="number"]:focus {
-  border-color: #6666FF;
+  border-color: var(--primary-color);
   outline: none;
 }
 
@@ -81,7 +81,7 @@ button.submit-button {
   width: 100%;
   padding: 12px 20px;
   font-size: 1.1rem;
-  background: linear-gradient(135deg, #6666FF, #9999FF);
+  background: linear-gradient(135deg, var(--primary-color));
   color: white;
   border: none;
   border-radius: 8px;
@@ -91,7 +91,7 @@ button.submit-button {
 }
 
 button.submit-button:hover {
-  background: linear-gradient(135deg, #5555FF, #8888FF);
+  background: linear-gradient(135deg,  var(--primary-color));
   transform: scale(1.05);
 }
 
@@ -106,9 +106,9 @@ button.submit-button:hover {
 .point-button {
   padding: 10px 15px;
   font-size: 1rem;
-  border: 2px solid #6666FF;
+  border: 2px solid var(--primary-color);
   background: #fff;
-  color: #6666FF;
+  color: var(--primary-color);
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
@@ -117,14 +117,14 @@ button.submit-button:hover {
 
 
 .point-button:hover {
-  background: #6666FF;
+  background: var(--primary-color);
   color: white;
 }
 
 .point-button.selected {
-  background: #4444FF;
+  background: var(--secondary-color);
   color: white;
-  border-color: #4444FF;
+  border-color: var(--secondary-color);
 }
 
 @media (max-width: 768px) {

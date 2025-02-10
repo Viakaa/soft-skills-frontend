@@ -8,6 +8,7 @@ import MainPage from "./Pages/MainPage.js";
 import ProfilePage from "./Pages/ProfilePage.js";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import './global.css';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";

@@ -46,7 +46,7 @@
     justify-content: center;
     align-items: center;
     background-color: white;
-    color: #292E46;
+    color: var(--secondary-color);
     font-weight: 500;
     gap: 20px;
     padding: 4px 0px;
@@ -68,10 +68,12 @@
     border-top: 18px solid !important;
     border-right: 16px solid transparent !important;
     border-left: 16px solid transparent !important;
-    color: rgba(30, 43, 115, 0.57);
+    color: var(--secondary-color);
 }
 
-
+.btn-primary {
+    color: var(--secondary-color);
+}
   
 .cards_wrapper {
     display: flex !important;
@@ -99,7 +101,6 @@
     padding-left: 5%;
     padding-right: 5%;
     margin: 5%;
-    background-color: #9999FF;
     border-radius: 10px;
     
 }

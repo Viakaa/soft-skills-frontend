@@ -1,11 +1,8 @@
-/*body {
-    background-color: rgba(242, 230, 215, 1) !important;
-}*/
 
 .manageTable {
     padding: 12px 36px 110px;
     border-radius: 20px;
-    background: rgba(153, 153, 255, 1) !important;
+    background: var(--primary-color) !important;
 }
 
 .manageTable__title {
@@ -27,7 +24,7 @@
 }
 
 .modalHeader, .modalBody, .modalFooter {
-    background-color: rgba(153, 153, 255, 1) !important;
+    background-color: var(--primary-color) !important;
     color: white;
 }
 
@@ -79,7 +76,7 @@
 }
 
 .char_skill{
-    background-color: #896BB3 !important;
+    background-color: var(--secondary-color)!important;
     width: 100%;
     border-left: 2px solid #292E46;
     border-radius: 2px;
@@ -99,9 +96,10 @@
     border-radius: 5px;
     display: flex;
     width: 100%;
-    background-color: #C499FF !important;
-    color: #382B4A !important;
+    background-color:var(--secondary-color) !important;
+    color: var(--primary-color) !important;
 }
+
 
 .manageTable__btn {
     flex-shrink: 0;
@@ -125,18 +123,18 @@
     margin-right: 13px;
     height: 44px;
     width: 44px;
-    background-color: rgba(248, 251, 255, 1) !important;
+    background-color: var(--secondary-color) !important;
     padding: 9px;
     border-radius: 10px;
 }
 
 .saveButton {
-    background-color: #896BB3 !important;
+    background-color: var(--secondary-color) !important;
     border: none !important;
 }
 
 .titleInput {
-    background-color: #FFD699 !important;
+    background-color:var(--text-color) !important;
 }
 
 .characteristicsList {
@@ -152,11 +150,15 @@
 }
 
 .charactList {
-    background-color: #896BB3 !important;
-    color: #F8FBFF !important;
+    background-color:var(--text-color) !important;
+    color: var(--primary-color)!important;
 }
 
 .saveButton {
-    background-color: #896BB3 !important;
+    background-color: var(--secondary-color) !important;
     border: none;
+}
+
+.titleInput{
+    color : var(--text-color);
 }
