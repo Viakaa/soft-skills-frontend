@@ -1,51 +1,50 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import rolesInfo from './roles.json';
-import './BelbinResult.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const BelbinResult = () => {
-  const location = useLocation();
-  const { roles } = location.state || [];
+  const { userId } = useParams();
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!roles || roles.length === 0) {
-    return <Typography variant="h6">No roles selected or available</Typography>;
-  }
+  const getToken = () => localStorage.getItem("authToken");
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const token = getToken();
+
+        if (!token) throw new Error("No authentication token found.");
+
+        const response = await fetch(
+          `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/belbin/results`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch results.");
+
+        const data = await response.json();
+        setResults(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [userId]);
+
+  if (loading) return <div>Loading results...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <Box className="result-container">
-      <Typography variant="h4" className="result-role">
-        Top 3 Roles
-      </Typography>
-      {roles.map((role, index) => {
-        const roleInfo = rolesInfo[role];
-        if (!roleInfo) return null;
-
-        const { description, strengths, weaknesses, position } = roleInfo;
-
-        const rolePoints = location.state.points[role];
-
-        return (
-          <Box className="result-box" key={index}>
-            <Typography variant="h5" className="result-section">Role {index + 1}: {role}</Typography>
-            <Typography variant="h6" className="result-section">Points: {rolePoints}</Typography>
-
-            <Typography variant="h5" className="result-section">Description</Typography>
-            <Typography variant="body1" className="result-text">{description}</Typography>
-
-            <Typography variant="h5" className="result-section">Strengths</Typography>
-            <Typography variant="body1" className="result-text">{strengths}</Typography>
-
-            <Typography variant="h5" className="result-section">Weaknesses</Typography>
-            <Typography variant="body1" className="result-text">{weaknesses}</Typography>
-
-            <Typography variant="h5" className="result-section">Possible Position</Typography>
-            <Typography variant="body1" className="result-text">{position}</Typography>
-          </Box>
-        );
-      })}
-    </Box>
+    <div>
+      <h2>Belbin Test Results</h2>
+      <pre>{JSON.stringify(results, null, 2)}</pre>
+    </div>
   );
 };
 

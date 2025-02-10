@@ -80,9 +80,46 @@ const BelbinTest = () => {
     });
   };
 
-  const handleSubmit = () => {
-    navigate("/belbinresult");
+  const handleSubmit = async () => {
+    const token = getToken();
+    const userId = localStorage.getItem("userId"); // Ensure you store userId in localStorage or retrieve it properly.
+  
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/belbin/results`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            answers: test.questions.map((q) => ({
+              questionId: q.id,
+              answers: q.subQuestions.map((sq) => ({
+                subQuestionId: sq.id,
+                points: sq.points || 0,
+              })),
+            })),
+          }),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to submit test results.");
+      }
+  
+      navigate(`/belbinresult/${userId}`);
+    } catch (error) {
+      console.error("Submission Error:", error);
+    }
   };
+  
 
   const handleNext = () => {
     if (currentQuestionIndex < test.questions.length - 1) {

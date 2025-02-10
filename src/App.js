@@ -47,7 +47,7 @@ function App() {
         <Route path="/test_constructor" element={<AdminRoute><DNDconstructor /></AdminRoute>} />
         <Route path="/test/:id" element={<TestPage />} />
         <Route path="/test/677ffc10bc648d0df2743ff7" element={<BelbinTest />} />
-        <Route path="/belbinresult" element={<BelbinResult />} />
+        <Route path="/belbinresult/:userId" element={<BelbinResult />} />
         <Route path="/belbinchart" element={<PrivateRoute><BelbinChart /></PrivateRoute>} />
         <Route path="*" element={<NotFoundPage />} />
         

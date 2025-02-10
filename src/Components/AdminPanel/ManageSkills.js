@@ -159,7 +159,7 @@ function ManageSkills() {
   const fetchSkills = async (authToken) => {
     try {
       const response = await axios.get(
-        "hhttp://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/soft-skills",
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/soft-skills",
         {
           headers: {Authorization: `Bearer ${authToken}`},
         }

@@ -1,21 +1,16 @@
 import { Card, Col, Row, Button, Modal, Form, Toast } from "react-bootstrap";
-
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import "./TestList.css";
+import { Link } from "react-router-dom";
 import uimg from "../../Assets/Images/avatar.png";
+
 function TestList() {
   const [tests, setTests] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [editFormData, setEditFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    direction: "",
-  });
-
+  
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
@@ -25,7 +20,7 @@ function TestList() {
     fetchTests(authToken);
   }, []);
 
-  //get users from database
+  // Get users from database
   const fetchTests = async (authToken) => {
     try {
       const testsResponse = await axios.get(
@@ -34,30 +29,23 @@ function TestList() {
           headers: { Authorization: `Bearer ${authToken}` },
         }
       );
-
-      const testsWithData = await Promise.all(
-        testsResponse.data.map(async (test) => {
-          return { ...test };
-        })
-      );
-
-      setTests(testsWithData); //get tests with all data
+      setTests(testsResponse.data);
     } catch (error) {
       console.error("Error fetching tests:", error);
     }
   };
 
-  //delete test
+  // Delete test
   const handleDeleteTest = async (testId) => {
     try {
       const authToken = localStorage.getItem("authToken");
-      await axios.delete(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/${testId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      
-      const updatedTests = tests.filter((test) => test._id !== testId); //delete test with testId from ui test state
-      setTests(updatedTests);
-
+      await axios.delete(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/${testId}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      setTests(tests.filter((test) => test._id !== testId));
       setShowToast(true);
     } catch (error) {
       console.error("Error deleting test:", error);
@@ -66,34 +54,26 @@ function TestList() {
 
   return (
     <>
-      <div className="all_tests text-center" style={{}}>
+      <div className="all_tests text-center">
         <h1>All Tests</h1>
       </div>
       <Row xs={1} md={3} className="g-4">
         {tests.map((test, index) => (
           <Col key={index}>
-            <Card
-              style={{ height: "200px" }}
-              className="flex a_testcard text-center"
-            >
-              <Card.Body style={{maxHeight:'60px'}}>
+            <Card style={{ height: "200px" }} className="flex a_testcard text-center">
+              <Card.Body style={{ maxHeight: "60px" }}>
                 <Card.Title>{test.title}</Card.Title>
-                {/*{test.questions.map((question, index) => (
-                  <Card.Text key={index}>{question.question}</Card.Text>
-                ))}*/}
               </Card.Body>
-              <Button
-                  className="test_edit"
-                  variant="primary"
-                  onClick={() => handleDeleteTest(test._id)}
-                >
+              <div className="d-flex justify-content-around pb-2">
+                <Link to={`/test/${test._id}`} className="btn btn-info">View</Link>
+                <Button variant="danger" onClick={() => handleDeleteTest(test._id)}>
                   Delete
                 </Button>
+              </div>
             </Card>
           </Col>
         ))}
       </Row>
-
       <Toast
         onClose={() => setShowToast(false)}
         show={showToast}
@@ -108,7 +88,7 @@ function TestList() {
         }}
       >
         <Toast.Header style={{ backgroundColor: "#ff7c7c", color: "white" }}>
-          <strong className="me-auto">Test Delete</strong>
+          <strong className="me-auto">Test Deleted</strong>
         </Toast.Header>
         <Toast.Body>Test was deleted!</Toast.Body>
       </Toast>
