@@ -1,9 +1,8 @@
-import { Card, Col, Row, Button, Modal, Form, Toast } from "react-bootstrap";
+import { Card, Col, Row, Button, Toast } from "react-bootstrap";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import "./TestList.css";
 import { Link } from "react-router-dom";
-import uimg from "../../Assets/Images/avatar.png";
 
 function TestList() {
   const [tests, setTests] = useState([]);
@@ -20,7 +19,6 @@ function TestList() {
     fetchTests(authToken);
   }, []);
 
-  // Get users from database
   const fetchTests = async (authToken) => {
     try {
       const testsResponse = await axios.get(

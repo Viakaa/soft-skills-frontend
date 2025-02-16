@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavbarMain from "./Components/Navbar/Navbar.js";
@@ -14,7 +13,6 @@ import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import BelbinChart from "./Components/BelbinTest/BelbinGraphicResult.js"
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
-import DNDcons from "./Components/DNDconstructor/DNDcons1";
 import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
 import NotificationsPage from "./Components/Notifications/NotificationsPage.js"
 import NotificationsBar from "./Components/Notifications/Notifications.js";

@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from "react";
-import {Button, Modal, Form, Dropdown} from "react-bootstrap";
+import {Button, Modal, Form} from "react-bootstrap";
 import "./ManageSkills.css";
 import axios from "axios";
-
-import Pencil from "../../Assets/Images/pencil.png";
 import Delete from "../../Assets/Images/delete.png";
 
 function ManageSkills() {

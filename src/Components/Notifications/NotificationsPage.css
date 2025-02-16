@@ -174,3 +174,20 @@ body {
   font-weight: 500;
   color: #555;
 }
+
+.show-more-btn {
+  display: block;  
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #525252;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.show-more-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

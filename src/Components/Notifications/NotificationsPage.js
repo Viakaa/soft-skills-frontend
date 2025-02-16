@@ -1,12 +1,15 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './NotificationsPage.css';
 import { useNotifications } from './NotificationsContext';
 import axios from 'axios';
 
 const NotificationsPage = () => {
-  const { notifications, error } = useNotifications();
-  const [users, setUsers] = useState({});
+  const { notifications, error, fetchNotifications } = useNotifications();
+  const [paginatedNotifications, setPaginatedNotifications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFetching, setIsFetching] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [users, setUsers] = useState({});
   const notificationsPerPage = 10;
 
   const fetchUserWithRetry = async (userId, retries = 5, delayTime = 1000) => {
@@ -14,39 +17,88 @@ const NotificationsPage = () => {
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       return response.data;
     } catch (error) {
       if (retries > 0 && error.response?.status === 429) {
-        await new Promise(resolve => setTimeout(resolve, delayTime));
+        await new Promise((resolve) => setTimeout(resolve, delayTime));
         return fetchUserWithRetry(userId, retries - 1, delayTime * 2);
       }
+      console.error('Failed to fetch user:', error);
+      return null;
     }
   };
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const uniqueUserIds = [...new Set(notifications.map(n => n.ownerId))];
-      const usersData = await Promise.all(uniqueUserIds.map(id => fetchUserWithRetry(id)));
+      const uniqueUserIds = [...new Set(notifications.map((n) => n.ownerId))];
+      const usersData = await Promise.all(
+        uniqueUserIds.map((id) => fetchUserWithRetry(id))
+      );
 
-      setUsers(usersData.reduce((acc, user) => (user ? { ...acc, [user._id]: user } : acc), {}));
+      const usersMap = usersData.reduce((acc, user) => {
+        if (user) {
+          acc[user._id] = user;
+        }
+        return acc;
+      }, {});
+
+      setUsers(usersMap);
     };
 
-    if (notifications.length) fetchUsers();
+    if (notifications.length > 0) {
+      fetchUsers();
+    }
   }, [notifications]);
 
-  const sortedNotifications = [...notifications].sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  );
+  const loadMoreNotifications = useCallback(async () => {
+    if (isFetching || !hasMore) return;
+    setIsFetching(true);
 
-  const totalPages = Math.ceil(sortedNotifications.length / notificationsPerPage);
-  const paginatedNotifications = sortedNotifications.slice(
-    (currentPage - 1) * notificationsPerPage,
-    currentPage * notificationsPerPage
-  );
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/user-notifications`,
+        {
+          params: {
+            pageNumber: currentPage,
+            pageSize: notificationsPerPage,
+          },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.length > 0) {
+        // Prepend new notifications to the beginning of the list
+        setPaginatedNotifications((prev) => {
+          const newNotifications = response.data.filter(
+            (notif) => !prev.some((item) => item._id === notif._id)
+          );
+          const updatedNotifications = [...newNotifications, ...prev]; // Prepend new notifications
+          return updatedNotifications.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at) // Sort by date (newest first)
+          );
+        });
+        setCurrentPage((prev) => prev + 1);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error('Failed to fetch more notifications:', error);
+    } finally {
+      setIsFetching(false);
+    }
+  }, [currentPage, isFetching, hasMore]);
+
+  useEffect(() => {
+    loadMoreNotifications();
+  }, []);
 
   return (
     <div className="notifications-page">
@@ -56,7 +108,7 @@ const NotificationsPage = () => {
         <p className="no-notifications">No notifications</p>
       ) : (
         <div className="notifications-list">
-          {paginatedNotifications.map(notification => {
+          {paginatedNotifications.map((notification) => {
             const owner = users[notification.ownerId] || {};
             return (
               <div key={notification._id} className="notification-item">
@@ -76,21 +128,19 @@ const NotificationsPage = () => {
               </div>
             );
           })}
+          {hasMore && (
+            <button
+              className="show-more-btn"
+              onClick={loadMoreNotifications}
+              disabled={isFetching}
+            >
+              {isFetching ? 'Loading...' : 'Show More'}
+            </button>
+          )}
         </div>
       )}
-      <div className="pagination-controls">
-        <button disabled={currentPage === 1} onClick={() => setCurrentPage(prev => prev - 1)}>
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(prev => prev + 1)}>
-          Next
-        </button>
-      </div>
     </div>
   );
 };
 
-export default memo(NotificationsPage);
+export default NotificationsPage;

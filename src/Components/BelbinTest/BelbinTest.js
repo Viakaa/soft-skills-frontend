@@ -82,7 +82,7 @@ const BelbinTest = () => {
 
   const handleSubmit = async () => {
     const token = getToken();
-    const userId = localStorage.getItem("userId"); // Ensure you store userId in localStorage or retrieve it properly.
+    const userId = localStorage.getItem("userId");
   
     if (!token || !userId) {
       navigate("/login");
@@ -212,8 +212,7 @@ const BelbinTest = () => {
                   <h3>{question.question || `Question ${index + 1}`}</h3>
                   {question.subQuestions.map((subQuestion, subIndex) => {
                     const previousValue = subQuestion.points || 0;
-                    const remainingPoints = 10 - totalPoints + previousValue;
-
+                
                     return (
                       <div className="sub-question" key={subIndex}>
                         <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>

@@ -6,10 +6,7 @@ import { TextField } from "@mui/material";
 const YesNoCard = ({ question, number, onAnswerChange }) => {
   const { question: title } = question;
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  //const [previousAnswer, setPreviousAnswer] = useState(null);
 
-
-  //handle yes/no answer changes
   const handleAnswerSelection = (answer) => {
     const answerIndex = answer === 'yes' ? 0 : 1;
     if (selectedAnswer !== answer) {
@@ -18,7 +15,6 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
     }
   };
   
-
   return (
     <>
     <div className="fristWrapper test_q">
@@ -50,9 +46,9 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
             fontSize: "34px",
             width: "190px",
             height: "41.158px",
-            margin: "5px", // Spacing between buttons
-            textTransform: "none", // Prevent uppercase transformation
-            boxShadow: "none", // No shadow for a flatter appearance
+            margin: "5px", 
+            textTransform: "none", 
+            boxShadow: "none", 
           }}
           className="yesno_button"
           onClick={() => handleAnswerSelection('yes')}

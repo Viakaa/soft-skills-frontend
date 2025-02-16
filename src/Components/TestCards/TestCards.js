@@ -1,13 +1,9 @@
 import "./TestCards.css";
 import { Card, Button, Dropdown } from "react-bootstrap";
-import DropdownItems from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserInfo } from '../../Redux/Actions/userActions.js';
-import SecondTestImage from "../../Assets/Images/SecondTestImage.svg";
-import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
 import FirstTestImage from "../../Assets/Images/newTestImage.png";
 
 export default function TestCards() {

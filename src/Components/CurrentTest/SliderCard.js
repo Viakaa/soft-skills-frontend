@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import { TextField } from "@mui/material";
 import './MultipleChoiceCard/quest_cards.css';
 const SliderCard = ({ question, number, onAnswerChange }) => {
   const { question: title, characteristics,questionId } = question;
 
-  //SLIDER VALUE
   const [sliderValue, setSliderValue] = useState(0);
 
-  //slider change function
   const handleSliderChange = (event, newValue) => {
     setSliderValue(newValue);
     

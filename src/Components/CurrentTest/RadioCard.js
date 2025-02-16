@@ -12,10 +12,9 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
     const selectedOption = event.target.value;
     setSelectedValue(selectedOption);
 
-    //find the index of the selected answer
     const selectedIndex = answers.findIndex(answer => answer === selectedOption);
     if (selectedIndex !== -1) {
-      onAnswerChange(questionId, [selectedIndex]); //update to pass only the selected index
+      onAnswerChange(questionId, [selectedIndex]); 
     }
   };
 

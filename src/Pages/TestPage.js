@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router";
 import axios from "axios";
-import Button from "@mui/material/Button";
-import Form from "react-bootstrap/Form";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import YesNoCard from "../Components/CurrentTest/MultipleChoiceCard/YesNoCard";
 import MultipleChoiceCard from "../Components/CurrentTest/MultipleChoiceCard/MultipleChoiceCard";
 import SliderCard from "../Components/CurrentTest/SliderCard";

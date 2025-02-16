@@ -21,7 +21,6 @@ export const loginUser = (formData) => async (dispatch) => {
 };
 
 
-
 export const fetchUserNotifications = async () => {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('authToken');

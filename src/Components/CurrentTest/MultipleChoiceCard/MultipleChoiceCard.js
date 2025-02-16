@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import Form from "react-bootstrap/Form";
+import {Checkbox, FormControlLabel, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import './quest_cards.css'
 
@@ -19,13 +7,11 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
   const { question: title, answers } = question;
   const [checkedStates, setCheckedStates] = useState(answers.map(() => false));
 
-  //handle checkbox answers
   const handleCheckboxChange = (index, isChecked) => {
     const updatedCheckedStates = checkedStates.map((item, idx) =>
       idx === index ? isChecked : item
     );
     setCheckedStates(updatedCheckedStates);
-  //update checkbox answers if it changes(unchecked)
     const newAnswers = updatedCheckedStates.reduce((acc, cur, idx) => {
       if (cur) acc.push(idx);
       return acc;

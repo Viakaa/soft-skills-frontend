@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, Modal, Form, Dropdown, Row, Col} from "react-bootstrap";
+import {Button, Modal, Form, Row, Col} from "react-bootstrap";
 import "./ManageSkills.css";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ function ManageSkills() {
   const handleCloseModal = () => {
     setShowModal(false);
     setIsEditting(false);
-    setIsCharacteristicsValid(false); // Reset the characteristics validity on modal close
+    setIsCharacteristicsValid(false); 
   };
 
   const handleEditSkill = (skill) => {
@@ -60,7 +60,7 @@ function ManageSkills() {
       );
       console.log("Skill edited successfully:", response.data);
       handleCloseModal();
-      fetchSkills(authToken); //update soft-skills table
+      fetchSkills(authToken); 
     } catch (error) {
       console.error("Error editing skill:", error);
       console.error("Error:", error.message);
@@ -88,7 +88,6 @@ function ManageSkills() {
     }
   };
 
-  //save new soft-skill to database
   const handleSaveSkill = async () => {
     const authToken = localStorage.getItem("authToken");
 
@@ -101,19 +100,17 @@ function ManageSkills() {
       );
       console.log("Skill saved successfully:", response.data);
       handleCloseModal();
-      fetchSkills(authToken); // update soft-skills table
+      fetchSkills(authToken); 
     } catch (error) {
       console.error("Error saving skill:", error);
       console.error("Error:", error.message);
     }
   };
 
-  //handle changes in softskill input
   const handleSkillChange = (e) => {
     setNewSkill({...newSkill, type: e.target.value});
   };
 
-  //handle changes in characteristic input
   const handleCharacteristicChange = (e) => {
     const selectedOptions = Array.from(e.target.selectedOptions).map(
       (option) => ({
@@ -167,7 +164,7 @@ function ManageSkills() {
       const fetchedSkills = response.data.map((skill) => ({
         id:skill._id,
         title: skill.type,
-        characteristics: skill.characteristics.map((c) => c.title), //Taking just name of characteristic
+        characteristics: skill.characteristics.map((c) => c.title), 
       }));
       setSkills(fetchedSkills);
     } catch (error) {
@@ -175,7 +172,6 @@ function ManageSkills() {
     }
   };
 
-  //get characteristics from database
   const fetchCharacteristics = async (authToken) => {
     try {
       const response = await axios.get(

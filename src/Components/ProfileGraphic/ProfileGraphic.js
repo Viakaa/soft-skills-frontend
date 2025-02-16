@@ -1,6 +1,6 @@
 import "./ProfileGraphic.css";
-import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Card, ListGroup} from "react-bootstrap";
+import { LineChart, Line, XAxis, Tooltip,ResponsiveContainer } from 'recharts';
 import axios from "axios";
 import React, {useState, useEffect} from "react";
 
