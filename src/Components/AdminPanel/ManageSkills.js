@@ -254,10 +254,10 @@ function ManageSkills() {
               </div>
               </div>
               <button className="manageTable__btn" type="button" onClick={() => handleEditSkill(skill)}>
-          <img src={Pencil} />
+          <img src={Pencil} alt="Pencil"/>
         </button>
               <button className="manageTable__btn" type="button" onClick={() => handleDeleteSkill(skill.id)}>
-                <img src={Delete}/>
+                <img src={Delete} alt="Delete"/>
               </button>
             </div>
           ))}

@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 
 function TestList() {
   const [tests, setTests] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
   
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");

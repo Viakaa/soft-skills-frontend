@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-import { Radio, RadioGroup, FormControlLabel, Typography } from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel} from "@mui/material";
 import { TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const RadioCard = ({ question, number, onAnswerChange }) => {
-  const { question: questionId, title, answers } = question;
+  const { question: questionId, answers } = question;
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (event) => {

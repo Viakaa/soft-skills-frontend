@@ -13,7 +13,6 @@ export const SkillSelectorItem = ({content, index, onDelete}) => {
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   const handleSkillChange = (event) => {
-    // Prevent selecting the same skill more than once
     if (!selectedSkills.includes(event.target.value)) {
       setSelectedSkills([...selectedSkills, event.target.value]);
     }
