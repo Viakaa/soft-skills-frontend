@@ -23,9 +23,13 @@ const NavbarMain = () => {
   const openSidebar = useCallback(() => setIsSidebarVisible(true), []);
   const closeSidebar = useCallback(() => setIsSidebarVisible(false), []);
 
-  const handleUnreadCountChange = useCallback((count) => {
-    unreadCount(count);
-  });
+  const handleUnreadCountChange = useCallback(
+    (count) => {
+      unreadCount(count); 
+    },
+    [unreadCount]
+  );
+  
 
   const handleLogout = useCallback(() => {
     dispatch(logout());
@@ -35,7 +39,7 @@ const NavbarMain = () => {
     if (isLoggedIn && !userInfo) {
       dispatch(getUserInfo());
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, isLoggedIn,userInfo]);
 
   return (
     <div className="navbar_main">

@@ -2,19 +2,14 @@ import "./ProfileGraphic.css";
 import { Card, ListGroup} from "react-bootstrap";
 import { LineChart, Line, XAxis, Tooltip,ResponsiveContainer } from 'recharts';
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect,useCallback } from "react";
 
 export default function ProfileGraphic() {
 
   const [data, setData] = useState([]);
 
   const [skills, setSkills] = useState([]);
-  useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    fetchSkills(authToken);
-  }, []);
-
-  const fetchSkills = async (authToken) => {
+  const fetchSkills = useCallback(async (authToken) => {
     try {
       const response = await axios.get(
         "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/soft-skills",
@@ -32,7 +27,12 @@ export default function ProfileGraphic() {
     } catch (error) {
       console.error("Error fetching skills:", error);
     }
-  };
+  }, []); 
+  
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    fetchSkills(authToken);
+  }, [fetchSkills]);
 
   const generateData = (skills) => {
     const newData = skills.map((skill) => ({

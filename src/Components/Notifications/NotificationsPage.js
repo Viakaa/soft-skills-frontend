@@ -4,7 +4,7 @@ import { useNotifications } from './NotificationsContext';
 import axios from 'axios';
 
 const NotificationsPage = () => {
-  const { notifications, error, fetchNotifications } = useNotifications();
+  const { notifications, error } = useNotifications();
   const [paginatedNotifications, setPaginatedNotifications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);

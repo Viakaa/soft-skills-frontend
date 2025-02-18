@@ -210,9 +210,7 @@ const BelbinTest = () => {
               return (
                 <div className="question-block" key={index}>
                   <h3>{question.question || `Question ${index + 1}`}</h3>
-                  {question.subQuestions.map((subQuestion, subIndex) => {
-                    const previousValue = subQuestion.points || 0;
-                
+                  {question.subQuestions.map((subQuestion, subIndex) => {                
                     return (
                       <div className="sub-question" key={subIndex}>
                         <p>{subQuestion.text || `Sub-question ${subIndex + 1}`}</p>

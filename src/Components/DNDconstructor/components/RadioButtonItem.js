@@ -5,18 +5,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 export const RadioButtonItem = ({content, index, onDelete}) => {
-  // State to manage the radio options and the selected correct answer
   const [options, setOptions] = useState(["Option 1", "Option 2"]);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [correctAnswer1, setCorrectAnswer1] = useState(null);
 
-  // Handler to add a new option
   const handleAddOption = () => {
     const newOption = `Option ${options.length + 1}`;
     setOptions([...options, newOption]);
   };
 
-  // Handler to select the correct answer
   const handleCorrectAnswerChange = (option) => {
     setCorrectAnswer(option);
   };

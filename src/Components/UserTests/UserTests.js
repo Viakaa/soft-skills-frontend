@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Carousel } from "react-bootstrap";
 import "./UserTests.css";
@@ -8,11 +8,7 @@ export default function UserTests() {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
 
-  useEffect(() => {
-    fetchUserResults();
-  }, [userId, token]);
-
-  const fetchUserResults = async () => {
+  const fetchUserResults = useCallback(async () => {
     try {
       const userResultsResponse = await axios.get(
         `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/users/${userId}`,
@@ -61,7 +57,11 @@ export default function UserTests() {
     } catch (error) {
       console.error("Error fetching user results or characteristics:", error);
     }
-  };
+  }, [userId, token]);
+
+  useEffect(() => {
+    fetchUserResults();
+  }, [fetchUserResults]);
 
   const chunkArray = (array, chunkSize) => {
     const chunks = [];
@@ -89,7 +89,7 @@ export default function UserTests() {
                     {chunk.map((char, charIndex) => (
                       <div className="test1_card1" key={charIndex}>
                         <p>{char.title}</p>
-                        <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
+                        <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }} >
                           {char.points}
                         </p>
                       </div>
@@ -104,52 +104,3 @@ export default function UserTests() {
     </div>
   );
 }
-
-
-/*
-export default function UserTests() {
-      const [matchedData, setMatchedData] = useState({});
-      const userId = localStorage.getItem("userId");
-      const token = localStorage.getItem("authToken"); 
-     
-      return (
-        <div className="main_wrapper">
-       
-              <div className="test1" >
-                <div className="test1_label">
-                  <label>Leadership</label>
-                </div>
-    
-                <Carousel>
-                 
-                    <Carousel.Item>
-                      <div className="test1_cards">
-                        <div className="test1_card1">
-                          <p>Creativity</p>
-                          <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
-                            5
-                          </p>
-                        </div>
-                        <div className="test1_card1">
-                          <p>Communication</p>
-                          <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
-                            12
-                          </p>
-                        </div>
-                        <div className="test1_card1">
-                          <p>Empathy</p>
-                          <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }}>
-                            7
-                          </p>
-                        </div>
-                      </div>
-                      
-                    </Carousel.Item>
-                  
-             
-                </Carousel>
-              </div>
-     
-        </div>
-      );
-    }*/

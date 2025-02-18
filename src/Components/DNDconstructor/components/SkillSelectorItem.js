@@ -4,7 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export const SkillSelectorItem = ({content, index, onDelete}) => {
-  const [skills, setSkills] = useState([
+  const [skills] = useState([
     "Soft skill one",
     "Soft skill one two",
     "Soft skill one two one",

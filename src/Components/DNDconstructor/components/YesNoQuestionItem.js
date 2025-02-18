@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Form from "react-bootstrap/Form";
 
 export const YesNoQuestionItem = ({content, index, onDelete}) => {
-  // State to track the yes/no answer
   const [answer, setAnswer] = useState(null);
 
   return (
@@ -20,18 +19,18 @@ export const YesNoQuestionItem = ({content, index, onDelete}) => {
           variant="contained"
           onClick={() => setAnswer("yes")}
           sx={{
-            backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9", // Change color when selected
+            backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9",
             "&:hover": {
-              backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9", // Darker on hover
+              backgroundColor: answer === "yes" ? "#979EA9" : "#979EA9", 
             },
             color: "white",
             fontSize: "34px",
             width: "190px",
             height: "41.158px",
-            margin: "5px", // Spacing between buttons
-            textTransform: "none", // Prevent uppercase transformation
-            boxShadow: "none", // No shadow for a flatter appearance
-            // Add other styles as needed to match your design
+            margin: "5px", 
+            textTransform: "none",
+            boxShadow: "none", 
+
           }}
         >
           Yes
@@ -53,7 +52,6 @@ export const YesNoQuestionItem = ({content, index, onDelete}) => {
             margin: "5px",
             textTransform: "none",
             boxShadow: "none",
-            // Add other styles as needed to match your design
           }}
         >
           No
