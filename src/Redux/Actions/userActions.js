@@ -43,19 +43,19 @@ export const fetchUserNotifications = async () => {
   }
 };
 
-const getAllUsers = async () => {
-  try {
-      const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users");
-      return response.data;
-  } catch (error) {
-      console.error("Error retrieving users:", error);
-      throw error;
-  }
-};
+// const getAllUsers = async () => {
+//   try {
+//       const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users");
+//       return response.data;
+//   } catch (error) {
+//       console.error("Error retrieving users:", error);
+//       throw error;
+//   }
+// };
 
-const emailExists = (users, email) => {
-  return users.some(user => user.email.toLowerCase() === email.toLowerCase());
-};
+// const emailExists = (users, email) => {
+//   return users.some(user => user.email.toLowerCase() === email.toLowerCase());
+// };
 
 export const registerUser = (formData) => async (dispatch) => {
   try {

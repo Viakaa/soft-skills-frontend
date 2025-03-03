@@ -18,8 +18,6 @@ function LoginForm() {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
-  const [emails, setEmails] = useState([]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({

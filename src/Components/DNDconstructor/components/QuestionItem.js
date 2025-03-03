@@ -2,15 +2,9 @@ import React, {useState} from "react";
 import Slider from "@mui/material/Slider";
 
 export const QuestionItem = ({question, index, onDelete, onEdit}) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing] = useState(false);
   const [editedText, setEditedText] = useState(question);
 
-  const handleEdit = () => {
-    if (isEditing) {
-      onEdit(index, editedText);
-    }
-    setIsEditing(!isEditing);
-  };
 
   return (
     <div className="question-item">

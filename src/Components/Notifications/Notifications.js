@@ -3,7 +3,7 @@ import './Notifications.css';
 import { useNotifications } from './NotificationsContext';
 
 const NotificationSidebar = ({ isVisible, onClose }) => {
-  const { notifications, error, loading, markNotificationAsRead, unreadCount, setUnreadCount } = useNotifications();
+  const { notifications, error, loading, markNotificationAsRead, setUnreadCount } = useNotifications();
 
   const handleViewAllClick = () => {
     window.location.href = '/notifications';
@@ -19,7 +19,7 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
           .catch(error => console.error('Failed to mark all notifications as read:', error));
       }
     }
-  }, [isVisible, notifications, markNotificationAsRead]);
+  }, [isVisible, notifications, markNotificationAsRead,setUnreadCount]);
   
   const sortedNotifications = [...notifications]
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
