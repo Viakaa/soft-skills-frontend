@@ -83,11 +83,22 @@ const BelbinTest = () => {
   const handleSubmit = async () => {
     const token = getToken();
     const userId = localStorage.getItem("userId");
+    console.log("User ID:", userId);
   
     if (!token || !userId) {
       navigate("/login");
       return;
     }
+  
+    const requestBody = test.questions.map((q) => ({
+      questionId: q._id,
+      answers: q.subQuestions.map((sq) => ({
+        role: sq.role,
+        value: sq.points || 0,
+      })),
+    }));
+  
+    console.log("Submitting test results:", JSON.stringify(requestBody, null, 2)); // Debugging output
   
     try {
       const response = await fetch(
@@ -96,17 +107,10 @@ const BelbinTest = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            answers: test.questions.map((q) => ({
-              questionId: q.id,
-              answers: q.subQuestions.map((sq) => ({
-                subQuestionId: sq.id,
-                points: sq.points || 0,
-              })),
-            })),
-          }),
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json", // Add this to be explicit
+          },       
+          body: JSON.stringify(requestBody),
         }
       );
   
@@ -114,11 +118,13 @@ const BelbinTest = () => {
         throw new Error("Failed to submit test results.");
       }
   
-      navigate(`/belbinresult/${userId}`);
+      console.log("Test submitted successfully!"); // Debugging output
+    
     } catch (error) {
       console.error("Submission Error:", error);
     }
   };
+  
   
 
   const handleNext = () => {
@@ -244,9 +250,10 @@ const BelbinTest = () => {
         <p>No questions available for this test.</p>
       )}
 
-      <button className="submit-button" onClick={handleSubmit}>
-        Submit
-      </button>
+<button className="submit-button" onClick={handleSubmit}>
+  Submit
+</button>
+
     </div>
   );
 };

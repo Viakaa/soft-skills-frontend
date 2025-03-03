@@ -23,7 +23,13 @@ const BelbinResult = () => {
           }
         );
 
-        if (!response.ok) throw new Error("Failed to fetch results.");
+        if (!response.ok) {
+          if (response.status === 403) {
+            throw new Error("Access denied. Please check your token.");
+          } else {
+            throw new Error("Failed to fetch results. Please try again.");
+          }
+        }
 
         const data = await response.json();
         setResults(data);
