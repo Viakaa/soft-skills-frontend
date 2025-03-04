@@ -6,7 +6,7 @@ export const DraggableMultiChoice = ({content}) => {
    const [{isDragging}, drag] = useDrag(
     () => ({
       type: ItemTypes.MULTI_CHOICE,
-      item: {type: "multiChoice", content},
+      item: {type: "multiple_choice", content},
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -21,7 +21,6 @@ export const DraggableMultiChoice = ({content}) => {
       style={{opacity: isDragging ? 0.5 : 1}}
     >
       {content}
-      {/* <div> Add your multiple choice question layout here</div> */}
     </div>
   );
 };

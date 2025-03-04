@@ -26,7 +26,7 @@ export const RadioButtonItem = ({content, index, onDelete}) => {
     <div className="question-item">
       <div className="firstWrapper">
         <p className="firstQuestion">{index + 1}</p>
-        <span className="firstQuestionText">{content}</span>
+        <textarea defaultValue={content} />
         <button className="closeButton" onClick={() => onDelete(index)}>
           X
         </button>

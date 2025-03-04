@@ -22,7 +22,6 @@ export const DraggableSkillSelector = ({content}) => {
       style={{opacity: isDragging ? 0.5 : 1}}
     >
       {content}
-      {/* This div would contain the layout for your skill selection */}
     </div>
   );
 };

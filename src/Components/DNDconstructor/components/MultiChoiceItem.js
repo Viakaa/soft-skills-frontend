@@ -7,19 +7,16 @@ export const MultiChoiceItem = ({content, index, onDelete}) => {
     "Totally disagree",
     "Mostly disagree",
     "Partially disagree",
-    // Add more initial options as needed
   ]);
   const [correctAnswers, setCorrectAnswers] = useState({});
   const [correctAnswers1, setCorrectAnswers1] = useState({});
 
-  // Function to add a new checkbox option
   const handleAddOption = () => {
     const newOption = `Option ${options.length + 1}`;
     setOptions([...options, newOption]);
     setCorrectAnswers({...correctAnswers, [newOption]: false});
   };
 
-  // Function to handle correct answer selection
   const handleCorrectAnswerChange = (option) => {
     setCorrectAnswers({...correctAnswers, [option]: !correctAnswers[option]});
   };
@@ -34,7 +31,7 @@ export const MultiChoiceItem = ({content, index, onDelete}) => {
     <div className="question-item">
       <div className="fristWrapper">
         <p className="firstQuestion">{index + 1}</p>
-        <span className="fristQuestionText">{content}</span>
+        <textarea defaultValue={content} />
         <button className="closeButton" onClick={() => onDelete(index)}>
           X
         </button>
@@ -81,7 +78,6 @@ export const MultiChoiceItem = ({content, index, onDelete}) => {
                 />
               </svg>
             </div>
-            {/* <AddCircleOutlineIcon /> */}
           </IconButton>
         </FormGroup>
         <div className="correct-answer-section" style={{display: 'flex'}}>

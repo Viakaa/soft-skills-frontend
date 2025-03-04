@@ -7,7 +7,7 @@ export const DraggableYesNoQuestion = ({content}) => {
     () => ({
       
       type: ItemTypes.YES_NO_QUESTION,
-      item: {type: "yesNoQuestion", content},
+      item: {type: "yes_no", content},
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),

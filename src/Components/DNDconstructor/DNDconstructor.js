@@ -35,78 +35,106 @@ function DNDconstructor() {
   };
 
   const editItem = (indexToEdit, newContent) => {
-    setItems(
-      items.map((item, index) => {
-        if (index === indexToEdit) {
-          return { ...item, content: newContent };
-        }
-        return item;
-      })
+    const updatedItems = items.map((item, index) => 
+      index === indexToEdit ? { ...item, content: newContent } : item
     );
+    setItems(updatedItems);
+    localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
+  
 
   const [testTitle, setTestTitle] = useState("");
 
-  const handleCreateTest = async () => {
-    try {
-      const authToken = localStorage.getItem("authToken");
-      const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
+ const handleCreateTest = async () => {
+  try {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      console.error("Auth token is missing.");
+      return;
+    }
 
-      // Add each question to the database and collect their IDs
-      const questionPromises = savedItems.map((item) =>
-        axios.post(
-          "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/questions",
-          {
-            question: "Question",
-            type: item.type,
-            category: "communication",
-            points: 3,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        )
-      );
+    const characteristicsResponse = await axios.get(
+      "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics",
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json"
+        },
+      }
+    );
 
-      // Wait for all questions to be added
-      const questionResponses = await Promise.all(questionPromises);
+    const characteristics = characteristicsResponse.data;
+    if (!characteristics.length) {
+      console.error("No characteristics found.");
+      return;
+    }
 
-      // Extract IDs from the responses
-      const questionIds = questionResponses.map((res) => res.data._id);
+    const characteristicId = characteristics[0]._id;
 
-      // Create the test with the question IDs
-      const testResponse = await axios.post(
-        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
+    const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
+
+    const questionPromises = savedItems.map((item) => {
+      if (!["multiple_choice", "yes_no", "slider", "radio"].includes(item.type)) {
+        console.error(`Invalid question type: ${item.type}`);
+        return Promise.reject(new Error("Invalid question type"));
+      }
+
+      return axios.post(
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/questions",
         {
-          title: testTitle,
-          questions: questionIds,
+          question: item.content || "Default question",
+          type: item.type,
+          answers: item.answers || ["Option 1", "Option 2"],
+          correctAnswers: item.correctAnswers || [true, false],
+          characteristics: [
+            {
+              characteristicId: characteristicId, 
+              points: 5,
+            }
+          ]
         },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json"
           },
         }
       );
+    });
 
-      console.log("Test created:", testResponse.data);
+    const questionResponses = await Promise.all(questionPromises);
+    const questionIds = questionResponses.map((res) => res.data._id);
 
-      // Remove items from local storage and clear them from the dragged area
-      localStorage.removeItem("dnd-items");
-      setItems([]); // This line clears the dragged area
-      setTestTitle("");
-    } catch (error) {
-      console.error("Error creating test:", error);
-    }
-  };
+    const testResponse = await axios.post(
+      "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
+      {
+        title: testTitle || "Untitled Test",
+        questions: questionIds,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json"
+        },
+      }
+    );
 
+    console.log("Test created:", testResponse.data);
+
+    localStorage.removeItem("dnd-items");
+    setItems([]);
+    setTestTitle("");
+  } catch (error) {
+    console.error("Error creating test:", error.response?.data || error.message);
+  }
+};
+
+  
   useEffect(() => {
-    const savedItems = JSON.parse(localStorage.getItem("dnd-items"));
-    if (savedItems) {
-      setItems(savedItems);
-    }
+    const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
+    setItems(savedItems);
   }, []);
+  
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -153,7 +181,7 @@ function DNDconstructor() {
               if (item.type === "question") {
                 return (
                   <QuestionItem
-                    key={item.id} // Use the unique id for the key
+                    key={item.id} 
                     item={item}
                     index={index}
                     onDelete={deleteItem}
@@ -166,7 +194,7 @@ function DNDconstructor() {
 
                 return (
                   <RadioButtonItem
-                    key={item.id} // Use the unique id for the key
+                    key={item.id} 
                     content={item.content}
                     index={index}
                     onDelete={deleteItem}

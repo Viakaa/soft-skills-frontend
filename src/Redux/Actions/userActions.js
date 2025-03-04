@@ -21,25 +21,35 @@ export const loginUser = (formData) => async (dispatch) => {
 };
 
 
-export const fetchUserNotifications = async () => {
-  const userId = localStorage.getItem('userId');
-  const token = localStorage.getItem('authToken');
+const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {
+  try {
+    return await axios.get(url, options);
+  } catch (error) {
+    if (error.response?.status === 429 && retries > 0) {
+      console.warn(`Rate limited! Retrying in ${delay}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return fetchWithRetry(url, options, retries - 1, delay * 2);
+    }
+    throw error;
+  }
+};
 
-  if (!userId || !token) {
-    throw new Error('User is not authenticated');
+export const fetchUserNotifications = async () => {
+  const token = localStorage.getItem("authToken");
+
+  if (!token) {
+    throw new Error("User is not authenticated");
   }
 
   try {
-    const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = await fetchWithRetry(
+      `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/user-notifications`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch notifications:', error);
-    throw new Error('Failed to fetch notifications');
+    console.error("Failed to fetch notifications:", error);
+    throw new Error("Failed to fetch notifications");
   }
 };
 
