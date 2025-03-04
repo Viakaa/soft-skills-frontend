@@ -1,13 +1,13 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 export default function PrivateRoute({ children }) {
-    const authToken = window.localStorage.getItem("authToken");
-
-    if (authToken) {
+    const { userInfo } = useSelector((state) => state.auth);
+    const storedToken = localStorage.getItem("authToken");
+    
+    if (userInfo?.token || storedToken) {
         return children;
-    } 
-    else {
+    } else {
         return <Navigate to="/login" />;
     }
 }

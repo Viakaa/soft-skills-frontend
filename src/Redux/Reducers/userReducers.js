@@ -9,13 +9,16 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'REGISTER_SUCCESS':
       return { ...state, userData: action.payload, error: null };
+
     case 'REGISTER_FAIL':
       return { ...state, error: action.payload };
+
     case 'FETCH_USER_SUCCESS':
       return { ...state, userInfo: action.payload, error: null };
+
     case 'FETCH_USER_FAIL':
       return { ...state, error: action.payload };
-      
+
     case 'LOGIN_SUCCESS':
       return { 
         ...state, 
@@ -23,13 +26,14 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true, 
         error: null 
       };
+
     case 'LOGIN_FAIL':
       return { 
         ...state, 
         error: action.payload,
         isAuthenticated: false 
       };
-      
+
     case 'LOGOUT':
       return { 
         ...state, 
@@ -38,7 +42,7 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         error: null 
       };
-      
+
     default:
       return state;
   }

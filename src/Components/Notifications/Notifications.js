@@ -12,18 +12,29 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
   useEffect(() => {
     if (isVisible) {
       const unreadNotifications = notifications.filter(n => n.status !== 'read');
-  
+
       if (unreadNotifications.length > 0) {
-        Promise.all(unreadNotifications.map(n => markNotificationAsRead(n._id)))
-          .then(() => setUnreadCount(0))
-          .catch(error => console.error('Failed to mark all notifications as read:', error));
+        const batchSize = 5;
+        const markBatch = async (batch) => {
+          for (const notification of batch) {
+            await markNotificationAsRead(notification._id);
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+        };
+
+        const batches = [];
+        for (let i = 0; i < unreadNotifications.length; i += batchSize) {
+          batches.push(unreadNotifications.slice(i, i + batchSize));
+        }
+
+        (async () => {
+          for (const batch of batches) {
+            await markBatch(batch);
+          }
+        })();
       }
     }
-  }, [isVisible, notifications, markNotificationAsRead,setUnreadCount]);
-  
-  const sortedNotifications = [...notifications]
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    .slice(0, 10);
+  }, [isVisible, notifications, markNotificationAsRead, setUnreadCount]);
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
@@ -35,23 +46,23 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
       {error && <div className="error">{error}</div>}
       {loading ? (
         <p>Loading notifications...</p>
-      ) : sortedNotifications.length === 0 ? (
+      ) : notifications.length === 0 ? (
         <p className="noNotifications">No notifications</p>
       ) : (
         <ul id="notification-list" className="list">
-          {sortedNotifications.map((notification) => (
+          {notifications.map((notification) => (
             <li key={notification._id} className="item-notification">
               <div className="notification-header">
                 <div className="profile-placeholder"></div>
                 <div className="notification-info">
                   <strong className="name">{notification.ownerName || notification.title}</strong>
-                  <span className="theme">{notification.meta.message || notification.meta.shortDescription}</span> 
+                  <span className="theme">{notification.meta.message || notification.meta.shortDescription}</span>
                 </div>
                 <div className="date-time">
                   {new Date(notification.created_at).toLocaleString()}
                 </div>
               </div>
-              <div className="content">{notification.meta.fullDescription || notification.content}</div> 
+              <div className="content">{notification.meta.fullDescription || notification.content}</div>
             </li>
           ))}
         </ul>

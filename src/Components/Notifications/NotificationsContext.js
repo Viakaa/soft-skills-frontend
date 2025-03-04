@@ -18,7 +18,7 @@ export const NotificationsProvider = ({ children }) => {
       fetchUserNotifications(userId, token)
         .then((fetchedNotifications) => {
           setNotifications(fetchedNotifications);
-          setUnreadCount(fetchedNotifications.filter((n) => n.status !== 'read').length);
+          setUnreadCount(fetchedNotifications.filter((n) => n.status !== 'unread').length);
         })
         .catch(() => {
           setError('Failed to fetch notifications.');
@@ -29,32 +29,33 @@ export const NotificationsProvider = ({ children }) => {
     }
   }, []);
 
-  const markNotificationAsRead = async (notificationId) => {
+  
+  const markNotificationAsRead = useCallback(async (notificationId) => {
+    if (!notificationId) return; // Уникнути запитів без ID
+    
     const token = localStorage.getItem('authToken');
   
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/${notificationId}`,
         { status: 'read' },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
   
-      setNotifications((prev) =>
-        prev.map((notification) =>
-          notification._id === notificationId ? { ...notification, status: 'read' } : notification
-        )
-      );
-  
-      setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
-  
+      if (response.status === 200) {
+        setNotifications((prev) =>
+          prev.map((notification) =>
+            notification._id === notificationId ? { ...notification, status: 'read' } : notification
+          )
+        );
+        setUnreadCount((prev) => Math.max(prev - 1, 0));
+      }
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
     }
-  };
+  }, [setUnreadCount]);
+  
+  
   
 
   useEffect(() => {

@@ -75,14 +75,13 @@ const NotificationsPage = () => {
       );
 
       if (response.data.length > 0) {
-        // Prepend new notifications to the beginning of the list
         setPaginatedNotifications((prev) => {
           const newNotifications = response.data.filter(
             (notif) => !prev.some((item) => item._id === notif._id)
           );
-          const updatedNotifications = [...newNotifications, ...prev]; // Prepend new notifications
+          const updatedNotifications = [...newNotifications, ...prev]; 
           return updatedNotifications.sort(
-            (a, b) => new Date(b.created_at) - new Date(a.created_at) // Sort by date (newest first)
+            (a, b) => new Date(b.created_at) - new Date(a.created_at) 
           );
         });
         setCurrentPage((prev) => prev + 1);
@@ -97,8 +96,11 @@ const NotificationsPage = () => {
   }, [currentPage, isFetching, hasMore]);
 
   useEffect(() => {
-    loadMoreNotifications();
-  }, []);
+    if (paginatedNotifications.length === 0) {
+      loadMoreNotifications();
+    }
+  }, [loadMoreNotifications, paginatedNotifications]);
+  
 
   return (
     <div className="notifications-page">

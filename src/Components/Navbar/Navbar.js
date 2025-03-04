@@ -14,8 +14,9 @@ import { useNotifications } from "../Notifications/NotificationsContext";
 const NavbarMain = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const isLoggedIn = Boolean(userInfo);
-  const isAdmin = userInfo?.role === "ADMIN";
+  const storedToken = localStorage.getItem("authToken");
+  const isLoggedIn = Boolean(userInfo?.token || storedToken);
+    const isAdmin = userInfo?.role === "ADMIN";
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const { unreadCount } = useNotifications();
@@ -23,13 +24,15 @@ const NavbarMain = () => {
   const openSidebar = useCallback(() => setIsSidebarVisible(true), []);
   const closeSidebar = useCallback(() => setIsSidebarVisible(false), []);
 
-  const handleUnreadCountChange = useCallback(
-    (count) => {
-      unreadCount(count); 
-    },
-    [unreadCount]
-  );
-  
+  const { setUnreadCount } = useNotifications();
+
+const handleUnreadCountChange = useCallback(
+  (count) => {
+    setUnreadCount(count);
+  },
+  [setUnreadCount]
+);
+
 
   const handleLogout = useCallback(() => {
     dispatch(logout());
@@ -39,7 +42,8 @@ const NavbarMain = () => {
     if (isLoggedIn && !userInfo) {
       dispatch(getUserInfo());
     }
-  }, [dispatch, isLoggedIn,userInfo]);
+  }, [dispatch, isLoggedIn, userInfo]);
+  
 
   return (
     <div className="navbar_main">
