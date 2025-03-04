@@ -28,15 +28,13 @@ export const SkillSelectorItem = ({content, index, onDelete}) => {
     <div className="question-item">
       <div className="fristWrapper">
         <p className="firstQuestion">{index + 1}</p>
-        <span className="fristQuestionText">{content}</span>
+        <textarea defaultValue={content} />
         <button className="closeButton" onClick={() => onDelete(index)}>
           X
         </button>
       </div>
       <FormControl fullWidth>
-        {/* <InputLabel id="skill-selector-label">{content}</InputLabel> */}
         <Select
-          // labelId="skill-selector-label"
           id="skill-selector"
           value=""
           onChange={handleSkillChange}
