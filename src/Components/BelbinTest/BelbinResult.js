@@ -1,55 +1,71 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 
 const BelbinResult = () => {
   const { userId } = useParams();
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const getToken = () => localStorage.getItem("authToken");
+  const { state } = useLocation(); 
+  const [topRoles, setTopRoles] = useState([]); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        const token = getToken();
+    console.log("State received:", state);
 
-        if (!token) throw new Error("No authentication token found.");
+    if (state && state.results) {
 
-        const response = await fetch(
-          `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/belbin/results`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+      const roleScores = state.results; 
 
-        if (!response.ok) {
-          if (response.status === 403) {
-            throw new Error("Access denied. Please check your token.");
-          } else {
-            throw new Error("Failed to fetch results. Please try again.");
-          }
-        }
+      console.log("Received role scores:", roleScores); 
 
-        const data = await response.json();
-        setResults(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      const sortedRoles = Object.entries(roleScores)
+        .sort(([, a], [, b]) => b - a) 
+        .slice(0, 3); 
+
+      setTopRoles(sortedRoles);
+    } else {
+      console.error("No results data available in state.");
+
+      fetchResults(userId);
+    }
+  }, [state, userId]);
+
+  const fetchResults = async (userId) => {
+    try {
+
+      const response = await fetch(`/api/results/${userId}`); 
+      const data = await response.json();
+
+      if (data && data.results) {
+        console.log("Fetched results:", data.results);
+        const roleScores = data.results;
+
+        const sortedRoles = Object.entries(roleScores)
+          .sort(([, a], [, b]) => b - a) 
+          .slice(0, 3);
+
+        setTopRoles(sortedRoles);
+      } else {
+        console.error("No results found in API response.");
       }
-    };
-
-    fetchResults();
-  }, [userId]);
-
-  if (loading) return <div>Loading results...</div>;
-  if (error) return <div>Error: {error}</div>;
+    } catch (error) {
+      console.error("Error fetching results:", error);
+    }
+  };
 
   return (
-    <div>
-      <h2>Belbin Test Results</h2>
-      <pre>{JSON.stringify(results, null, 2)}</pre>
+    <div className="result-container">
+      <h1>Belbin Test Results for User {userId}</h1>
+      <h3>Top 3 Roles:</h3>
+      <ol>
+        {topRoles.length > 0 ? (
+          topRoles.map(([role, score], index) => (
+            <li key={index}>
+              <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong>: {score} points
+            </li>
+          ))
+        ) : (
+          <li>No roles available.</li>
+        )}
+      </ol>
     </div>
   );
 };

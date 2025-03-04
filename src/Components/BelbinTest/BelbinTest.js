@@ -83,7 +83,6 @@ const BelbinTest = () => {
   const handleSubmit = async () => {
     const token = getToken();
     const userId = localStorage.getItem("userId");
-    console.log("User ID:", userId);
   
     if (!token || !userId) {
       navigate("/login");
@@ -97,8 +96,8 @@ const BelbinTest = () => {
         value: sq.points || 0,
       })),
     }));
-  
-    console.log("Submitting test results:", JSON.stringify(requestBody, null, 2)); // Debugging output
+
+    console.log("Submitting test results:", JSON.stringify(requestBody, null, 2)); 
   
     try {
       const response = await fetch(
@@ -108,8 +107,8 @@ const BelbinTest = () => {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/json", // Add this to be explicit
-          },       
+            "Accept": "application/json",
+          },
           body: JSON.stringify(requestBody),
         }
       );
@@ -117,16 +116,18 @@ const BelbinTest = () => {
       if (!response.ok) {
         throw new Error("Failed to submit test results.");
       }
+
   
-      console.log("Test submitted successfully!"); // Debugging output
-    
+      console.log("Test submitted successfully!"); 
+  
+      const resultData = await response.json();
+      navigate(`/belbinresult/${userId}`, { state: { results: resultData.results } });
+  
     } catch (error) {
       console.error("Submission Error:", error);
     }
   };
   
-  
-
   const handleNext = () => {
     if (currentQuestionIndex < test.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
