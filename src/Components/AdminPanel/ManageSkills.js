@@ -112,40 +112,46 @@ function ManageSkills() {
   };
 
   const handleCharacteristicChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(
-      (option) => ({
-        characteristicId: option.value,
-        title: option.textContent,
-      })
-    );
+    const selectedOptions = Array.from(e.target.selectedOptions).map(option => ({
+      characteristicId: option.value,
+      title: option.textContent,
+    }));
+  
+    // Avoid duplicates by filtering out already added characteristics
+    const updatedCharacteristics = [...newSkill.characteristics, ...selectedOptions].reduce((acc, char) => {
+      if (!acc.some(c => c.characteristicId === char.characteristicId)) {
+        acc.push(char);
+      }
+      return acc;
+    }, []);
+  
     setNewSkill({
       ...newSkill,
-      characteristics: selectedOptions,
+      characteristics: updatedCharacteristics,
     });
-    setIsCharacteristicsValid(selectedOptions.length > 0);
+  
+    setIsCharacteristicsValid(updatedCharacteristics.length > 0);
   };
 
   const handleSelectedCharacteristicChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(
-      (option) => ({
-        characteristicId: option.value,
-        title: option.textContent,
-      })
-    );
-    console.log('selectedOptions',selectedOptions, e.target.selectedOptions)
+    const selectedOptions = Array.from(e.target.selectedOptions).map((option) => ({
+      characteristicId: option.value,
+      title: option.textContent,
+    }));
     setSelectedAddedCharacteristics(selectedOptions);
-    
-    setIsCharacteristicsValid(selectedOptions.length > 0);
   };
+  
 
-  const deleteSelectedCharacteristic = () => {
-    console.log('deleteSelectedCharacteristic', selectedAddedCharacteristics, newSkill.characteristics)
-    const selectedCharacteristicId = new Set(selectedAddedCharacteristics.map(item => item.characteristicId));
-    setNewSkill({
-      ...newSkill,
-      characteristics: newSkill.characteristics.filter(characteristic => !selectedCharacteristicId.has(characteristic.characteristicId) ),
-    });
-  }
+  const deleteSelectedCharacteristic = (characteristicId) => {
+    // Remove the characteristic from the list
+    setNewSkill((prevState) => ({
+      ...prevState,
+      characteristics: prevState.characteristics.filter(
+        (char) => char.characteristicId !== characteristicId
+      ),
+    }));
+  };
+  
   
   useEffect(() => {
     console.log("newskill");
@@ -232,7 +238,7 @@ function ManageSkills() {
 
   return (
     <>
-      <div className="manageTable">
+            <div className="manageTable">
         <h1 className="manageTable__title">Soft skills</h1>
         
         <button type="button" className="manageTable__add" onClick={handleShowModal}>
@@ -284,31 +290,6 @@ function ManageSkills() {
             />
           </Form.Group>
           <Row>
-            <Col xs={7}>
-              <Form.Group className="mb-3 d-flex">
-                <button type="button" className="manageTable__add" onClick={addNewCharacteristic}>
-                  <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
-                    <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
-                  </svg>
-                </button>
-                <Form.Control
-                  type="text"
-                  name="new_characteristic"
-                  className="titleInput"
-                  value={newCharacteristic}
-                  onChange={(e) => setNewCharacteristic(e.target.value)}
-                  style={{ color: "white" }}
-                  placeholder={'Title of new characteristic...'}
-                />
-                <button type="button" className="manageTable__add" onClick={deleteSelectedCharacteristic}>
-                  <svg className="manageTable__ico" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 11L33 33" stroke="#2A2E46" strokeOpacity="0.8" strokeWidth="5" strokeLinecap="round"/>
-                    <path d="M11 33L33 11" stroke="#2A2E46" strokeOpacity="0.8" strokeWidth="5" strokeLinecap="round"/>
-                  </svg>
-                </button>
-              </Form.Group>
-            </Col>
             <Col xs={6}>
               <Form>
                 <Form.Group required className="mb-3">
@@ -338,19 +319,21 @@ function ManageSkills() {
               <Form>
                 <Form.Group required className="mb-3">
                   <Form.Label>Added characteristics:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    multiple
-                    className="charactList"
-                    onChange={handleSelectedCharacteristicChange}
-                    required
-                  >
+                  <div className="charactList addedCharactList">
                     {newSkill.characteristics.map((char, index) => (
-                      <option key={index} value={char.characteristicId}>
-                        {char.title}
-                      </option>
+                      <div key={index} className="selectedCharacteristicItem">
+                        <span>{char.title}</span>
+                        <button 
+                          
+                          type="button"
+                          onClick={() => deleteSelectedCharacteristic(char.characteristicId)}
+                          
+                        > ✕
+                          
+                        </button>
+                      </div>
                     ))}
-                  </Form.Control>
+                  </div>
                   {!isCharacteristicsValid && (
                     <div style={{ color: '#fffff' }}>
                       Please select at least one characteristic.

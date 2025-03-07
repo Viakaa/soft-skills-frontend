@@ -162,3 +162,20 @@
 .titleInput{
     color : var(--text-color);
 }
+
+.manageTable__add{
+    color:black
+}
+.selectedCharacteristicsList {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .selectedCharacteristicItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  
