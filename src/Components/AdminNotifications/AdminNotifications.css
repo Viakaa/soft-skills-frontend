@@ -127,3 +127,7 @@ textarea {
   justify-content: center;
   font-size: 12px;
 }
+
+.error-message{
+  color: red;
+}

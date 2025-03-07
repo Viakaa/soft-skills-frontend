@@ -234,7 +234,7 @@ const NotificationForm = () => {
       <div className="user-list">
         <h3>Users:</h3>
         {error ? (
-          <div className="error">{error}</div>
+          <div className="error"></div>
         ) : users.length === 0 ? (
           <div>Loading users...</div>
         ) : (
@@ -292,7 +292,7 @@ const NotificationForm = () => {
                 ))}
             </select>
           )}
-        </div>
+  </div>
       ) : (
         <div className="form-group">
           <label>Additional Description:</label>
@@ -301,9 +301,12 @@ const NotificationForm = () => {
             rows="5"
             value={formData.additionalDescription}
             onChange={handleInputChange}
+            
           />
+          
         </div>
       )}
+{error && <div className="error-message">{error}</div>}
 
       <div className="form-actions">
         <button onClick={handleClearForm}>Clear Form</button>
