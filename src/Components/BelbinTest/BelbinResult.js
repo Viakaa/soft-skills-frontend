@@ -1,73 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import "./BelbinResult.css"
 
-const BelbinResult = () => {
-  const { userId } = useParams();
-  const { state } = useLocation(); 
-  const [topRoles, setTopRoles] = useState([]); 
-  const navigate = useNavigate(); 
+const BelbinResultPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { results, topRoles } = location.state || {};
 
-  useEffect(() => {
-    console.log("State received:", state);
-
-    if (state && state.results) {
-
-      const roleScores = state.results; 
-
-      console.log("Received role scores:", roleScores); 
-
-      const sortedRoles = Object.entries(roleScores)
-        .sort(([, a], [, b]) => b - a) 
-        .slice(0, 3); 
-
-      setTopRoles(sortedRoles);
-    } else {
-      console.error("No results data available in state.");
-
-      fetchResults(userId);
-    }
-  }, [state, userId]);
-
-  const fetchResults = async (userId) => {
-    try {
-
-      const response = await fetch(`/api/results/${userId}`); 
-      const data = await response.json();
-
-      if (data && data.results) {
-        console.log("Fetched results:", data.results);
-        const roleScores = data.results;
-
-        const sortedRoles = Object.entries(roleScores)
-          .sort(([, a], [, b]) => b - a) 
-          .slice(0, 3);
-
-        setTopRoles(sortedRoles);
-      } else {
-        console.error("No results found in API response.");
-      }
-    } catch (error) {
-      console.error("Error fetching results:", error);
-    }
+  const handleGoBack = () => {
+    navigate('/test/677ffc10bc648d0df2743ff7');
   };
 
   return (
     <div className="result-container">
-      <h1>Belbin Test Results for User {userId}</h1>
-      <h3>Top 3 Roles:</h3>
-      <ol>
-        {topRoles.length > 0 ? (
-          topRoles.map(([role, score], index) => (
-            <li key={index}>
-              <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong>: {score} points
-            </li>
-          ))
-        ) : (
-          <li>No roles available.</li>
-        )}
-      </ol>
+      <h1>Belbin Test Results</h1>
+
+      <div>
+        <h2>Top 3 Roles</h2>
+        <ul className="top-roles">
+          {topRoles && topRoles.length > 0 ? (
+            topRoles.map((role) => (
+              <li>
+                {role} 
+              </li>
+            ))
+          ) : (
+            <p>No roles available.</p>
+          )}
+        </ul>
+      </div>
+      {results && (
+        <div>
+          <h2>Detailed Results</h2>
+          <table className="result-table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((result, index) => (
+                <tr key={index}>
+                  <td>{result.role}</td>
+                  <td>{result.points}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+       <button className="button" onClick={handleGoBack}>Go Back</button>
     </div>
   );
 };
 
-export default BelbinResult;
+export default BelbinResultPage;

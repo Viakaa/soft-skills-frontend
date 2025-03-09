@@ -79,7 +79,6 @@ const BelbinTest = () => {
       questions: updatedQuestions,
     });
   };
-
   const handleSubmit = async () => {
     const token = getToken();
     const userId = localStorage.getItem("userId");
@@ -96,8 +95,8 @@ const BelbinTest = () => {
         value: sq.points || 0,
       })),
     }));
-
-    console.log("Submitting test results:", JSON.stringify(requestBody, null, 2)); 
+  
+    console.log("Submitting test results:", JSON.stringify(requestBody, null, 2));
   
     try {
       const response = await fetch(
@@ -116,17 +115,41 @@ const BelbinTest = () => {
       if (!response.ok) {
         throw new Error("Failed to submit test results.");
       }
-
   
-      console.log("Test submitted successfully!"); 
+      console.log("Test submitted successfully!");
   
       const resultData = await response.json();
-      navigate(`/belbinresult/${userId}`, { state: { results: resultData.results } });
+  
+      // Extract all roles and their points
+      const rolesWithPoints = requestBody.flatMap((q) =>
+        q.answers.map((sq) => ({
+          role: sq.role,
+          points: sq.value,
+        }))
+      );
+  
+      // Group roles by their total points
+      const rolePointsMap = rolesWithPoints.reduce((acc, { role, points }) => {
+        acc[role] = (acc[role] || 0) + points;
+        return acc;
+      }, {});
+  
+      // Sort roles by points in descending order
+      const sortedRoles = Object.entries(rolePointsMap)
+        .sort(([, pointsA], [, pointsB]) => pointsB - pointsA)
+        .slice(0, 3); // Get top 3 roles
+  
+      // Extract just the top 3 roles
+      const topRoles = sortedRoles.map(([role]) => role);
+  
+      // Navigate to the results page with the top 3 roles
+      navigate(`/belbinresult/${userId}`, { state: { results: resultData.results, topRoles } });
   
     } catch (error) {
       console.error("Submission Error:", error);
     }
   };
+  
   
   const handleNext = () => {
     if (currentQuestionIndex < test.questions.length - 1) {
