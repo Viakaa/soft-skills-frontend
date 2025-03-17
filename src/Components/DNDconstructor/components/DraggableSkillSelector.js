@@ -7,7 +7,7 @@ export const DraggableSkillSelector = ({content}) => {
     () => ({
       
       type: ItemTypes.SKILL_SELECTOR,
-      item: {type: "skillSelector", content},
+      item: {type: "skill_selector", content},
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),

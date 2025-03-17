@@ -1,5 +1,5 @@
 export const ItemTypes = {
-  QUESTION: "question",
+  QUESTION: "slider",
   TEXT_AREA: "textArea",
   RADIO: "radio",
   MULTI_CHOICE: "multiple_choice",

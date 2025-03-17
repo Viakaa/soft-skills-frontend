@@ -11,7 +11,6 @@ import './global.css';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
-import BelbinChart from "./Components/BelbinTest/BelbinGraphicResult.js"
 import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
 import NotificationsPage from "./Components/Notifications/NotificationsPage.js"
@@ -47,7 +46,6 @@ function App() {
         <Route path="/test/:id" element={<TestPage />} />
         <Route path="/test/677ffc10bc648d0df2743ff7" element={<BelbinTest />} />
         <Route path="/belbinresult/:userId" element={<BelbinResult />} />
-        <Route path="/belbinchart" element={<PrivateRoute><BelbinChart /></PrivateRoute>} />
         <Route path="*" element={<NotFoundPage />} />
         
       </Routes>

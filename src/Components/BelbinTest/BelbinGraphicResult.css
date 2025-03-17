@@ -2,30 +2,31 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 90%;
   margin: 20px auto;
   padding: 20px;
   background-color: #eef2ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   font-family: Arial, sans-serif;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .chart-section {
   flex: 3;
   background-color: #fff;
-  border-radius: 10px;
-  padding: 15px;
-  margin-right: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .chart-title {
   text-align: center;
   color: #4b5563;
-  margin-bottom: 10px;
-  font-size: 20px;
+  margin-bottom: 15px;
+  font-size: 22px;
   font-weight: bold;
 }
 
@@ -33,42 +34,85 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #d9d6f2;
-  border-radius: 10px;
+  background-color: #b8a8ff;
+  border-radius: 15px;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  overflow: hidden;
+}
+
+.date-scroll-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 200px;
+  width: 100%;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #a18aff #e0d7ff;
+  border-radius: 10px;
+  background: linear-gradient(#b8a8ff);
+  padding: 10px;
+}
+
+.date-scroll-container::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+.date-scroll-container::-webkit-scrollbar-track {
+  background: #e0d7ff;
+  border-radius: 10px;
+}
+
+.date-scroll-container::-webkit-scrollbar-thumb {
+  background: #a18aff;
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.date-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #8b6fff;
+}
+
+.date-scroll-container {
+  scrollbar-color: #a18aff #e0d7ff;
 }
 
 .date-item {
   display: block;
   text-align: center;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #fdfdfd;
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 12px;
+  margin: 5px;
+  background-color: #cfc5ff;
+  border: none;
+  border-radius: 10px;
   font-weight: bold;
-  color: #4b5563;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .date-item:hover {
-  background-color: #a3a3f9;
-  color: white;
+  background-color: #a18aff;
+  transform: scale(1.05);
 }
 
 .active-date {
   background-color: #ffdfba;
   color: #333;
+  border: 2px solid #000;
+  font-weight: bold;
 }
+
 
 @media screen and (max-width: 768px) {
   .chart-container {
       flex-direction: column;
   }
   .chart-section, .date-section {
-      margin-right: 0;
       margin-bottom: 15px;
   }
 }

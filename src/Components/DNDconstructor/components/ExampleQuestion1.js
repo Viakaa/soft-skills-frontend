@@ -8,7 +8,7 @@ export const ExampleQuestion1 = ({question}) => {
     () => ({
       
       type: ItemTypes.QUESTION,
-      item: {type: "question", content: question},
+      item: {type: "slider", content: question},
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),

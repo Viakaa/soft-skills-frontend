@@ -140,10 +140,10 @@ function DNDconstructor() {
     <DndProvider backend={HTML5Backend}>
       <div className="app">
         <aside className="side-panel">
-          <ExampleQuestion1 question="Click and drag this Slider." />
-          <DraggableYesNoQuestion content="Drag this 'Yes/No' question format." />
-          <DraggableRadioButton content="Apply this radio button format by dragging and dropping." />
-          <DraggableMultiChoice content="Multiple-choice format into your questionnaire." />
+          <ExampleQuestion1 question="Slider question" />
+          <DraggableYesNoQuestion content="Yes/No question" />
+          <DraggableRadioButton content="Radio button questionnaire" />
+          <DraggableMultiChoice content="Few answers  questionnaire" />
           <DraggableSkillSelector content="Select and place the soft skill categories." />
         </aside>
 
@@ -178,7 +178,7 @@ function DNDconstructor() {
                   />
                 );
               }
-              if (item.type === "question") {
+              if (item.type === "slider") {
                 return (
                   <QuestionItem
                     key={item.id} 
@@ -200,11 +200,11 @@ function DNDconstructor() {
                     onDelete={deleteItem}
                   />
                 );
-              } else if (item.type === "multiChoice") {
+              } else if (item.type === "multiple_choice") {
                 console.log(item.type);
                 return (
                   <MultiChoiceItem
-                    key={item.id}
+                    key={item.id}z
                     content={item.content}
                     index={index}
                     onDelete={deleteItem}

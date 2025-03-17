@@ -45,7 +45,7 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
       </div>
       {error && <div className="error">{error}</div>}
       {loading ? (
-        <p>Loading notifications...</p>
+        <p className='loading'>Loading notifications...</p>
       ) : notifications.length === 0 ? (
         <p className="noNotifications">No notifications</p>
       ) : (
