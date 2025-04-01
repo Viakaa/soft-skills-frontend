@@ -31,6 +31,7 @@
 }
 
 .btn-primary{
-    background-color: var(--secondary-color);
+    background-color: #0000ff;
     margin-right: 10px;
+    color: white;
 }

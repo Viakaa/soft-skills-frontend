@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import React, { useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import "./DNDconstructor.css";
 import axios from "axios";
 import {
@@ -17,10 +17,13 @@ import {
   TextAreaItem,
   YesNoQuestionItem
 } from "./components";
-import {ItemTypes} from "./components/ItemTypes";
+import { ItemTypes } from "./components/ItemTypes";
 
 function DNDconstructor() {
   const [items, setItems] = useState([]);
+  const [testTitle, setTestTitle] = useState("");
+  const [isTimerEnabled, setIsTimerEnabled] = useState(false);
+  const [timerValue, setTimerValue] = useState(30); 
 
   const addItem = (newItem) => {
     const updatedItems = [...items, { ...newItem, id: Math.random() }];
@@ -35,106 +38,108 @@ function DNDconstructor() {
   };
 
   const editItem = (indexToEdit, newContent) => {
-    const updatedItems = items.map((item, index) => 
+    const updatedItems = items.map((item, index) =>
       index === indexToEdit ? { ...item, content: newContent } : item
     );
     setItems(updatedItems);
     localStorage.setItem("dnd-items", JSON.stringify(updatedItems));
   };
+
+  const handleCreateTest = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        console.error("Auth token is missing.");
+        return;
+      }
   
-
-  const [testTitle, setTestTitle] = useState("");
-
- const handleCreateTest = async () => {
-  try {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      console.error("Auth token is missing.");
-      return;
-    }
-
-    const characteristicsResponse = await axios.get(
-      "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics",
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json"
-        },
-      }
-    );
-
-    const characteristics = characteristicsResponse.data;
-    if (!characteristics.length) {
-      console.error("No characteristics found.");
-      return;
-    }
-
-    const characteristicId = characteristics[0]._id;
-
-    const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
-
-    const questionPromises = savedItems.map((item) => {
-      if (!["multiple_choice", "yes_no", "slider", "radio"].includes(item.type)) {
-        console.error(`Invalid question type: ${item.type}`);
-        return Promise.reject(new Error("Invalid question type"));
-      }
-
-      return axios.post(
-        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/questions",
+      const characteristicsResponse = await axios.get(
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics",
         {
-          question: item.content || "Default question",
-          type: item.type,
-          answers: item.answers || ["Option 1", "Option 2"],
-          correctAnswers: item.correctAnswers || [true, false],
-          characteristics: [
-            {
-              characteristicId: characteristicId, 
-              points: 5,
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+  
+      const characteristics = characteristicsResponse.data;
+      if (!characteristics.length) {
+        console.error("No characteristics found.");
+        return;
+      }
+  
+      const characteristicId = characteristics[0]._id;
+  
+      const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
+  
+      const questionPromises = savedItems.map((item) => {
+        if (!["multiple_choice", "yes_no", "slider", "radio"].includes(item.type)) {
+          console.error(`Invalid question type: ${item.type}`);
+          return Promise.reject(new Error("Invalid question type"));
+        }
+  
+        return axios.post(
+          "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/questions",
+          {
+            question: item.content || "Default question",
+            type: item.type,
+            answers: item.answers || ["Option 1", "Option 2"],
+            correctAnswers: item.correctAnswers || [true, false],
+            characteristics: [
+              {
+                characteristicId: characteristicId,
+                points: 5
+              }
+            ]
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+              "Content-Type": "application/json"
             }
-          ]
+          }
+        );
+      });
+  
+      const questionResponses = await Promise.all(questionPromises);
+      const questionIds = questionResponses.map((res) => res.data._id);
+  
+      const timerInSeconds = isTimerEnabled ? timerValue * 60 : null;
+  
+      const testResponse = await axios.post(
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
+        {
+          title: testTitle || "Untitled Test",
+          questions: questionIds,
+          created_by: "Your username or ID", 
+          status: "active", 
+          timer: timerInSeconds 
         },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
             "Content-Type": "application/json"
-          },
+          }
         }
       );
-    });
-
-    const questionResponses = await Promise.all(questionPromises);
-    const questionIds = questionResponses.map((res) => res.data._id);
-
-    const testResponse = await axios.post(
-      "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
-      {
-        title: testTitle || "Untitled Test",
-        questions: questionIds,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json"
-        },
-      }
-    );
-
-    console.log("Test created:", testResponse.data);
-
-    localStorage.removeItem("dnd-items");
-    setItems([]);
-    setTestTitle("");
-  } catch (error) {
-    console.error("Error creating test:", error.response?.data || error.message);
-  }
-};
-
   
+      console.log("Test created:", testResponse.data);
+  
+      // Clear the local storage and reset state
+      localStorage.removeItem("dnd-items");
+      setItems([]);
+      setTestTitle("");
+    } catch (error) {
+      console.error("Error creating test:", error.response?.data || error.message);
+    }
+  };
+  
+
   useEffect(() => {
     const savedItems = JSON.parse(localStorage.getItem("dnd-items")) || [];
     setItems(savedItems);
   }, []);
-  
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -175,13 +180,15 @@ function DNDconstructor() {
                     content={item.content}
                     index={index}
                     onDelete={deleteItem}
+                    token={localStorage.getItem("authToken")} 
                   />
                 );
               }
+              
               if (item.type === "slider") {
                 return (
                   <QuestionItem
-                    key={item.id} 
+                    key={item.id}
                     item={item}
                     index={index}
                     onDelete={deleteItem}
@@ -190,21 +197,18 @@ function DNDconstructor() {
                   />
                 );
               } else if (item.type === "radio") {
-                console.log(item.type);
-
                 return (
                   <RadioButtonItem
-                    key={item.id} 
+                    key={item.id}
                     content={item.content}
                     index={index}
                     onDelete={deleteItem}
                   />
                 );
               } else if (item.type === "multiple_choice") {
-                console.log(item.type);
                 return (
                   <MultiChoiceItem
-                    key={item.id}z
+                    key={item.id}
                     content={item.content}
                     index={index}
                     onDelete={deleteItem}
@@ -224,6 +228,30 @@ function DNDconstructor() {
             })}
           </div>
           <DropArea onAddItem={addItem} items={items} />
+
+          <div className="timer-settings">
+            <label>
+              <input
+                type="checkbox"
+                checked={isTimerEnabled}
+                onChange={(e) => setIsTimerEnabled(e.target.checked)}
+              />
+              Enable timer
+            </label>
+
+            {isTimerEnabled && (
+              <div>
+                <label>Time limit (in minutes):</label>
+                <input
+                  type="number"
+                  value={timerValue}
+                  onChange={(e) => setTimerValue(Number(e.target.value))}
+                  min="1"
+                />
+              </div>
+            )}
+          </div>
+
           <button onClick={handleCreateTest}>Create Test</button>
         </main>
       </div>

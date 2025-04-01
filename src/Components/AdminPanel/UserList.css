@@ -1,19 +1,17 @@
 .a_usercard{
-    border: 3px solid var(--secondary-color)!important;
-    background-color: var(--primary-color) !important;
     font-family: 'Mitr';
     color: rgba(248, 251, 255, 1) !important;
-    
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
 }
 .user_edit{
-    background-color: var(--secondary-color)!important;
+    background-color: black!important;
     border: none !important;
     margin-top: 20px;
 }
 
 .a_usercard .card-title, .card-text{
     margin: 0 !important;
-    color: var(--text-color) !important;
+    color: black !important;
 }
 
 .a_usercard .card-body{
@@ -25,14 +23,12 @@
 }
 
 .all_users {
-    background-color:var(--secondary-color) !important;
     max-width: 1520px;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 5px;
     font-family: 'Mitr' !important;
     margin-bottom: 15px;
-    color:var(--text-color) !important;
-    
+    color: rgb(0, 0, 0) !important;   
 }
 
 .pagination_{
@@ -40,12 +36,15 @@
 }
 
 .pagination_ span{
-    background-color: var(--secondary-color) !important;
+    background-color: blue !important;
     border: none !important;
 }
 
 .pagination_ a{
-    color: var(--secondary-color) !important;
-    
-
+    color: black !important;
 }
+
+.modalHeader{
+    background-color: blue;
+}
+

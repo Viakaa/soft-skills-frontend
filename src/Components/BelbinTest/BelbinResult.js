@@ -12,8 +12,9 @@ import {
 } from "recharts";
 import "./BelbinGraphicResult.css";
 import "./BelbinResult.css";
+import roleInfo from "./roles_info.json";
+import Feedback from "../Feedbacks/FeedbackComponent"
 
- 
 const BelbinResultPage = () => {
   const { userId } = useParams();
   const { state } = useLocation();
@@ -25,7 +26,6 @@ const BelbinResultPage = () => {
     const token = localStorage.getItem("authToken");
 
     if (state && state.tests) {
-      console.log("Received state:", state);
       const belbinTests = state.tests.filter((test) => test.type === "belbin");
       const formattedTests = {};
 
@@ -35,8 +35,6 @@ const BelbinResultPage = () => {
             acc[curr.role] = curr.value;
             return acc;
           }, {});
-        } else {
-          console.warn(`Unexpected results format for test:`, test.results);
         }
       });
 
@@ -72,7 +70,6 @@ const BelbinResultPage = () => {
       }
 
       const userData = await response.json();
-      console.log("Fetched user data:", userData);
 
       if (userData && userData.tests) {
         const belbinTests = userData.tests.filter(
@@ -122,7 +119,7 @@ const BelbinResultPage = () => {
   );
 
   const sortedData = [...formattedData].sort((a, b) => b.score - a.score);
-  const topRoles = sortedData.slice(0, 3).map((item) => item.role);
+  const topRoles = sortedData.slice(0, 3);
 
   return (
     <div className="chart-container">
@@ -144,7 +141,7 @@ const BelbinResultPage = () => {
               stroke="#8884d8"
               activeDot={{ r: 8 }}
               dot={({ cx, cy, payload }) =>
-                topRoles.includes(payload.role) ? (
+                topRoles.some((item) => item.role === payload.role) ? (
                   <circle
                     cx={cx}
                     cy={cy}
@@ -161,7 +158,7 @@ const BelbinResultPage = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-
+      
       <div className="date-section">
         <div className="date-scroll-container">
           {dates.map((date) => (
@@ -170,11 +167,38 @@ const BelbinResultPage = () => {
               className={`date-item ${date === activeDate ? "active-date" : ""}`}
               onClick={() => setActiveDate(date)}
             >
-              Date: {new Date(date).toLocaleDateString()}
+              {new Date(date).toLocaleDateString()}
             </button>
           ))}
         </div>
       </div>
+
+      <div className="role-info-section">
+        <h3>Top 3 Roles Information</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Possible Position</th>
+              <th>Characteristics</th>
+              <th>Team Role</th>
+              <th>Weaknesses</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topRoles.map((role) => (
+              <tr key={role.role}>
+                <td>{role.role}</td>
+                <td>{roleInfo[role.role]?.possible_position}</td>
+                <td>{roleInfo[role.role]?.personal_characteristics}</td>
+                <td>{roleInfo[role.role]?.team_role}</td>
+                <td>{roleInfo[role.role]?.weaknesses}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+        <Feedback/>
     </div>
   );
 };

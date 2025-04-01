@@ -40,7 +40,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
           variant="contained"
           sx={{
             backgroundColor: selectedAnswer === 'yes' ? 'gray' : '#896BB3',
-            color: selectedAnswer === 'yes' ? 'white' : 'gray',
+            color: selectedAnswer === 'yes'  ? 'white' : 'default',
             fontSize: "34px",
             width: "190px",
             height: "41.158px",

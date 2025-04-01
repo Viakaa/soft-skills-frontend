@@ -1,8 +1,7 @@
-
 .manageTable {
     padding: 12px 36px 110px;
     border-radius: 20px;
-    background: var(--primary-color) !important;
+    background: black !important;
 }
 
 .manageTable__title {
@@ -24,12 +23,13 @@
 }
 
 .modalHeader, .modalBody, .modalFooter {
-    background-color: var(--primary-color) !important;
+    background-color: black !important;
     color: white;
 }
 
 .titleModal {
     color: rgba(248, 251, 255, 1) !important;
+    text-align: center;
 }
 
 .manageTable__tr {
@@ -47,6 +47,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     color: rgba(248, 251, 255, 1) !important;
+    background-color: #232934;
     padding: 2px 24px;
     width: 30%;
     max-width: 30%;
@@ -96,7 +97,7 @@
     border-radius: 5px;
     display: flex;
     width: 100%;
-    background-color:var(--secondary-color) !important;
+    background-color: white !important;
     color: var(--primary-color) !important;
 }
 
@@ -123,7 +124,7 @@
     margin-right: 13px;
     height: 44px;
     width: 44px;
-    background-color: var(--secondary-color) !important;
+    background-color: white!important;
     padding: 9px;
     border-radius: 10px;
 }
@@ -150,8 +151,8 @@
 }
 
 .charactList {
-    background-color:var(--text-color) !important;
-    color: var(--primary-color)!important;
+    background-color: white !important;
+    color: black!important;
 }
 
 .saveButton {

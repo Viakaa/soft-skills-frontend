@@ -1,0 +1,51 @@
+{
+        "implementer":{
+        "possible_position": "Wholesale trade agent",
+        "personal_characteristics": "Conservative, disciplined, reliable",
+        "team_role": "Organization. Turning plans and ideas into practical actions.",
+        "weaknesses": "Lack of flexibility. Slow response to new opportunities."
+      },
+      "coordinator": {
+        "possible_position": "Chairman",
+        "personal_characteristics": "Mature, confident, believes in the cause",
+        "team_role": "Explain goals and priorities. Motivate colleagues. Balanced in decision-making.",
+        "weaknesses": "Lack of creativity and mental flexibility."
+      },
+     "creator": {
+        "possible_position": "Middle manager",
+        "personal_characteristics": "Excited, dynamic, successful",
+        "team_role": "Challenge and question. Apply pressure. Seek alternative ways.",
+        "weaknesses": "Prone to provocation. Hot-tempered."
+      },
+      "generatorOfIdeas": {
+        "possible_position": "Company founder",
+        "personal_characteristics": "Intelligent, with developed thinking, extraordinary",
+        "team_role": "Create original ideas. Solve complex problems.",
+        "weaknesses": "Not flexible enough in communication and management."
+      },
+        "researcher": {
+        "possible_position": "Head of supply department",
+        "personal_characteristics": "Extrovert, curious enthusiast, sociable",
+        "team_role": "Use new opportunities. Develop contacts. Conduct negotiations.",
+        "weaknesses": "Loses interest once enthusiasm fades."
+      },
+      "expert": {
+        "possible_position": "Expert",
+        "personal_characteristics": "Thoughtful, intelligent, reserved",
+        "team_role": "See all options. Analyze. Conduct thorough assessment.",
+        "weaknesses": "Lack of energy and ability to inspire others."
+      },
+      "diplomat": {
+        "possible_position": "Public relations manager",
+        "personal_characteristics": "Sociable, friendly, accommodating",
+        "team_role": "Listen, build relationships. Prevent conflicts. Find an approach to difficult people.",
+        "weaknesses": "Indecisive in 'slippery' situations."
+      },
+     "specialist": {
+        "possible_position": "Senior sales agent",
+        "personal_characteristics": "Diligent, caring, meticulous",
+        "team_role": "Find mistakes, deficiencies. Focus on goals personally and help others do the same.",
+        "weaknesses": "Tends to excessive worries, reluctant to delegate authority."
+      }
+  }
+  
