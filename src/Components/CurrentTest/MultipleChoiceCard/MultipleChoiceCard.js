@@ -32,12 +32,9 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
           }}
           value={title}
           required
-          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
+         
         />
 
-        <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >
-          
-        </div>
       </div>
 
       <div className="option-container">
@@ -64,12 +61,10 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
                         fullWidth
                         multiline
                           className="questionText"
-                          style={{ border: "none !important", width: "100%"}}
                           defaultValue={option}
                           InputProps={{
                             readOnly: true,
                           }}
-                          sx={{ minWidth: '600px' }}
                         />
                       }
                     />

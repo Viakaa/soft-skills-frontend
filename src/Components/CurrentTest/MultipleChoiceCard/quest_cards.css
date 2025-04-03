@@ -1,19 +1,56 @@
-.question_wrap{
-    background-color: #9999FF;
-    border: none;
-    text-align: center;
-    color:#382A4A;
-    outline: none !important;
-    border-radius: 10px;
-    width: 85% !important;
-    max-height: 30%;
-    display: flex;
-    justify-content: center;
-}
+
 .question_wrap .css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input{
 font-weight: 500 !important;
 font-family: 'Mitr';
 text-align: center;
-font-size: 23px;
+font-size: 20px;
 padding-top: 5px;
+justify-content: center;
+width: 900px
+}
+
+.fristWrapper {
+    width: 750px; /* Або встанови фіксовану ширину */
+    margin: 0 auto; /* Центрує елемент */
+}
+
+.yes-no-buttons {
+    justify-content: center;
+    gap: 16px; /* Збільшує відстань між кнопками */
+}
+
+.firstQuestion{
+    color:black;
+    background-color: white;
+    font-weight: bold;
+}
+
+.questionSlider {
+    width: 400px; /* Зменшена ширина */
+}
+
+.css-188mx6n-MuiSlider-root {
+    width: 400px; /* Вужчий повзунок */
+}
+
+.yesno_button {
+    font-weight: bold;
+    width: 120px;
+    margin: 5px;
+    height: 50px;
+    border-radius: 4px;
+}
+
+.yesno_button:first-child {
+    background-color: #0000FF; /* Синій для Yes */
+    color: white;
+}
+
+.yesno_button:last-child {
+    background-color: #000000; /* Чорний для No */
+    color: white;
+}
+
+.checkbox-with-form-control{
+    margin-left: 35px;
 }

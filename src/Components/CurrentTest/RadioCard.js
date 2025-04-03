@@ -32,26 +32,19 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
           }}
           value={question.question}
           required
-          style={{ whiteSpace: "normal", wordWrap: "break-word !important",fontSize:'40px !important' }}
         />
-
-        <div className="closeButton" style={{backgroundColor:'#FED799 !important'}} >
-          
-        </div>
       </div>
       <div className="option-container">
-        <div className="correct-answer-section" style={{ display: "flex" }}>
+        <div className="correct-answer-section" >
           <RadioGroup
             name={`radio-group-${question.questionId}`}
             value={selectedValue}
             onChange={handleRadioChange}
-            style={{width:"94%"}}
+         
           >
             {answers.map((option, idx) => (
               <Box
-                sx={{
-                  display: "flex",
-                }}
+               
               >
                 <div className="checkbox-with-form-control">
                   <div className="checkbox-container">
@@ -62,12 +55,12 @@ const RadioCard = ({ question, number, onAnswerChange }) => {
                         fullWidth
                         multiline
                           className="questionText"
-                          style={{ border: "none !important", width: "100%"}}
+                       
                           defaultValue={option}
                           InputProps={{
                             readOnly: true,
                           }}
-                          sx={{ minWidth: '600px' }}
+                      
                         />
 
                       }

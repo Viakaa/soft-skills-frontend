@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, getUserInfo } from "../../Redux/Actions/userActions";
 import "./Navbar.css";
 import NotificationSidebar from "../Notifications/Notifications";
-import UserIcon from "../../Assets/Images/UserIcon.svg";
+import UserIcon from "../../Assets/Images/UserIcon.png";
 import NotificationIcon from "../../Assets/Images/notifications.png";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";

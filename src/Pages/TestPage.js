@@ -13,7 +13,6 @@ const TestPage = () => {
   const [test, setTest] = useState({});
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
-  const [setResults] = useState(null);
   const [showCompletionToast, setShowCompletionToast] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const navigate = useNavigate();
@@ -71,7 +70,7 @@ const TestPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    if (e) e.preventDefault(); 
+    if (e) e.preventDefault();
   
     const authToken = localStorage.getItem("authToken");
     const userId = localStorage.getItem("userId");
@@ -86,17 +85,33 @@ const TestPage = () => {
       return;
     }
   
-    const formattedAnswers = {
-      answers: Object.entries(answers).map(([questionId, indexes]) => ({
-        questionId,
-        answers: indexes
-      }))
-    };
+    console.log('User ID:', userId);
+    console.log('Test ID:', id);
+  
+
+    const formattedAnswers = questions.map((question) => {
+      const selectedAnswer = answers[question._id];
+  
+      if (selectedAnswer && selectedAnswer.length > 0) {
+        return {
+          questionId: question._id,
+          answers: selectedAnswer, 
+        };
+      }
+  
+      console.warn(`Question ${question._id} has no valid answer.`);
+      return null;
+    }).filter(Boolean); 
+  
+    if (formattedAnswers.length === 0) {
+      console.error("No valid answers selected.");
+      return;
+    }
   
     const url = `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/${id}/results`;
   
     try {
-      const response = await axios.post(url, formattedAnswers, {
+      const response = await axios.post(url, formattedAnswers , {
         headers: { 
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "application/json"
@@ -106,7 +121,8 @@ const TestPage = () => {
       console.log('Response:', response.data);
       setShowCompletionToast(true);
     } catch (e) {
-      console.error('Error submitting results', e);
+      console.error('Error submitting results', e.response ? e.response.data : e.message);
+      alert('There was an error submitting your results. Please try again later.');
     }
   };
   
@@ -141,9 +157,19 @@ const TestPage = () => {
               {question.type === "multiple_choice" && (
                 <MultipleChoiceCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
               )}
-              {question.type === "slider" && (
-                <SliderCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
-              )}
+   {question.type === "slider" && (
+  <SliderCard 
+    number={index + 1} 
+    question={{
+      ...question,
+      sliderMin: Math.min(...question.answers.map(Number)), 
+      sliderMax: Math.max(...question.answers.map(Number))
+    }} 
+    onAnswerChange={handleAnswerChange} 
+  />
+)}
+
+
               {question.type === "radio" && (
                 <RadioCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
               )}

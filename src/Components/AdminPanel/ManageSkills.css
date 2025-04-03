@@ -46,8 +46,6 @@
     line-height: 40px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: rgba(248, 251, 255, 1) !important;
-    background-color: #232934;
     padding: 2px 24px;
     width: 30%;
     max-width: 30%;
@@ -56,6 +54,12 @@
 .skill_admin {
     overflow: hidden;
 }
+
+.manageTable__td.skill_admin{
+    background-color: #232934;
+    color: white;
+}
+
 
 .manageTable__td:nth-child(2) {
     position: relative;
@@ -71,20 +75,19 @@
     height: calc(100% + 4px);
     top: -2px;
     width: 100%;
-    border: 2px solid #292E46;
     border-right: none;
     border-radius: 5px;
 }
 
 .char_skill{
-    background-color: var(--secondary-color)!important;
+    background-color: rgb(255, 255, 255)!important;
     width: 100%;
-    border-left: 2px solid #292E46;
     border-radius: 2px;
     pointer-events: none;
     overflow:scroll !important;
     display: flex !important;
-    color: rgba(248, 251, 255, 1) !important;
+    color: rgb(0, 0, 0) !important;
+    z-index: 1;
 }
 .char_skill .manageTable__td{
   
@@ -93,12 +96,12 @@
  }
 
 .manageTable__td-wrap {
-    border: 2px solid #292E46;
     border-radius: 5px;
     display: flex;
     width: 100%;
     background-color: white !important;
     color: var(--primary-color) !important;
+    margin-bottom: 10px;
 }
 
 

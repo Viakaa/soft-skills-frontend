@@ -21,7 +21,7 @@ const DropArea = ({ onAddItem }) => {
         } else if (item.type === ItemTypes.MULTI_CHOICE) {
           onAddItem({
             type: ItemTypes.MULTI_CHOICE,
-            content: "",
+            content:  item.content,
             answers: [],
             characteristics: [],
           });

@@ -1,4 +1,55 @@
+{"belbinTest": 
 {
     "description": "This test consists of 7 separate blocks with 8 questions or statements each, with which you can agree or disagree. You have 10 points for each block. You can assign points to no more than 3 or 4 statements in a block. If you completely agree with a statement (100%), you can give it all 10 points. At the same time, a minimum of 2 points can be assigned to a statement. Make sure that the total number of points for each block does not exceed 10."
+  },
+  "emotionalIntelligenceTest": {
+    "description": "This test helps determine a person's level of emotional intelligence by assessing their ability to recognize, understand, and manage their own and others' emotions.",
+    "features": {
+      "number_of_questions": 30,
+      "response_format": "6-point scale (-3 to +3)"
+    },
+    "categories": [
+      {
+        "name": "Emotional Awareness",
+        "description": "Understanding one's own emotions"
+      },
+      {
+        "name": "Emotion Management",
+        "description": "Control and adaptation of emotions"
+      },
+      {
+        "name": "Self-Motivation",
+        "description": "Using emotions to achieve goals"
+      },
+      {
+        "name": "Empathy",
+        "description": "Understanding others' feelings"
+      },
+      {
+        "name": "Recognizing Others' Emotions",
+        "description": "Influencing the emotional state of those around"
+      }
+    ]
+  },
+  "criticalThinkingTest": {
+    "description": "The Critical Thinking Test assesses your ability to reason logically through an argument and make objective decisions. You may need to evaluate a situation, recognize assumptions, formulate hypotheses, and assess arguments.",
+    "based_on": "Watson-Glaser Critical Thinking Appraisal model",
+    "sections": [
+      {
+        "name": "Arguments"
+      },
+      {
+        "name": "Assumptions"
+      },
+      {
+        "name": "Deductions"
+      },
+      {
+        "name": "Interpretation"
+      },
+      {
+        "name": "Conclusions"
+      }
+    ]
   }
-  
+}

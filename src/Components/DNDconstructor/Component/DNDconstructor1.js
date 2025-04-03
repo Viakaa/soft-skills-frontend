@@ -342,7 +342,7 @@ function DNDconstructor() {
                     characteristics={selectedSkills}
                   />
                 );
-              } else if (item.type === "multiChoice") {
+              } else if (item.type === "multiple_choice") {
                 return (
                   <MultiChoiceItem
                     key={item.id}
