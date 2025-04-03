@@ -15,10 +15,13 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
 
       if (unreadNotifications.length > 0) {
         const batchSize = 5;
+
         const markBatch = async (batch) => {
-          for (const notification of batch) {
-            await markNotificationAsRead(notification._id);
-            await new Promise((resolve) => setTimeout(resolve, 500));
+          try {
+            const unreadIds = batch.map(n => n._id);
+            await markNotificationAsRead(unreadIds); 
+          } catch (error) {
+            console.error('Failed to mark notifications as read:', error);
           }
         };
 
@@ -34,7 +37,7 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
         })();
       }
     }
-  }, [isVisible, notifications, markNotificationAsRead, setUnreadCount]);
+  }, [isVisible, notifications, markNotificationAsRead]);
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>

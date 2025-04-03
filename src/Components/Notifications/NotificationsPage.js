@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './NotificationsPage.css';
 import { useNotifications } from './NotificationsContext';
+import { debounce } from "lodash";
 import axios from 'axios';
 
 const NotificationsPage = () => {
@@ -13,17 +14,19 @@ const NotificationsPage = () => {
   const notificationsPerPage = 10;
 
   const fetchUserWithRetry = async (userId, retries = 5, delayTime = 1000) => {
+    const cachedUser = localStorage.getItem(`user_${userId}`);
+    if (cachedUser) return JSON.parse(cachedUser);
+  
     try {
       const token = localStorage.getItem('authToken');
       if (!token) return;
-
+  
       const response = await axios.get(
         `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
+      localStorage.setItem(`user_${userId}`, JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       if (retries > 0 && error.response?.status === 429) {
@@ -34,54 +37,65 @@ const NotificationsPage = () => {
       return null;
     }
   };
-
-  useEffect(() => {
-    const fetchUsers = async () => {
+  
+  const fetchUsers = useCallback(
+    debounce(async () => {
       const uniqueUserIds = [...new Set(notifications.map((n) => n.ownerId))];
+  
       const usersData = await Promise.all(
-        uniqueUserIds.map((id) => fetchUserWithRetry(id))
+        uniqueUserIds.map((id) => users[id] ? Promise.resolve(users[id]) : fetchUserWithRetry(id))
       );
-
+  
       const usersMap = usersData.reduce((acc, user) => {
         if (user) {
           acc[user._id] = user;
         }
         return acc;
       }, {});
+  
+      setUsers((prevUsers) => ({ ...prevUsers, ...usersMap }));
+    }, 1000),
+    [notifications]
+  );
 
-      setUsers(usersMap);
-    };
-
+  useEffect(() => {
     if (notifications.length > 0) {
       fetchUsers();
     }
-  }, [notifications]);
+  }, [notifications, fetchUsers]);
+  
 
   const loadMoreNotifications = useCallback(async () => {
     if (isFetching || !hasMore) return;
     setIsFetching(true);
-
+  
     try {
       const token = localStorage.getItem('authToken');
+      const cachedNotifications = localStorage.getItem('cachedNotifications');
+  
+      if (cachedNotifications) {
+        setPaginatedNotifications(JSON.parse(cachedNotifications));
+        setIsFetching(false);
+        return;
+      }
+  
       const response = await axios.get(
         `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/user-notifications`,
         {
-          params: {
-            pageNumber: currentPage,
-            pageSize: notificationsPerPage,
-          },
+          params: { pageNumber: currentPage, pageSize: notificationsPerPage },
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+  
       if (response.data.length > 0) {
         setPaginatedNotifications((prev) => {
           const newNotifications = response.data.filter(
             (notif) => !prev.some((item) => item._id === notif._id)
           );
-          const updatedNotifications = [...newNotifications, ...prev]; 
+          const updatedNotifications = [...newNotifications, ...prev];
+          localStorage.setItem('cachedNotifications', JSON.stringify(updatedNotifications));
           return updatedNotifications.sort(
-            (a, b) => new Date(b.created_at) - new Date(a.created_at) 
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
           );
         });
         setCurrentPage((prev) => prev + 1);
@@ -94,12 +108,13 @@ const NotificationsPage = () => {
       setIsFetching(false);
     }
   }, [currentPage, isFetching, hasMore]);
-
+  
   useEffect(() => {
-    if (paginatedNotifications.length === 0) {
+    if (paginatedNotifications.length === 0 && !isFetching) {
       loadMoreNotifications();
     }
   }, [loadMoreNotifications, paginatedNotifications]);
+  
   
 
   return (

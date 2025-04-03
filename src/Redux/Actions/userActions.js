@@ -79,21 +79,36 @@ export const registerUser = (formData) => async (dispatch) => {
   }
 };
 
-export const getUserInfo = (userId, token) => async (dispatch) => {
-    try {
-      const token = localStorage.getItem('authToken');
-      const userId = localStorage.getItem('userId');
-      const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.data);
-      dispatch({ type: 'FETCH_USER_SUCCESS', payload: response.data });
-    } catch (error) {
-      dispatch({ type: 'FETCH_USER_FAIL', payload: error });
+export const getUserInfo = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const userId = localStorage.getItem('userId');
+
+    if (!token || !userId) {
+      throw new Error("User is not authenticated");
     }
-  };
+
+    const cachedUserInfo = localStorage.getItem('cachedUserInfo');
+    
+    if (cachedUserInfo) {
+      dispatch({ type: 'FETCH_USER_SUCCESS', payload: JSON.parse(cachedUserInfo) });
+      return;
+    }
+
+    const response = await axios.get(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    localStorage.setItem('cachedUserInfo', JSON.stringify(response.data));
+    dispatch({ type: 'FETCH_USER_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'FETCH_USER_FAIL', payload: error.message });
+    console.error("Error fetching user info:", error);
+  }
+};
+
+
+
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem("userId");

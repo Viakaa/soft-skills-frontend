@@ -120,7 +120,7 @@ const TestPage = () => {
   
       console.log('Response:', response.data);
       setShowCompletionToast(true);
-    } catch (e) {
+      navigate(`/results/${id}`, { state: { results: response.data } });    } catch (e) {
       console.error('Error submitting results', e.response ? e.response.data : e.message);
       alert('There was an error submitting your results. Please try again later.');
     }

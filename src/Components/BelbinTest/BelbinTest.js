@@ -59,26 +59,34 @@ const BelbinTest = () => {
 
   const handleChangePoints = (questionIndex, subQuestionIndex, value) => {
     if (!test) return;
-
+  
     const updatedQuestions = [...test.questions];
     const updatedSubQuestions = [...updatedQuestions[questionIndex].subQuestions];
-
+  
+    const scoredSubQuestions = updatedSubQuestions.filter(sq => sq.points !== undefined).length;
+  
+    if (scoredSubQuestions >= 4 && value !== 0 && updatedSubQuestions[subQuestionIndex].points === undefined) {
+      return;
+    }
+  
     const previousValue = updatedSubQuestions[subQuestionIndex].points || 0;
-
+  
     const currentTotal = updatedQuestions[questionIndex].subQuestions.reduce((sum, sq) => sum + (sq.points || 0), 0);
-
+  
     if (currentTotal - previousValue + value > 10) {
       return; 
     }
-
+  
     updatedSubQuestions[subQuestionIndex].points = value === previousValue ? undefined : value;
     updatedQuestions[questionIndex].subQuestions = updatedSubQuestions;
-
+  
     setTest({
       ...test,
       questions: updatedQuestions,
     });
   };
+  
+  
   const handleSubmit = async () => {
     const token = getToken();
     const userId = localStorage.getItem("userId");
@@ -120,7 +128,6 @@ const BelbinTest = () => {
   
       const resultData = await response.json();
   
-      // Extract all roles and their points
       const rolesWithPoints = requestBody.flatMap((q) =>
         q.answers.map((sq) => ({
           role: sq.role,
@@ -128,21 +135,17 @@ const BelbinTest = () => {
         }))
       );
   
-      // Group roles by their total points
       const rolePointsMap = rolesWithPoints.reduce((acc, { role, points }) => {
         acc[role] = (acc[role] || 0) + points;
         return acc;
       }, {});
   
-      // Sort roles by points in descending order
       const sortedRoles = Object.entries(rolePointsMap)
         .sort(([, pointsA], [, pointsB]) => pointsB - pointsA)
-        .slice(0, 3); // Get top 3 roles
+        .slice(0, 3); 
   
-      // Extract just the top 3 roles
       const topRoles = sortedRoles.map(([role]) => role);
   
-      // Navigate to the results page with the top 3 roles
       navigate(`/belbinresult/${userId}`, { state: { results: resultData.results, topRoles } });
   
     } catch (error) {

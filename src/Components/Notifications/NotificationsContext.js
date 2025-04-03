@@ -31,7 +31,7 @@ export const NotificationsProvider = ({ children }) => {
 
   
   const markNotificationAsRead = useCallback(async (notificationId) => {
-    if (!notificationId) return; // Уникнути запитів без ID
+    if (!notificationId) return; 
     
     const token = localStorage.getItem('authToken');
   

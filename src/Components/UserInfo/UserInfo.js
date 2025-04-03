@@ -19,8 +19,11 @@ export default function UserInfo() {
   const isLoading = useSelector((state) => state.auth.loading);
 
   useEffect(() => {
-    dispatch(getUserInfo());
-  }, [dispatch]);
+    if (!userInfo) {
+      dispatch(getUserInfo());
+    }
+  }, [dispatch, userInfo]);
+  
 
   if (isLoading || !userInfo) {
     return <Skeleton />;

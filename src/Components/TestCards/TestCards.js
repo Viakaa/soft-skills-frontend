@@ -1,11 +1,12 @@
 import "./TestCards.css";
 import { Card, Button } from "react-bootstrap";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../../Redux/Actions/userActions.js";
 import FirstTestImage from "../../Assets/Images/newTestImage.png";
 import DescriptionComponent from "../Description/DescriptionComponent";
+import debounce from "lodash.debounce";
 
 export default function TestCards() {
   const Skeleton = () => <div className="skeleton"></div>;
@@ -21,32 +22,47 @@ export default function TestCards() {
     dispatch(getUserInfo());
   }, [dispatch]);
 
-  const fetchTests = async (authToken) => {
+  const fetchTests = async (authToken, retries = 3, delay = 1000) => {
     try {
       const response = await axios.get(
         "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
+
       const fetchedTests = response.data.map((test) => ({
         id: test._id,
         title: test.title,
       }));
+
       setTests(fetchedTests);
+      localStorage.setItem("tests", JSON.stringify(fetchedTests)); 
     } catch (error) {
-      console.error("Error fetching tests:", error);
+      if (error.response?.status === 429 && retries > 0) {
+        console.warn(`Too Many Requests: Retrying in ${delay}ms...`);
+        setTimeout(() => fetchTests(authToken, retries - 1, delay * 2), delay);
+      } else {
+        console.error("Error fetching tests:", error);
+      }
     }
   };
 
+  const debouncedFetchTests = useCallback(debounce(fetchTests, 3000), []);
+
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
+    const cachedTests = localStorage.getItem("tests");
+
     if (!authToken) {
       console.error("Auth token is not available.");
       return;
     }
-    fetchTests(authToken);
-  }, []);
+
+    if (cachedTests) {
+      setTests(JSON.parse(cachedTests));
+    } else {
+      debouncedFetchTests(authToken);
+    }
+  }, [debouncedFetchTests]);
 
   if (isLoading || !userInfo) {
     return <Skeleton />;
@@ -60,6 +76,7 @@ export default function TestCards() {
       window.location.href = `/test/${testId}`;
     }
   };
+  
 
   return (
     <>
@@ -103,6 +120,6 @@ export default function TestCards() {
       </div>
 
       {showDescription && <DescriptionComponent show={showDescription} setShow={setShowDescription} />}
-    </>
+          </>
   );
 }

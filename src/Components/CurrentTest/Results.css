@@ -1,0 +1,82 @@
+/* Results.css */
+
+.results-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .results-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .results-card {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .results-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .results-title-card {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .results-points {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .loading,
+  .error-message,
+  .no-results {
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+  }
+  
+  .error-message {
+    color: #d9534f;
+  }
+  
+  @media (max-width: 600px) {
+    .results-container {
+      padding: 15px;
+    }
+  
+    .results-title {
+      font-size: 24px;
+    }
+  
+    .results-card {
+      padding: 12px;
+    }
+  
+    .results-title-card {
+      font-size: 18px;
+    }
+  
+    .results-points {
+      font-size: 14px;
+    }
+  }
+  

@@ -12,6 +12,8 @@ export default function DescriptionComponent({ show, setShow }) {
     handleClose();
     navigate("/test/677ffc10bc648d0df2743ff7");
   };
+  const belbinDescription = descriptionData.belbinTest.description;
+
 
   return (
     <Modal show={show} onHide={handleClose} centered className="description-modal">
@@ -21,7 +23,7 @@ export default function DescriptionComponent({ show, setShow }) {
       <Modal.Body className="modal-body">
         <div className="description-text">
           <h5 className="description-header">About the Belbin Test</h5>
-          <p className="modal-text">{descriptionData.description}</p>
+          <p className="modal-text">{belbinDescription}</p>
         </div>
       </Modal.Body>
       <Modal.Footer className="modal-footer">
