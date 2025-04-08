@@ -181,7 +181,7 @@ const BelbinTest = () => {
   return (
     <div className="test-container">
       <h1>{test.title || "Test Title"}</h1>
-      <p>Created by: {test.created_by || "Unknown"}</p>
+      <p>Створено: {test.created_by || "Unknown"}</p>
 
       {test.questions && test.questions.length > 0 ? (
         isSmallScreen ? (
@@ -191,7 +191,7 @@ const BelbinTest = () => {
               onClick={handlePrevious}
               disabled={currentQuestionIndex === 0}
             >
-              ← Previous
+              ← Попередня
             </button>
             <div className="question-block">
               <h3>{test.questions[currentQuestionIndex].question || `Question ${currentQuestionIndex + 1}`}</h3>
@@ -225,14 +225,14 @@ const BelbinTest = () => {
                 );
               })}
 
-              <p>Total Points: {calculateTotalPoints(currentQuestionIndex)} / 10</p>
+              <p>Загальні бали: {calculateTotalPoints(currentQuestionIndex)} / 10</p>
             </div>
             <button
               className="nav-button"
               onClick={handleNext}
               disabled={currentQuestionIndex === test.questions.length - 1}
             >
-              Next →
+              Наступна →
             </button>
           </div>
         ) : (
@@ -261,22 +261,22 @@ const BelbinTest = () => {
                       </div>
                     );
                   })}
-                  <p>Total Points: {totalPoints} / 10</p>
+                  <p>Загальні бали: {totalPoints} / 10</p>
                 </div>
               );
             })}
 
             <div className="total-points">
-              <h3>Total Points for All Questions: {calculateAllTotalPoints()} / {test.questions.length * 10}</h3>
+              <h3>Бали за всі блоки питань: {calculateAllTotalPoints()} / {test.questions.length * 10}</h3>
             </div>
           </div>
         )
       ) : (
-        <p>No questions available for this test.</p>
+        <p>Питання недоступні.</p>
       )}
 
 <button className="submit-button" onClick={handleSubmit}>
-  Submit
+  Завершити
 </button>
 
     </div>

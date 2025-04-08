@@ -48,13 +48,13 @@ const FeedbackList = () => {
 
   return (
     <div className="feedback-container">
-      <h2 className="feedback-title">Feedbacks</h2>
+      <h2 className="feedback-title">Фідбеки</h2>
       {fakeFeedbacks.length > 0 ? (
         fakeFeedbacks.map((feedback, index) => (
           <FeedbackCard key={index} feedback={feedback} />
         ))
       ) : (
-        <div className="coming-soon">Coming Soon...</div>
+        <div className="coming-soon">Скоро буде...</div>
       )}
     </div>
   );

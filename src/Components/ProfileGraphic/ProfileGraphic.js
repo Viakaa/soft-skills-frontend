@@ -46,7 +46,7 @@ export default function ProfileGraphic() {
       <div className="graphic_main">
       <div className="mainWrapper" >
       <Card className='skillsCard'>
-        <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Level of soft skills</Card.Header>
+        <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Рівень софт скілів</Card.Header>
         <ListGroup  variant="flush">
           {skills.map((item, idx) => (
             <ListGroup.Item className='skill_item' key={idx}>{item.title}</ListGroup.Item>
@@ -55,7 +55,7 @@ export default function ProfileGraphic() {
       </Card>
 
       <Card className="graph_card">
-        <Card.Header style={{textAlign:'center',fontSize:'40px'}}>Graphic display of changes:</Card.Header>
+        <Card.Header style={{textAlign:'center',fontSize:'40px'}}>Графік змін:</Card.Header>
         <Card.Body>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart

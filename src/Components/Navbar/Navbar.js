@@ -58,33 +58,33 @@ const handleUnreadCountChange = useCallback(
             >
               {isLoggedIn && (
                 <Nav.Link className="navbar_link" href="/main">
-                  Main
+                  Головна
                 </Nav.Link>
               )}
               {isAdmin && (
                 <NavDropdown
                   className="navbar_link"
-                  title="Admin"
+                  title="Адмін"
                   id="navbarScrollingDropdown"
                 >
                   <NavDropdown.Item href="/adminpanel">
-                    Admin Panel
+                    Адмін Панель
                   </NavDropdown.Item>
                   <NavDropdown.Item href="/test_constructor">
-                    Constructor
+                    Конструктор
                   </NavDropdown.Item>
                   <NavDropdown.Item href="/adminnotifications">
-                    Admin Notifications
+                    Адмін Нотифікації
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
               {!isLoggedIn && (
                 <>
                   <Nav.Link className="navbar_link" href="/login">
-                    Login
+                    Увійти
                   </Nav.Link>
                   <Nav.Link className="navbar_link" href="/registration">
-                    Sign up
+                    Реєстрація
                   </Nav.Link>
                 </>
               )}
@@ -128,7 +128,7 @@ const handleUnreadCountChange = useCallback(
                   onClick={handleLogout}
                   style={{ width: "85px", backgroundColor: "white" }}
                 >
-                  Logout
+                  Вийти
                 </Nav.Link>
               </>
             )}

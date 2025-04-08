@@ -61,11 +61,11 @@ function RegistrationForm() {
   return (
     <div className="d-flex justify-content-center registration-container">
       <Form style={{ width: "450px" }} className="registrater_main" onSubmit={handleSubmit}>
-        <h1 className="create_txt">Create Your Account</h1>
-        <p style={{color:'rgba(220, 235, 255, 1)', fontSize:'15px'}}>Create your account in order to have access to the tests and all the possibilities of the soft skills school</p>
+        <h1 className="create_txt">Створіть Акаунт</h1>
+        <p style={{color:'rgba(220, 235, 255, 1)', fontSize:'15px'}}>Створіть акаунт для доступу до усіх функцій та можливостей soft skills school</p>
         
         <Form.Group>
-          <Form.Label>First Name</Form.Label>
+          <Form.Label>Ім'я</Form.Label>
           <Form.Control
             value={formData.firstName}
             onChange={handleChange}
@@ -76,7 +76,7 @@ function RegistrationForm() {
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>Last Name</Form.Label>
+          <Form.Label>Прізвище</Form.Label>
           <Form.Control
             value={formData.lastName}
             onChange={handleChange}
@@ -98,7 +98,7 @@ function RegistrationForm() {
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Пароль</Form.Label>
           <Form.Control
             value={formData.password}
             onChange={handleChange}
@@ -109,7 +109,7 @@ function RegistrationForm() {
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>Підтвердити пароль</Form.Label>
           <Form.Control
             value={formData.confirmPassword}
             onChange={handleChange}
@@ -131,18 +131,18 @@ function RegistrationForm() {
         </Form.Group>
          */}
         <Form.Group>
-          <Form.Label>Sex</Form.Label>
+          <Form.Label>Стать</Form.Label>
           <Form.Control required as="select" value={formData.sex} onChange={handleChange} name="sex">
-            <option value="">Select sex</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="">Оберіть стать</option>
+            <option value="Male">Чоловіча</option>
+            <option value="Female">Жіноча</option>
           </Form.Control>
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>Year of study</Form.Label>
+          <Form.Label>Рік навчання</Form.Label>
           <Form.Control as="select" value={formData.course} onChange={handleChange} name="course" required>
-            <option value="">Select year of study</option>
+            <option value="">Оберіть рік навчання</option>
             <option value="1">2021</option>
             <option value="2">2022</option>
             <option value="3">2023</option>
@@ -152,9 +152,9 @@ function RegistrationForm() {
         
 
           <Form.Group>
-            <Form.Label>Direction</Form.Label>
+            <Form.Label>Напрямок</Form.Label>
             <Form.Control as="select" value={formData.direction} onChange={handleChange} name="direction" required>
-              <option value="">Select direction</option>
+              <option value="">Оберіть напрямок</option>
               <option value="Web-programming">Web-Programming</option>
               <option value="Data science">Data Science</option>
               <option value="Business Analysis">Business Analysis</option>
@@ -166,9 +166,9 @@ function RegistrationForm() {
           </Form.Group>
 
         <Button className="register_button" variant="primary" type="submit">
-          Sign up
+          Зареєструватись
         </Button>
-        <div className="agree_terms"><p>By creating an account, you agree to all terms of use and data collection</p></div>
+        <div className="agree_terms"><p>Створюючи акаунт, ви погоджуєтесь зі всіма умовами збору даних і інформації</p></div>
       </Form>
 
       <Toast
@@ -185,9 +185,9 @@ function RegistrationForm() {
         }}
       >
         <Toast.Header style={{ backgroundColor: "#5cb85c", color: "white" }}>
-          <strong className="me-auto">User Registration</strong>
+          <strong className="me-auto">Реєстрація користувача</strong>
         </Toast.Header>
-        <Toast.Body>User successfully registered!</Toast.Body>
+        <Toast.Body>Користувач успішно зареєстрований!</Toast.Body>
       </Toast>
 
       <Toast
@@ -204,7 +204,7 @@ function RegistrationForm() {
         }}
       >
         <Toast.Header style={{ backgroundColor: "#d9534f", color: "white" }}>
-          <strong className="me-auto">Registration Error</strong>
+          <strong className="me-auto">Помилка реєстрації</strong>
         </Toast.Header>
         <Toast.Body>{error}</Toast.Body>
       </Toast>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com/auth/";
+const API_URL = "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/auth/";
 
 
 const register = async (formData) => {

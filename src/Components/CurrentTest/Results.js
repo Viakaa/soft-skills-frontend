@@ -56,23 +56,23 @@ const ResultPage = () => {
     fetchCharacteristics();
   }, [id, results]);
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading">Завантаження...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="results-container">
-      <h1 className="results-title">Test Results</h1>
+      <h1 className="results-title">Результати Тесту</h1>
       {characteristics.length > 0 ? (
         <div className="results-list">
           {characteristics.map((char, index) => (
             <div className="results-card" key={index}>
               <h3 className="results-title-card">{char.title}</h3>
-              <p className="results-points">{char.points} points</p>
+              <p className="results-points">{char.points} бали</p>
             </div>
           ))}
         </div>
       ) : (
-        <p className="no-results">No characteristics found for this test.</p>
+        <p className="no-results">Характеристики недоступні.</p>
       )}
     </div>
   );

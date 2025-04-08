@@ -47,19 +47,19 @@ export default function UserInfo() {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="info">
-                      <label className="labels">Role in the team:</label>
+                      <label className="labels">Роль у команді:</label>
                       <span className="infotext">{userInfo.direction}</span>
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="info">
-                      <label className="labels">Course:</label>
+                      <label className="labels">Курс:</label>
                       <span className="infotext">{userInfo.course}</span>
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="info">
-                      <label className="labels">Email:</label>
+                      <label className="labels">Пошта:</label>
                       <span className="infotext">{userInfo.email}</span>
                     </div>
                   </div>

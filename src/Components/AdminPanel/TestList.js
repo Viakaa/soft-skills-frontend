@@ -51,7 +51,7 @@ function TestList() {
   return (
     <>
       <div className="all_tests text-center">
-        <h1>All Tests</h1>
+        <h1>Тести</h1>
       </div>
       <Row xs={1} md={3} className="g-4">
         {tests.map((test, index) => (
@@ -61,9 +61,9 @@ function TestList() {
                 <Card.Title>{test.title}</Card.Title>
               </Card.Body>
               <div className="d-flex justify-content-around pb-2">
-                <Link to={`/test/${test._id}`} className="btn btn-primary">View</Link>
+                <Link to={`/test/${test._id}`} className="btn btn-primary">Переглянути</Link>
                 <Button variant="danger" onClick={() => handleDeleteTest(test._id)}>
-                  Delete
+                  Видалити
                 </Button>
               </div>
             </Card>
@@ -84,9 +84,9 @@ function TestList() {
         }}
       >
         <Toast.Header style={{ backgroundColor: "#ff7c7c", color: "white" }}>
-          <strong className="me-auto">Test Deleted</strong>
+          <strong className="me-auto">Тест видалено</strong>
         </Toast.Header>
-        <Toast.Body>Test was deleted!</Toast.Body>
+        <Toast.Body>Тест видалено!</Toast.Body>
       </Toast>
     </>
   );

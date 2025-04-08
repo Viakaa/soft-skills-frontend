@@ -7,10 +7,10 @@ const NotificationForm = () => {
   const [search, setSearch] = useState("");
   const [tests, setTests] = useState([]);
   const [formData, setFormData] = useState({
-    type: "Test Invitation",
+    type: "Запрошення на тест",
     nameOrArticle: "",
     dateOfEvent: "",
-    role: "Web-Programming",
+    role: "Веб-програмування",
     selectedTest: "",
     additionalDescription: "",
     picture: null,
@@ -92,10 +92,10 @@ const NotificationForm = () => {
 
   const handleClearForm = () => {
     setFormData({
-      type: "Test Invitation",
+      type: "Запрошення на тест",
       nameOrArticle: "",
       dateOfEvent: "",
-      role: "Web-Programming",
+      role: "Веб-програмування",
       selectedTest: "",
       additionalDescription: "",
       picture: null,
@@ -116,12 +116,12 @@ const NotificationForm = () => {
     const token = getToken();
 
     if (!formData.nameOrArticle) {
-      setError("Title is required.");
+      setError("Напишіть назву");
       return;
     }
 
     if (addedUsers.length === 0) {
-      setError("At least one recipient must be added.");
+      setError("Додайте хоча б одного отримувача");
       return;
     }
 
@@ -129,7 +129,7 @@ const NotificationForm = () => {
 
     if (formData.type === "Test Invitation") {
       if (!formData.selectedTest) {
-        setError("Please select a test for the invitation.");
+        setError("Будь ласка оберіть тест");
         return;
       }
 
@@ -186,22 +186,22 @@ const NotificationForm = () => {
 
   return (
     <div className="notification-form">
-      <h1>Create Notification</h1>
+      <h1>Ствворити сповіщення</h1>
 
       <div className="form-group">
-        <label>Type:</label>
+        <label>Тип:</label>
         <select
           name="type"
           value={formData.type}
           onChange={handleInputChange}
         >
-          <option>Test Invitation</option>
-          <option>Event Announcement</option>
+          <option>Запрошення на тест</option>
+          <option>Запрошення на подію</option>
         </select>
       </div>
 
       <div className="form-group">
-        <label>Name</label>
+        <label>Назва</label>
         <input
           type="text"
           name="nameOrArticle"
@@ -222,7 +222,7 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>Recipients:</label>
+        <label>Отримувачі:</label>
         <input
           type="text"
           placeholder="Search by Name"
@@ -232,11 +232,11 @@ const NotificationForm = () => {
       </div>
 
       <div className="user-list">
-        <h3>Users:</h3>
+        <h3>Користувачі:</h3>
         {error ? (
           <div className="error"></div>
         ) : users.length === 0 ? (
-          <div>Loading users...</div>
+          <div>Завантаження користувачів...</div>
         ) : (
           users
             .filter(
@@ -249,7 +249,7 @@ const NotificationForm = () => {
             .map((user) => (
               <div key={user._id} className="user-item">
                 {user.firstName} {user.lastName}
-                <button onClick={() => handleAddUser(user)}>Add</button>
+                <button onClick={() => handleAddUser(user)}>Додати</button>
               </div>
             ))
         )}
@@ -261,26 +261,26 @@ const NotificationForm = () => {
           addedUsers.map((user) => (
             <div key={user._id} className="added-user">
               {user.firstName} {user.lastName}
-              <button onClick={() => handleRemoveUser(user)}>Remove</button>
+              <button onClick={() => handleRemoveUser(user)}>Прибрати</button>
             </div>
           ))
         ) : (
-          <p>No users added yet.</p>
+          <p>Не обрано жодного отримувача.</p>
         )}
       </div>
 
       {formData.type === "Test Invitation" ? (
         <div className="form-group">
-          <label>Choose Test:</label>
+          <label>Оберіть тест:</label>
           {tests.length === 0 ? (
-            <p>Loading tests...</p>
+            <p>Завантаження тестів...</p>
           ) : (
             <select
               name="selectedTest"
               value={formData.selectedTest}
               onChange={handleInputChange}
             >
-              <option value="">Select a test</option>
+              <option value="">Оберіть тест</option>
               {tests
                 .filter(
                   (test) => typeof test.title === "string" && test.title.trim() !== ""
@@ -295,7 +295,7 @@ const NotificationForm = () => {
   </div>
       ) : (
         <div className="form-group">
-          <label>Additional Description:</label>
+          <label>Додатковий опис:</label>
           <textarea
             name="additionalDescription"
             rows="5"
@@ -309,8 +309,8 @@ const NotificationForm = () => {
 {error && <div className="error-message">{error}</div>}
 
       <div className="form-actions">
-        <button onClick={handleClearForm}>Clear Form</button>
-        <button onClick={handleSendNotification}>Send</button>
+        <button onClick={handleClearForm}>Очистити</button>
+        <button onClick={handleSendNotification}>Надіслати</button>
       </div>
     </div>
   );

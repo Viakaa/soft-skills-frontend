@@ -11,7 +11,7 @@ export default function UserTests() {
   const fetchUserResults = useCallback(async () => {
     try {
       const userResultsResponse = await axios.get(
-        `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/users/${userId}`,
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ export default function UserTests() {
       const characteristicsPromises = userResults.characteristics.map(async (char) => {
         try {
           const charResponse = await axios.get(
-            `http://ec2-34-239-91-8.compute-1.amazonaws.com:3000/characteristics/${char.characteristicId}`,
+            `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${char.characteristicId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ export default function UserTests() {
                   <div className="test1_cards">
                     {chunk.map((char, charIndex) => (
                       <div className="test1_card1" key={charIndex}>
-                        <p>{char.title}</p>
+                        <p className="characteritiscs_title">{char.title}</p>
                         <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }} >
                           {char.points}
                         </p>

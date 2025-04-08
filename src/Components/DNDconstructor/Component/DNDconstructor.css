@@ -183,7 +183,7 @@
 }
 
 .yesno_button:hover {
-  background-color: gray !important;
+  background-color: gray ;
   transform: translateY(-2px);
 }
 

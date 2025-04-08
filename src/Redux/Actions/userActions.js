@@ -3,11 +3,16 @@ import axios from 'axios';
 
 export const loginUser = (formData) => async (dispatch) => {
   try {
-    const response = await axios.post('http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/auth/signin', formData);
+    const response = await axios.post(
+      'http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/auth/signin',
+      formData
+    );
 
     if (response.data && response.data.token) {
+      localStorage.removeItem('cachedUserInfo');
       localStorage.setItem('authToken', response.data.token);
       localStorage.setItem('userId', response.data._id);
+
       dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
 
       return response.data;
@@ -15,10 +20,14 @@ export const loginUser = (formData) => async (dispatch) => {
       throw new Error('Помилка авторизації.');
     }
   } catch (error) {
-    dispatch({ type: 'LOGIN_FAIL', payload: error.message || 'Помилка авторизації.' });
+    dispatch({
+      type: 'LOGIN_FAIL',
+      payload: error.message || 'Помилка авторизації.',
+    });
     throw error;
   }
 };
+
 
 
 const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {

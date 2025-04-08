@@ -47,7 +47,7 @@ const DropArea = ({ onAddItem }) => {
 
   return (
     <div ref={drop} className="drop-area">
-      Drop here to add a question
+      Перетягніть сюди щоб додати питання
     </div>
   );
 };

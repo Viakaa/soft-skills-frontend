@@ -65,7 +65,7 @@ const CheckboxWithFormControl = ({
           onChange={handleCharacteristicChange}
           renderValue={(selected) => {
             if (selected.length === 0) {
-              return <em>Choose characteristic</em>;
+              return <em>Оберіть характеристики</em>;
             }
 
             const selectedChar = characteristicList.find(
@@ -74,14 +74,14 @@ const CheckboxWithFormControl = ({
             return selectedChar ? (
               selectedChar.title
             ) : (
-              <em>Choose characteristic</em>
+              <em>Оберіть характеристики</em>
             );
           }}
           MenuProps={MenuProps}
           inputProps={{ "aria-label": "Without label" }}
         >
           <MenuItem disabled value="">
-            <em>Choose characteristic</em>
+            <em>Оберіть характеристики</em>
           </MenuItem>
 
           {characteristicList.map((char) => (

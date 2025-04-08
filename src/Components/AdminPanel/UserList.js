@@ -108,7 +108,7 @@ function UserList() {
   return (
     <>
       <div className="all_users text-center">
-        <h1>All Users</h1>
+        <h1>Користувачі</h1>
       </div>
       <Row xs={1} md={3} className="g-4">
         {currentUsers.map((user, index) => (
@@ -117,10 +117,10 @@ function UserList() {
               <Card.Img style={{ width: '50%' }} variant="top" src={uimg} />
               <Card.Body>
                 <Card.Title>{`${user.firstName} ${user.lastName}`}</Card.Title>
-                <Card.Text>Email: {user.email}</Card.Text>
-                <Card.Text>Direction: {user.direction}</Card.Text>
+                <Card.Text>Пошта: {user.email}</Card.Text>
+                <Card.Text>Напрямок: {user.direction}</Card.Text>
                 <Button className='user_edit' variant="primary" onClick={() => handleEditClick(user)}>
-                  Edit
+                  Редагувати
                 </Button>
               </Card.Body>
             </Card>
@@ -132,12 +132,12 @@ function UserList() {
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header className="modalHeader" closeButton>
-          <Modal.Title>Edit User</Modal.Title>
+          <Modal.Title>Редагувати користувача</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modalBody">
           <Form onSubmit={handleFormSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>First Name</Form.Label>
+              <Form.Label>Ім'я</Form.Label>
               <Form.Control
                 type="text"
                 name="firstName"
@@ -147,7 +147,7 @@ function UserList() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Last Name</Form.Label>
+              <Form.Label>Прізвище</Form.Label>
               <Form.Control
                 type="text"
                 name="lastName"
@@ -157,7 +157,7 @@ function UserList() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Пошта</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -167,7 +167,7 @@ function UserList() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-            <Form.Label>Direction</Form.Label>
+            <Form.Label>Напрямок</Form.Label>
               <Form.Control
                 as="select"
                 name="direction"
@@ -181,7 +181,7 @@ function UserList() {
               </Form.Control>
             </Form.Group>
             <Button className='user_edit' variant="primary" type="submit">
-              Save Changes
+              Зберегти зміни
             </Button>
           </Form>
         </Modal.Body>
@@ -201,9 +201,9 @@ function UserList() {
         }}
       >
         <Toast.Header style={{ backgroundColor: "#5cb85c", color: "white" }}>
-          <strong className="me-auto">User Update</strong>
+          <strong className="me-auto">Користувача оновлено</strong>
         </Toast.Header>
-        <Toast.Body>User successfully updated!</Toast.Body>
+        <Toast.Body>Користувача успішно оновлено!</Toast.Body>
       </Toast>
     </>
   );
