@@ -94,12 +94,12 @@ const SliderQuestionItem = ({ characteristics, index, onDelete, onUpdate }) => {
           onChange={handleChangeCharacteristic}
           renderValue={(selected) => {
             const selectedChar = characteristicsList.find(char => char._id === selected);
-            return selectedChar ? selectedChar.title : <em>Choose characteristic</em>;
+            return selectedChar ? selectedChar.title : <em>Оберіть характеристику</em>;
           }}
           MenuProps={MenuProps}
         >
           <MenuItem disabled value="">
-            <em>Choose characteristic</em>
+            <em>Оберіть характеристику</em>
           </MenuItem>
           {characteristicsList.map((char) => (
             <MenuItem key={char._id} value={char._id}>

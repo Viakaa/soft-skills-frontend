@@ -274,12 +274,12 @@ function DNDconstructor() {
           <Accordion className="accordion-header" defaultActiveKey={["0"]} alwaysOpen>
   <Accordion.Item eventKey="0">
     <Accordion.Header className="accordion-header">
-      Select characteristics
+    Оберіть характеристики
     </Accordion.Header>
     <Accordion.Body className="accordion-body">
       <div className="question-SKILLS">
         <div className="fristWrapper">
-          <span className="skill-text">Select the categories of soft skills...</span>
+          <span className="skill-text">Оберіть категорії софт скілів...</span>
         </div>
         <FormControl fullWidth>
           <Select
@@ -297,7 +297,7 @@ function DNDconstructor() {
           </Select>
         </FormControl>
         <List dense>
-          <h2 className="selected-skills-title">Selected skills:</h2>
+          <h2 className="selected-skills-title">Обрані скіли:</h2>
           {selectedSkills.map((skill) => (
             <div key={skill._id} className="item">
               <ListItem
@@ -395,12 +395,12 @@ function DNDconstructor() {
                 checked={isTimerEnabled}
                 onChange={(e) => setIsTimerEnabled(e.target.checked)}
               />
-              Enable timer
+              Таймер
             </label>
 
             {isTimerEnabled && (
               <div>
-                <label>Time limit (in minutes):</label>
+                <label>Ліміт у часі (в хвилинах):</label>
                 <input
                   type="number"
                   value={timerValue}
@@ -413,7 +413,7 @@ function DNDconstructor() {
 
           <DropArea onAddItem={addItem} items={items} />
           <button className="create_test" onClick={handleCreateTest}>
-            Create Test
+            Створити тест
           </button>
 
          
@@ -445,7 +445,7 @@ function DNDconstructor() {
                 color: "white",
               }}
             >
-              <strong className="me-auto">Test Constructor</strong>
+              <strong className="me-auto">Конструктор Тестів</strong>
             </Toast.Header>
             <Toast.Body>{toastMessage}</Toast.Body>
           </Toast>

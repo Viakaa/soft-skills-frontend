@@ -42,15 +42,15 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
       <div className="close-btn" onClick={onClose}>×</div>
-      <h3>Notifications</h3>
+      <h3>Сповіщення</h3>
       <div className="viewAll" onClick={handleViewAllClick}>
-        View all
+        Переглянути всі
       </div>
       {error && <div className="error">{error}</div>}
       {loading ? (
-        <p className='loading'>Loading notifications...</p>
+        <p className='loading'>Завантаження сповіщень...</p>
       ) : notifications.length === 0 ? (
-        <p className="noNotifications">No notifications</p>
+        <p className="noNotifications">Немає сповіщень</p>
       ) : (
         <ul id="notification-list" className="list">
           {notifications.map((notification) => (

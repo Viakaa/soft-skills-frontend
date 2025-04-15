@@ -18,20 +18,20 @@ export default function DescriptionComponent({ show, setShow }) {
   return (
     <Modal show={show} onHide={handleClose} centered className="description-modal">
       <Modal.Header >
-        <Modal.Title className="modal-title">Belbin Test</Modal.Title>
+        <Modal.Title className="modal-title">Тест Белбіна</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body">
         <div className="description-text">
-          <h5 className="description-header">About the Belbin Test</h5>
+          <h5 className="description-header">Про тест белбіна</h5>
           <p className="modal-text">{belbinDescription}</p>
         </div>
       </Modal.Body>
       <Modal.Footer className="modal-footer">
         <Button variant="secondary" onClick={handleClose} className="close-btn">
-          Close
+          Закрити
         </Button>
         <Button variant="primary" onClick={handleStartTest} className="start-btn">
-          Start Test
+          Почати тесту
         </Button>
       </Modal.Footer>
     </Modal>

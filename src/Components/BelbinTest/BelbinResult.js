@@ -124,7 +124,7 @@ const BelbinResultPage = () => {
   return (
     <div className="chart-container">
       <div className="chart-section">
-        <h2 className="chart-title">Results of Test Belbin</h2>
+        <h2 className="chart-title">Результати Тесту Белбіна</h2>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart
             data={formattedData}
@@ -174,15 +174,15 @@ const BelbinResultPage = () => {
       </div>
 
       <div className="role-info-section">
-        <h3>Top 3 Roles Information</h3>
+        <h3>Інформація про топ 3 ролі</h3>
         <table>
           <thead>
             <tr>
-              <th>Role</th>
-              <th>Possible Position</th>
-              <th>Characteristics</th>
-              <th>Team Role</th>
-              <th>Weaknesses</th>
+              <th>Роль</th>
+              <th>Можлива позиція</th>
+              <th>Характеристики</th>
+              <th>Роль у команді</th>
+              <th>Слабкості</th>
             </tr>
           </thead>
           <tbody>

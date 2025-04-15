@@ -239,14 +239,14 @@ function ManageSkills() {
   return (
     <>
             <div className="manageTable">
-        <h1 className="manageTable__title">Soft skills</h1>
+        <h1 className="manageTable__title">Софт Скіли</h1>
         
         <button type="button" className="manageTable__add" onClick={handleShowModal}>
           <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
             <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
           </svg>
-          Add new soft skill...
+          Додати новий...
         </button>
 
         <table className="manageTable__table">
@@ -279,7 +279,7 @@ function ManageSkills() {
         </Modal.Header>
         <Modal.Body className="modalBody">
           <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>Назва</Form.Label>
             <Form.Control
               type="text"
               name="title"
@@ -293,7 +293,7 @@ function ManageSkills() {
             <Col xs={6}>
               <Form>
                 <Form.Group required className="mb-3">
-                  <Form.Label>Characteristics</Form.Label>
+                  <Form.Label>Характеристики</Form.Label>
                   <Form.Control
                     as="select"
                     multiple
@@ -309,7 +309,7 @@ function ManageSkills() {
                   </Form.Control>
                   {!isCharacteristicsValid && (
                     <div style={{ color: '#fffff' }}>
-                      Please select at least one characteristic.
+                      Оберіть хоча б одну характеристику.
                     </div>
                   )}
                 </Form.Group>
@@ -318,7 +318,7 @@ function ManageSkills() {
             <Col xs={6}>
               <Form>
                 <Form.Group required className="mb-3">
-                  <Form.Label>Added characteristics:</Form.Label>
+                  <Form.Label>Обрані характеристики:</Form.Label>
                   <div className="charactList addedCharactList">
                     {newSkill.characteristics.map((char, index) => (
                       <div key={index} className="selectedCharacteristicItem">
@@ -336,7 +336,7 @@ function ManageSkills() {
                   </div>
                   {!isCharacteristicsValid && (
                     <div style={{ color: '#fffff' }}>
-                      Please select at least one characteristic.
+                      Будь ласка виберіть хоча б одну характеристику.
                     </div>
                   )}
                 </Form.Group>
@@ -346,15 +346,15 @@ function ManageSkills() {
         </Modal.Body>
         <Modal.Footer className="modalFooter">
           <Button variant="secondary" onClick={handleCloseModal}>
-            Close
+            Закрити
           </Button>
           {isEditting ? (
             <Button variant="primary" className="saveButton" onClick={handleEditSaveSkill}>
-              Save Changes
+              Зберегти зміни
             </Button>
           ) : (
             <Button variant="primary" className="saveButton" onClick={handleSaveSkill}>
-              Save
+              Зберегти
             </Button>
           )}
         </Modal.Footer>

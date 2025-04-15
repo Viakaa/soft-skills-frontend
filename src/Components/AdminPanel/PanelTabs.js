@@ -16,18 +16,18 @@ function PanelTabs() {
       <Row>
         <Col style={{maxHeight:'400px'}} className="navcol" sm={3}>
           <Nav   variant="pills" className="flex-column">
-            <h2 style={{textAlign:'center'}}>Admin Panel</h2>
+            <h2 style={{textAlign:'center'}}>Адмін Панель</h2>
             <Nav.Item>
-              <Nav.Link className="navitm"  eventKey="first">Manage Skills</Nav.Link>
+              <Nav.Link className="navitm"  eventKey="first">Керування Скілами</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="navitm"  eventKey="fourth">Characteristics</Nav.Link>
+              <Nav.Link className="navitm"  eventKey="fourth">Характеристики</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="navitm" eventKey="second">Users</Nav.Link>
+              <Nav.Link className="navitm" eventKey="second">Користувачі</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link className="navitm" eventKey="third">Tests</Nav.Link>
+              <Nav.Link className="navitm" eventKey="third">Тести</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>

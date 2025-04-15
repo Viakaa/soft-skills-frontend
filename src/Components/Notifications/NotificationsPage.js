@@ -119,10 +119,10 @@ const NotificationsPage = () => {
 
   return (
     <div className="notifications-page">
-      <h1>Notifications</h1>
+      <h1>Сповіщення</h1>
       {error && <div className="error">{error}</div>}
       {paginatedNotifications.length === 0 ? (
-        <p className="no-notifications">No notifications</p>
+        <p className="no-notifications">Немає сповіщень</p>
       ) : (
         <div className="notifications-list">
           {paginatedNotifications.map((notification) => {

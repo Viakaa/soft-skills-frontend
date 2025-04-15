@@ -48,7 +48,7 @@ function LoginForm() {
       <div className="d-flex justify-content-center">
         <Form className="login_main" onSubmit={handleSubmit}>
           <Form.Group>
-            <Form.Label className="emailLabel">Username</Form.Label>
+            <Form.Label className="emailLabel">Ім'я користувача</Form.Label>
             <Form.Control
               name="email"
               type="email"
@@ -59,7 +59,7 @@ function LoginForm() {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label className="passwordLabel">Password</Form.Label>
+            <Form.Label className="passwordLabel">Пароль</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -70,10 +70,10 @@ function LoginForm() {
           </Form.Group>
 
           <Button variant="primary" type="submit" className="register_button">
-            Log in
+            Увійти
           </Button>
           <Button  variant="primary" href='/registration' type="submit" className='register_button2'>
-          Sign up
+          Зареєструватись
         </Button>
         </Form>
       </div>
@@ -86,9 +86,9 @@ function LoginForm() {
         className="success-toast"
       >
         <Toast.Header style={{ backgroundColor: '#5cb85c', color: 'white' }}>
-          <strong className="me-auto">Login Successful</strong>
+          <strong className="me-auto">Вхід успішний</strong>
         </Toast.Header>
-        <Toast.Body>Welcome back!</Toast.Body>
+        <Toast.Body>Вітаю знову!</Toast.Body>
       </Toast>
 
       <Toast
@@ -99,7 +99,7 @@ function LoginForm() {
         className="error-toast"
       >
         <Toast.Header style={{ backgroundColor: '#d9534f', color: 'white' }}>
-          <strong className="me-auto">Login Error</strong>
+          <strong className="me-auto">Помилка входу</strong>
         </Toast.Header>
         <Toast.Body>{errorMessage}</Toast.Body>
       </Toast>
