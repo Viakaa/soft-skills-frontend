@@ -152,11 +152,10 @@ function DNDconstructor() {
   
       const questionIds = responses.map((response) => response.data._id);
   
-      // Prepare test data with timer settings
       const testData = {
         title: testTitle,
         questions: questionIds,
-        timer: isTimerEnabled ? timerValue * 60 : 0 // Convert minutes to seconds
+        timer: isTimerEnabled ? timerValue * 60 : 0 
       };
 
       const testResponse = await axios.post(
@@ -271,6 +270,7 @@ function DNDconstructor() {
             value={testTitle}
             onChange={(e) => setTestTitle(e.target.value)}
           />
+          <div className="accordion-wrapper">
           <Accordion className="accordion-header" defaultActiveKey={["0"]} alwaysOpen>
   <Accordion.Item eventKey="0">
     <Accordion.Header className="accordion-header">
@@ -326,6 +326,7 @@ function DNDconstructor() {
     </Accordion.Body>
   </Accordion.Item>
 </Accordion>
+</div>
           <div className="item-list">
             {items.map((item, index) => {
               if (item.type === ItemTypes.YES_NO_QUESTION) {
@@ -430,7 +431,7 @@ function DNDconstructor() {
               backgroundColor: toastMessage.startsWith("Error")
                 ? "#f8d7da"
                 : toastMessage.startsWith("Please")
-                ? "#fff3cd" // Yellow color for messages starting with "Please"
+                ? "#fff3cd"
                 : "#dff0d8",
             }}
           >

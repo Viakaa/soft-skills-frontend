@@ -32,25 +32,29 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
 
       </div>
       <div className="yes-no-buttons">
-        <Button
-          variant="contained"
-          
-          className="yesno_button"
-          onClick={() => handleAnswerSelection('yes')}
+      <Button
+        variant="contained"
+        className="yesno_button"
+        onClick={() => handleAnswerSelection('yes')}
+        style={{
+          backgroundColor: selectedAnswer === 'yes' ? 'grey' : '#0000FF',
+          color: 'white',
+        }}
+      >
+        Yes
+      </Button>
 
-        >
-          Yes
-        </Button>
-
-        <Button
-
-          variant="contained"
-          className="yesno_button"
-          onClick={() => handleAnswerSelection('no')}
-
-        >
-          No
-        </Button>
+      <Button
+        variant="contained"
+        className="yesno_button"
+        onClick={() => handleAnswerSelection('no')}
+        style={{
+          backgroundColor: selectedAnswer === 'no' ? 'grey' : '#000000',
+          color: 'white',
+        }}
+      >
+        No
+      </Button>
       </div>
     </>
   );

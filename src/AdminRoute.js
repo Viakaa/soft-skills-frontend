@@ -11,7 +11,6 @@ const AdminRoute = ({ children }) => {
   const authToken = window.localStorage.getItem("authToken");
 
   useEffect(() => {
-    //get user info
     if (!userInfo && authToken) {
       dispatch(getUserInfo());
     } else {
@@ -25,7 +24,6 @@ const AdminRoute = ({ children }) => {
     }
   }, [userInfo, authToken]);
 
-  //return div while waiting for user info
   if (!isUserChecked) {
     return <div></div>;
   }
