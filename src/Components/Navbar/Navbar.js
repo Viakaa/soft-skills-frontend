@@ -114,7 +114,7 @@ const handleUnreadCountChange = useCallback(
                 >
                   <img
                     style={{
-                      width: "45px",
+                    
                       borderRadius: "25%",
                       backgroundColor: "white",
                     }}

@@ -4,13 +4,8 @@
     width: 100% !important;
 }
 
-.graph_card{
-    width:46%;
-
-}
-
 .testcard_text{
-    color: "#292E46";
+    color: #292E46;
     background-color: white;
     text-align: center;
     padding: 4px 0px;
@@ -31,13 +26,151 @@
     width: 30%;
 }
 
-.cards_wrapper {
-    margin-top: 50px;
-    max-width: 1520px;
-    margin: 0 auto;
+.testcards_title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: black;
+  }
+  
+  .search_filter_wrapper {
+    display: flex;
+    margin-bottom: 30px;
+    flex-direction: column;
+    margin-left: 55px;
+    gap: 15px;
+  }
+  
+  .searchbar_container {
+    width: 95%;
+    position: relative;
+    flex: 1 1;
+  }
+  
+  .searchbar {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    background-image: url('../../Assets/Images/search.png'); 
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 35px 30px;
+    padding-left: 40px; 
+  }
+  
+  .search_icon {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .filter_controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .category_dropdown {
+    padding: 8px 12px;
+    font-size: 16px;
     border-radius: 4px;
-    padding: 52px 30px;
-}
+    border: none;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    width: 20%;
+  }
+  
+  .filter_icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .cards_wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    justify-content: center;
+
+  }
+  
+  
+  .firstCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .start_test_btn {
+    background-color: #0000ff !important;
+    color: white !important;
+    font-size: 22px !important;
+    border-radius: 4px !important;
+    padding: 8px 16px !important;
+    margin-left: 34%;
+    margin-top: 10px;
+  }
+  
+  .show_more_container {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .show_more_btn {
+    background-color: #0044ff;
+    color: white;
+    font-size: 16px;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 8px;
+  }
+  
+  .page_btn {
+    background-color: #0000ff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
 
 .custom-dropdown .btn {
     width: 100%;
@@ -56,13 +189,7 @@
     font-size:40px;
 
 }
-  .start_test_btn{
-    font-weight: 500 !important;
-    font-size: 23px !important;
-    border-radius: 4px;
-    padding:0px;
-    margin-top: auto !important;
-  }
+ 
 .custom-dropdown .btn::after {
     border-top: 18px solid !important;
     border-right: 16px solid transparent !important;
@@ -73,21 +200,8 @@
 .btn-primary {
     color: var(--secondary-color);
 }
-  
-.cards_wrapper {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    gap: 100px !important;
-    justify-content: flex-start !important;
-    align-items: center;
-    overflow-x: auto;
-    padding: 20px;
-    scroll-padding-left: 100px; 
-    margin-top: 50px;
-    margin: 0 auto; 
-    border-radius: 4px;
-    padding: 52px 30px;
-}
+   
+
 .card{
     padding: -20px !important;
     border-radius: 4px;
@@ -101,7 +215,9 @@
     padding-right: 5%;
     margin: 5%;
     border-radius: 4px;
-    
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px rgba(77, 76, 76, 0.445); 
+
 }
 
   

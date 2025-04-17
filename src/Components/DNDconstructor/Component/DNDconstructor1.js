@@ -257,16 +257,16 @@ function DNDconstructor() {
     <DndProvider backend={HTML5Backend}>
       <div className="app">
         <aside className="side-panel">
-          <DraggableYesNoQuestion content="'Yes/No' question format." />
-          <DraggableMultiChoice content="'Multiple-choice' question format." />
-          <DraggableSliderQuestion content="'Slider' question format." />
-          <DraggableRadioButton content="'Radio' question format." />
+          <DraggableYesNoQuestion content="Питання Так\Ні" />
+          <DraggableMultiChoice content="Питання з кількома варіантами" />
+          <DraggableSliderQuestion content="Питання з повзунком" />
+          <DraggableRadioButton content="'Радіо' тип питання" />
         </aside>
 
         <main className="main-content">
           <input
             className="test_name"
-            placeholder="Test title"
+            placeholder="Назва тесту"
             value={testTitle}
             onChange={(e) => setTestTitle(e.target.value)}
           />

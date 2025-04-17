@@ -1,0 +1,54 @@
+.footer {
+    background-color: #0f1015;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 60px;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  
+  .contact-card {
+    background-color: #2b2e36;
+    padding: 20px 30px;
+    border-radius: 6px;
+    box-shadow: 0 4px 4px rgba(0, 0, 255, 0.3);
+    font-size: 16px;
+    max-width: 300px;
+  }
+  
+  .contact-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: white;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    flex: 1;
+    max-width: 500px;
+  }
+  
+  .footer-link {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid white;
+    padding-bottom: 8px;
+    gap: 15px;
+  }
+  
+  .footer-link a {
+    color: white;
+    text-decoration: underline;
+    font-size: 18px;
+  }
+  
+  .blue-square {
+    width: 30px;
+    height: 30px;
+    background-color: blue;
+  }
+  

@@ -59,7 +59,22 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
                 <div className="profile-placeholder"></div>
                 <div className="notification-info">
                   <strong className="name">{notification.ownerName || notification.title}</strong>
-                  <span className="theme">{notification.meta.message || notification.meta.shortDescription}</span>
+                  <span className="theme">
+  {notification.meta.message?.includes('Test Link:') ? (
+    <>
+      <p>{notification.meta.message.split('Test Link:')[0].trim()}</p>
+      <a
+        href={notification.meta.message.split('Test Link:')[1]?.trim()} // The extracted URL
+        className="go-to-test-button"
+      >
+        Перейти до тесту
+      </a>
+    </>
+  ) : (
+    notification.meta.message || notification.meta.shortDescription
+  )}
+</span>
+
                 </div>
                 <div className="date-time">
                   {new Date(notification.created_at).toLocaleString()}

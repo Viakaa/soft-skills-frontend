@@ -37,7 +37,7 @@
 
 .test1_label {
     font-size: 28px;
-    font-family: "Mitr";
+    font-family: 'Ubuntu', sans-serif;
     color: rgba(56, 43, 74, 1);
     border-radius: 10px;
 }
@@ -47,7 +47,7 @@
     justify-content: center;
     gap: 60px;
     color: rgba(42, 46, 70, 1);
-    font-family: "Mitr";
+    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     margin-top: 25px;
 }

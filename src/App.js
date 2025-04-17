@@ -11,7 +11,6 @@ import './global.css';
 
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
-import DNDconstructor from "./Components/DNDconstructor/DNDconstructor";
 import DNDconstructor1 from "./Components/DNDconstructor/Component/DNDconstructor1.js"
 import ResultPage from "./Components/CurrentTest/Results.js";
 import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
@@ -22,8 +21,7 @@ import { NotificationsProvider } from "./Components/Notifications/NotificationsC
 import AdminPage from "./Pages/AdminPage";
 import TestPage from "./Pages/TestPage";
 import NotFoundPage from './Pages/NotFoundPage'; 
-import Article1 from './Components/Articles/ArticleTeamwork.js';
-import Article2 from './Components/Articles/ArticleChangeLife.js';
+
 
 function App() {
   return (
@@ -41,9 +39,6 @@ function App() {
         <Route path="/adminnotifications" element={<AdminRoute><NotificationForm /></AdminRoute>} />
         <Route path="/notifications" element={<PrivateRoute><NotificationsPage /></PrivateRoute>} />
         <Route path="/adminpanel" element={<AdminRoute><AdminPage /></AdminRoute>} />
-        <Route path="/steps-to-building-a-successful-team" element={<PrivateRoute><Article1 /></PrivateRoute>} />
-        <Route path="/methods-to-change-your-life" element={<PrivateRoute><Article2 /></PrivateRoute>} />
-        {/* <Route path="/test_constructor1" element={<DNDconstructor1 />} /> */}
         <Route path="/test_constructor" element={<AdminRoute><DNDconstructor1 /></AdminRoute>} />
         <Route path="/results/:id" element={<PrivateRoute><ResultPage /></PrivateRoute>} />
         <Route path="/test/:id" element={<PrivateRoute><TestPage /></PrivateRoute>} />

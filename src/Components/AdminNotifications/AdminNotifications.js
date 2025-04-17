@@ -7,10 +7,10 @@ const NotificationForm = () => {
   const [search, setSearch] = useState("");
   const [tests, setTests] = useState([]);
   const [formData, setFormData] = useState({
-    type: "Запрошення на тест",
+    type: "Test Invitation",
     nameOrArticle: "",
     dateOfEvent: "",
-    role: "Веб-програмування",
+    role: "Web-Programming",
     selectedTest: "",
     additionalDescription: "",
     picture: null,
@@ -25,7 +25,7 @@ const NotificationForm = () => {
     const token = getToken();
 
     if (!token) {
-      setError("No token found. Please log in.");
+      setError("Токен не знайдено. Будь ласка, увійдіть.");
       return;
     }
 
@@ -37,7 +37,7 @@ const NotificationForm = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to fetch users");
+          throw new Error("Не вдалося завантажити користувачів");
         }
         return response.json();
       })
@@ -45,12 +45,12 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
-          throw new Error("Unexpected API response for users");
+          throw new Error("Неправильна відповідь від API для користувачів");
         }
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Failed to load users");
+        setError(err.message || "Не вдалося завантажити користувачів");
       });
 
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests", {
@@ -61,7 +61,7 @@ const NotificationForm = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to fetch tests");
+          throw new Error("Не вдалося завантажити тести");
         }
         return response.json();
       })
@@ -69,14 +69,14 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setTests(data);
         } else {
-          throw new Error("Unexpected API response for tests");
+          throw new Error("Неправильна відповідь від API для тестів");
         }
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Failed to load tests");
+        setError(err.message || "Не вдалося завантажити тести");
       });
-  }, []); 
+  }, []);
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -92,10 +92,10 @@ const NotificationForm = () => {
 
   const handleClearForm = () => {
     setFormData({
-      type: "Запрошення на тест",
+      type: "Test Invitation",
       nameOrArticle: "",
       dateOfEvent: "",
-      role: "Веб-програмування",
+      role: "Web-Programming",
       selectedTest: "",
       additionalDescription: "",
       picture: null,
@@ -116,12 +116,12 @@ const NotificationForm = () => {
     const token = getToken();
 
     if (!formData.nameOrArticle) {
-      setError("Напишіть назву");
+      setError("Поле назви є обов’язковим.");
       return;
     }
 
     if (addedUsers.length === 0) {
-      setError("Додайте хоча б одного отримувача");
+      setError("Потрібно додати принаймні одного одержувача.");
       return;
     }
 
@@ -129,10 +129,10 @@ const NotificationForm = () => {
 
     if (formData.type === "Test Invitation") {
       if (!formData.selectedTest) {
-        setError("Будь ласка оберіть тест");
+        setError("Будь ласка, виберіть тест для запрошення.");
         return;
       }
-
+      const testLink = `/test/${formData.selectedTest}`;
       apiData = {
         studentIds: addedUsers.map((user) => user._id),
         type: "testInvitation",
@@ -140,7 +140,7 @@ const NotificationForm = () => {
         meta: {
           dueDate: formData.dateOfEvent,
           testId: formData.selectedTest,
-          message: formData.additionalDescription || "No additional message provided.",
+          message: `${formData.additionalDescription || "Додаткове повідомлення не надано."}\n\nПосилання на тест: ${testLink}`,
         },
       };
     } else {
@@ -151,7 +151,7 @@ const NotificationForm = () => {
         meta: {
           date: formData.dateOfEvent,
           role: formData.role,
-          description: formData.additionalDescription || "No description provided.",
+          description: formData.additionalDescription || "Опис не надано.",
           shortDescription: formData.nameOrArticle,
         },
       };
@@ -168,25 +168,25 @@ const NotificationForm = () => {
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
-            throw new Error(data.message || "Failed to send notification");
+            throw new Error(data.message || "Не вдалося надіслати сповіщення");
           });
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Notification sent successfully:", data);
+        console.log("Сповіщення успішно надіслано:", data);
         handleClearForm();
         setError(null);
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Failed to send notification due to a network error.");
+        setError(err.message || "Не вдалося надіслати сповіщення через помилку мережі.");
       });
   };
 
   return (
     <div className="notification-form">
-      <h1>Ствворити сповіщення</h1>
+      <h1>Створити сповіщення</h1>
 
       <div className="form-group">
         <label>Тип:</label>
@@ -196,7 +196,7 @@ const NotificationForm = () => {
           onChange={handleInputChange}
         >
           <option>Запрошення на тест</option>
-          <option>Запрошення на подію</option>
+          <option>Оголошення події</option>
         </select>
       </div>
 
@@ -205,14 +205,14 @@ const NotificationForm = () => {
         <input
           type="text"
           name="nameOrArticle"
-          placeholder="Enter name or article"
+          placeholder="Введіть назву або статтю"
           value={formData.nameOrArticle}
           onChange={handleInputChange}
         />
       </div>
 
       <div className="form-group">
-        <label>{formData.type === "Test Invitation" ? "Due Date:" : "Event Date:"}</label>
+        <label>{formData.type === "Запрошення на тест" ? "Термін здачі:" : "Дата події:"}</label>
         <input
           type="datetime-local"
           name="dateOfEvent"
@@ -222,10 +222,10 @@ const NotificationForm = () => {
       </div>
 
       <div className="form-group">
-        <label>Отримувачі:</label>
+        <label>Одержувачі:</label>
         <input
           type="text"
-          placeholder="Search by Name"
+          placeholder="Пошук за ім’ям"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -234,7 +234,7 @@ const NotificationForm = () => {
       <div className="user-list">
         <h3>Користувачі:</h3>
         {error ? (
-          <div className="error"></div>
+          <div className="error">{error}</div>
         ) : users.length === 0 ? (
           <div>Завантаження користувачів...</div>
         ) : (
@@ -256,20 +256,20 @@ const NotificationForm = () => {
       </div>
 
       <div className="added-users">
-        <h3>Added Users:</h3>
+        <h3>Додані користувачі:</h3>
         {addedUsers.length > 0 ? (
           addedUsers.map((user) => (
             <div key={user._id} className="added-user">
               {user.firstName} {user.lastName}
-              <button onClick={() => handleRemoveUser(user)}>Прибрати</button>
+              <button onClick={() => handleRemoveUser(user)}>Видалити</button>
             </div>
           ))
         ) : (
-          <p>Не обрано жодного отримувача.</p>
+          <p>Ще не додано жодного користувача.</p>
         )}
       </div>
 
-      {formData.type === "Test Invitation" ? (
+      {formData.type === "Запрошення на тест" ? (
         <div className="form-group">
           <label>Оберіть тест:</label>
           {tests.length === 0 ? (
@@ -292,7 +292,7 @@ const NotificationForm = () => {
                 ))}
             </select>
           )}
-  </div>
+        </div>
       ) : (
         <div className="form-group">
           <label>Додатковий опис:</label>
@@ -301,15 +301,12 @@ const NotificationForm = () => {
             rows="5"
             value={formData.additionalDescription}
             onChange={handleInputChange}
-            
           />
-          
         </div>
       )}
-{error && <div className="error-message">{error}</div>}
 
       <div className="form-actions">
-        <button onClick={handleClearForm}>Очистити</button>
+        <button onClick={handleClearForm}>Очистити форму</button>
         <button onClick={handleSendNotification}>Надіслати</button>
       </div>
     </div>

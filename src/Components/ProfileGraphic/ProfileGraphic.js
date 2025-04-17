@@ -46,7 +46,7 @@ export default function ProfileGraphic() {
       <div className="graphic_main">
       <div className="mainWrapper" >
       <Card className='skillsCard'>
-        <Card.Header style={{textAlign:'center',fontSize:'40px', color: '#1E2631'}}>Рівень софт скілів</Card.Header>
+        <Card.Header style={{textAlign:'center',fontSize:'40px'}}>Рівень soft skills</Card.Header>
         <ListGroup  variant="flush">
           {skills.map((item, idx) => (
             <ListGroup.Item className='skill_item' key={idx}>{item.title}</ListGroup.Item>
@@ -71,7 +71,7 @@ export default function ProfileGraphic() {
             >
               <XAxis style={{fontSize:'14px'}} dataKey="name" stroke="transparent" fill="transparent" />
               <Tooltip itemStyle={{ color: 'black' }}  />
-              <Line type="monotone" dataKey="level" stroke="white" fill="white"  strokeWidth={3} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="level" stroke="white" fill="#0000FF"  strokeWidth={3} activeDot={{ r: 5 }} />
             </LineChart>
           </ResponsiveContainer>
         </Card.Body>

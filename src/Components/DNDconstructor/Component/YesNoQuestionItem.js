@@ -66,7 +66,7 @@ const YesNoQuestionItem = ({
     setSelectedYesChar({ id: char._id, title: char.title });
     onUpdate(index, {
       content: questionName,
-      answers: ["Yes", "No"],
+      answers: ["Так", "Ні"],
       points: [yesPoints, noPoints],
       characteristics: [selectedYesChar, selectedNoChar],
     });
@@ -78,7 +78,7 @@ const YesNoQuestionItem = ({
     setSelectedNoChar({ id: char._id, title: char.title });
     onUpdate(index, {
       content: questionName,
-      answers: ["Yes", "No"],
+      answers: ["Так", "Ні"],
       points: [yesPoints, noPoints],
       characteristics: [selectedYesChar, selectedNoChar],
     });
@@ -87,7 +87,7 @@ const YesNoQuestionItem = ({
   useEffect(() => {
     onUpdate(index, {
       content: questionName,
-      answers: ["Yes", "No"],
+      answers: ["Так", "Ні"],
       points: [yesPoints, noPoints],
       characteristics: [selectedYesChar, selectedNoChar],
     });
@@ -192,7 +192,7 @@ const YesNoQuestionItem = ({
             inputProps={{ "aria-label": "Without label" }}
           >
             <MenuItem disabled value="">
-              <em>Choose characteristic</em>
+              <em>Виберіть характеристику</em>
             </MenuItem>
             {characteristicsList.map((char) => (
               <MenuItem key={char._id} value={char._id}>
@@ -210,7 +210,7 @@ const YesNoQuestionItem = ({
             onChange={handleNoCharChange}
             renderValue={(selected) => {
               if (selected.length === 0) {
-                return <em>Choose characteristic</em>;
+                return <em>Виберіть характеристику</em>
               }
 
               return selectedNoChar.title;
@@ -220,7 +220,7 @@ const YesNoQuestionItem = ({
             inputProps={{ "aria-label": "Without label" }}
           >
             <MenuItem disabled value="">
-              <em>Choose characteristic</em>
+            <em>Виберіть характеристику</em>
             </MenuItem>
             {characteristicsList.map((char) => (
               <MenuItem key={char._id} value={char._id}>

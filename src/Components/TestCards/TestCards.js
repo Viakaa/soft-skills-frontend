@@ -81,36 +81,39 @@ export default function TestCards() {
   return (
     <>
       <div className="testcards_main">
-        <div className="d-flex justify-content-between test-text">
-          <p className="testcard_text">Test Finished: {userInfo.tests.length}</p>
-          <p className="testcards_test_text">Tests</p>
-        </div>
-        <div className="cards_wrapper d-flex justify-content-center">
+      <div className="testcards_controls">
+  <h2 className="testcards_title">Тести</h2>
+  <div className="search_filter_wrapper">
+    <div className="searchbar_container">
+  
+      <input type="text"  className="searchbar" />
+  
+    </div>
+    <div className="filter_controls">
+      <select className="category_dropdown">
+        <option>Критичне мислення</option>
+      </select>
+    </div>
+  </div>
+</div>
+        <div className="cards_wrapper  justify-content-center">
           {tests.map((test) => (
             <div className="firstCard" key={test.id}>
               <Card style={{ width: "23rem", height: "36.5rem", backgroundColor: "white" }}>
                 <Card.Img style={{ marginTop: "-2.1%", marginLeft: "-3.4%", width: "107%" }} variant="top" src={FirstTestImage} />
-                <Card.Body className="d-flex flex-column align-items-center">
+                <Card.Body className=" flex-column align-items-center">
                   <Card.Title style={{ color: "#292E46", fontWeight: "500", textAlign: "center" }}>
                     {test.title}
                   </Card.Title>
                   <Card.Text style={{ color: "#292E46", textAlign: "center", fontSize: "13px", paddingLeft: "10%", paddingRight: "10%" }}>
-                    Click "Start" to begin the test and discover your soft skills.
+                  Натисніть «Почати», щоб розпочати тест і дізнатися про свої м’які навички
                   </Card.Text>
                   <Button
                     onClick={() => handleStartClick(test.id)}
                     variant="primary"
                     className="start_test_btn"
-                    style={{
-                      width: "142px",
-                      color: "#271B80",
-                      fontWeight: "bold",
-                      backgroundColor: "#E0E5F4",
-                      border: "1px solid #271B80",
-                      marginTop: "8%",
-                    }}
                   >
-                    Start
+                    Почати
                   </Button>
                 </Card.Body>
               </Card>
