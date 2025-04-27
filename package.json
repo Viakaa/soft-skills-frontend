@@ -36,7 +36,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js' || webpack-bundle-analyzer build/static/js/*.js"
+
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +60,7 @@
   },
   "devDependencies": {
     "cypress": "^13.15.0",
-    "webdriverio": "^9.2.8"
+    "webdriverio": "^9.2.8",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

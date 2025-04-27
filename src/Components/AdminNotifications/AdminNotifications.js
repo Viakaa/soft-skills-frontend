@@ -25,7 +25,7 @@ const NotificationForm = () => {
     const token = getToken();
 
     if (!token) {
-      setError("Токен не знайдено. Будь ласка, увійдіть.");
+      setError("No token found. Please log in.");
       return;
     }
 
@@ -37,7 +37,7 @@ const NotificationForm = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Не вдалося завантажити користувачів");
+          throw new Error("Failed to fetch users");
         }
         return response.json();
       })
@@ -45,12 +45,12 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setUsers(data);
         } else {
-          throw new Error("Неправильна відповідь від API для користувачів");
+          throw new Error("Unexpected API response for users");
         }
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Не вдалося завантажити користувачів");
+        setError(err.message || "Failed to load users");
       });
 
     fetch("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests", {
@@ -61,7 +61,7 @@ const NotificationForm = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Не вдалося завантажити тести");
+          throw new Error("Failed to fetch tests");
         }
         return response.json();
       })
@@ -69,14 +69,14 @@ const NotificationForm = () => {
         if (Array.isArray(data)) {
           setTests(data);
         } else {
-          throw new Error("Неправильна відповідь від API для тестів");
+          throw new Error("Unexpected API response for tests");
         }
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Не вдалося завантажити тести");
+        setError(err.message || "Failed to load tests");
       });
-  }, []);
+  }, []); 
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -116,12 +116,12 @@ const NotificationForm = () => {
     const token = getToken();
 
     if (!formData.nameOrArticle) {
-      setError("Поле назви є обов’язковим.");
+      setError("Title is required.");
       return;
     }
 
     if (addedUsers.length === 0) {
-      setError("Потрібно додати принаймні одного одержувача.");
+      setError("At least one recipient must be added.");
       return;
     }
 
@@ -129,7 +129,7 @@ const NotificationForm = () => {
 
     if (formData.type === "Test Invitation") {
       if (!formData.selectedTest) {
-        setError("Будь ласка, виберіть тест для запрошення.");
+        setError("Please select a test for the invitation.");
         return;
       }
       const testLink = `/test/${formData.selectedTest}`;
@@ -140,8 +140,8 @@ const NotificationForm = () => {
         meta: {
           dueDate: formData.dateOfEvent,
           testId: formData.selectedTest,
-          message: `${formData.additionalDescription || "Додаткове повідомлення не надано."}\n\nПосилання на тест: ${testLink}`,
-        },
+          message: `${formData.additionalDescription || "No additional message provided."}\n\nTest Link: ${testLink}`,
+        },        
       };
     } else {
       apiData = {
@@ -151,7 +151,7 @@ const NotificationForm = () => {
         meta: {
           date: formData.dateOfEvent,
           role: formData.role,
-          description: formData.additionalDescription || "Опис не надано.",
+          description: formData.additionalDescription || "No description provided.",
           shortDescription: formData.nameOrArticle,
         },
       };
@@ -168,59 +168,59 @@ const NotificationForm = () => {
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {
-            throw new Error(data.message || "Не вдалося надіслати сповіщення");
+            throw new Error(data.message || "Failed to send notification");
           });
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Сповіщення успішно надіслано:", data);
+        console.log("Notification sent successfully:", data);
         handleClearForm();
         setError(null);
       })
       .catch((err) => {
         console.error(err);
-        setError(err.message || "Не вдалося надіслати сповіщення через помилку мережі.");
+        setError(err.message || "Failed to send notification due to a network error.");
       });
   };
 
   return (
     <div className="notification-form">
       <h1>Створити сповіщення</h1>
-
-      <div className="form-group">
-        <label>Тип:</label>
-        <select
-          name="type"
-          value={formData.type}
-          onChange={handleInputChange}
-        >
-          <option>Запрошення на тест</option>
-          <option>Оголошення події</option>
-        </select>
+      <div className="main-info">
+        <div className="form-group">
+          <label>Тип:</label>
+          <select
+            name="type"
+            value={formData.type}
+            onChange={handleInputChange}
+          >
+            <option>Запрошення на тест</option>
+            <option>Оголошення події</option>
+          </select>
+        </div>
+  
+        <div className="form-group">
+          <label>Назва</label>
+          <input
+            type="text"
+            name="nameOrArticle"
+            placeholder="Введіть назву або статтю"
+            value={formData.nameOrArticle}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>{formData.type === "Запрошення на тест" ? "Кінцева дата:" : "Дата події:"}</label>
+          <input
+            type="datetime-local"
+            name="dateOfEvent"
+            value={formData.dateOfEvent}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
-
-      <div className="form-group">
-        <label>Назва</label>
-        <input
-          type="text"
-          name="nameOrArticle"
-          placeholder="Введіть назву або статтю"
-          value={formData.nameOrArticle}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="form-group">
-        <label>{formData.type === "Запрошення на тест" ? "Термін здачі:" : "Дата події:"}</label>
-        <input
-          type="datetime-local"
-          name="dateOfEvent"
-          value={formData.dateOfEvent}
-          onChange={handleInputChange}
-        />
-      </div>
-
+  
       <div className="form-group">
         <label>Одержувачі:</label>
         <input
@@ -230,45 +230,51 @@ const NotificationForm = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
-      <div className="user-list">
-        <h3>Користувачі:</h3>
-        {error ? (
-          <div className="error">{error}</div>
-        ) : users.length === 0 ? (
-          <div>Завантаження користувачів...</div>
-        ) : (
-          users
-            .filter(
-              (user) =>
-                !addedUsers.some((addedUser) => addedUser._id === user._id) &&
-                `${user.firstName} ${user.lastName}`
-                  .toLowerCase()
-                  .includes(search.toLowerCase())
-            )
-            .map((user) => (
-              <div key={user._id} className="user-item">
-                {user.firstName} {user.lastName}
-                <button onClick={() => handleAddUser(user)}>Додати</button>
-              </div>
-            ))
-        )}
+  
+      <div className="recipients">
+        <div className="user-list-row">
+          <h3>Користувачі:</h3>
+          <div className="user-list">
+            {error ? (
+              <div className="error">{error}</div>
+            ) : users.length === 0 ? (
+              <div>Завантаження користувачів...</div>
+            ) : (
+              users
+                .filter(
+                  (user) =>
+                    !addedUsers.some((addedUser) => addedUser._id === user._id) &&
+                    `${user.firstName} ${user.lastName}`
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                )
+                .map((user) => (
+                  <div key={user._id} className="user-item">
+                    {user.firstName} {user.lastName}
+                    <button onClick={() => handleAddUser(user)}>Додати</button>
+                  </div>
+                ))
+            )}
+          </div>
+        </div>
+  
+        <div className="added-users-row">
+          <h3>Додані користувачі:</h3>
+          <div className="added-users-list">
+            {addedUsers.length > 0 ? (
+              addedUsers.map((user) => (
+                <div key={user._id} className="added-user">
+                  {user.firstName} {user.lastName}
+                  <button onClick={() => handleRemoveUser(user)}>X</button>
+                </div>
+              ))
+            ) : (
+              <p>Користувачі ще не додані.</p>
+            )}
+          </div>
+        </div>
       </div>
-
-      <div className="added-users">
-        <h3>Додані користувачі:</h3>
-        {addedUsers.length > 0 ? (
-          addedUsers.map((user) => (
-            <div key={user._id} className="added-user">
-              {user.firstName} {user.lastName}
-              <button onClick={() => handleRemoveUser(user)}>Видалити</button>
-            </div>
-          ))
-        ) : (
-          <p>Ще не додано жодного користувача.</p>
-        )}
-      </div>
-
+  
       {formData.type === "Запрошення на тест" ? (
         <div className="form-group">
           <label>Оберіть тест:</label>
@@ -285,7 +291,7 @@ const NotificationForm = () => {
                 .filter(
                   (test) => typeof test.title === "string" && test.title.trim() !== ""
                 )
-                .map((test, index) => (
+                .map((test) => (
                   <option key={test._id} value={test._id}>
                     {test.title}
                   </option>
@@ -304,13 +310,11 @@ const NotificationForm = () => {
           />
         </div>
       )}
-
+  
       <div className="form-actions">
-        <button onClick={handleClearForm}>Очистити форму</button>
+        <button onClick={handleClearForm}>Очистити</button>
         <button onClick={handleSendNotification}>Надіслати</button>
       </div>
     </div>
-  );
-};
-
+  );};
 export default NotificationForm;

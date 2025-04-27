@@ -1,11 +1,8 @@
 .notification-form {
   font-family: Arial, sans-serif;
-  max-width: 600px;
+  max-width: 50%;
   margin: auto;
   padding: 20px;
-  border: 2px solid var(--primary-color);
-  border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
 .header {
@@ -29,30 +26,36 @@ h1 {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  margin-top: 5px;
+.form-group label {
+  width: 150px; /* adjust based on your label length */
+  font-weight: bold;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
+.form-group input,
+.form-group select,
+.form-group textarea {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
   border-radius: 4px;
-  transition: border-color 0.3s ease; 
+}
+
+.form-group select{
+  background-color: blue;
+  color: white;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
   outline: none; 
-  border-color: var(--primary-color); 
+  border-color: blue; 
 }
 
 textarea {
@@ -78,13 +81,95 @@ textarea {
 }
 
 
-.user-list h3 {
-  margin-right: 500px;
+.user-list-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.added-users h3 {
-  margin-right: 500px
+.user-list-row h3 {
+  margin-top: 80px;
+  white-space: nowrap;
+}
+.user-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex: 1;
+  max-width: 700px;
+  margin-left: 95px;
+  background-color: black;
+}
 
+.user-item {
+  flex: 1 1 calc(33.333% - 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #232934;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: white;
+  min-width: 200px; 
+}
+
+.user-item button {
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+}
+.added-users-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.added-users-row h3 {
+  margin-top: 25px;
+  white-space: nowrap;
+}
+
+.added-users-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex: 1;
+  background-color: black;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 700px;
+  margin-left: 35px;
+}
+.added-users-row p{
+  color: white;
+}
+.added-user {
+  flex: 1 1 calc(33.333% - 1rem); 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-radius: 4px;
+  min-width: 200px; 
+  background-color: #232934;
+  color: white;
+}
+
+.added-user button {
+  color: blue;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  background-color: #232934;
 }
 
 .picture-upload {
@@ -130,4 +215,19 @@ textarea {
 
 .error-message{
   color: red;
+}
+
+.main-info{
+  margin-bottom: 80px;
+  margin-top: 50px;
+}
+
+.recipients{
+  margin-bottom: 70px;
+}
+
+.form-actions button{
+  background-color: blue;
+  color: white;
+  margin-top: 50px;
 }

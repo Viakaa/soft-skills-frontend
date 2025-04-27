@@ -71,13 +71,6 @@ const NotificationsPage = () => {
   
     try {
       const token = localStorage.getItem('authToken');
-      const cachedNotifications = localStorage.getItem('cachedNotifications');
-  
-      if (cachedNotifications) {
-        setPaginatedNotifications(JSON.parse(cachedNotifications));
-        setIsFetching(false);
-        return;
-      }
   
       const response = await axios.get(
         `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/user-notifications`,
@@ -87,9 +80,11 @@ const NotificationsPage = () => {
         }
       );
   
-      if (response.data.length > 0) {
+      const fetchedNotifications = response.data;
+  
+      if (fetchedNotifications.length > 0) {
         setPaginatedNotifications((prev) => {
-          const newNotifications = response.data.filter(
+          const newNotifications = fetchedNotifications.filter(
             (notif) => !prev.some((item) => item._id === notif._id)
           );
           const updatedNotifications = [...newNotifications, ...prev];
@@ -100,6 +95,8 @@ const NotificationsPage = () => {
         });
         setCurrentPage((prev) => prev + 1);
       } else {
+        localStorage.removeItem('cachedNotifications');
+        setPaginatedNotifications([]);
         setHasMore(false);
       }
     } catch (error) {
@@ -108,12 +105,6 @@ const NotificationsPage = () => {
       setIsFetching(false);
     }
   }, [currentPage, isFetching, hasMore]);
-  
-  useEffect(() => {
-    if (paginatedNotifications.length === 0 && !isFetching) {
-      loadMoreNotifications();
-    }
-  }, [loadMoreNotifications, paginatedNotifications]);
   
   
 
