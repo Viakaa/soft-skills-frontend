@@ -175,3 +175,42 @@ h3 {
     background-color: #004085;
   }
   
+  @media screen and (max-width: 768px) {
+  .notification-sidebar {
+    width: 50%;
+    right: 5%;
+    top: 60px;
+    max-height: 50vh;
+    border-radius: 10px;
+  }
+
+  .notification-info {
+    width: 100%;
+  }
+
+  .list {
+    max-height: 60vh;
+  }
+
+  .name, .theme, .date-time, .content {
+    font-size: 14px;
+  }
+
+  .go-to-test-button {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 10px;
+  }
+
+  .close-btn {
+    font-size: 5px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: 10px;
+  }
+  .profile-placeholder {
+  display: none;
+}
+}

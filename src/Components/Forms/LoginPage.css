@@ -6,7 +6,7 @@ html, body {
 p.text-center {
     color: #2A2E46;
     font-size: 2.5vw; 
-    font-family: 'Ubuntu', sans-serif;
+    font-family: Mitr;
     text-align: center;
 }
 
@@ -42,7 +42,7 @@ p.text-center {
 }
 
 .emailLabel, .passwordLabel {
-    font-family: 'Ubuntu', sans-serif;
+    font-family: "Mitr";
     font-size: 2vw; 
     color: #000000 !important;
 }
@@ -50,7 +50,7 @@ p.text-center {
 .loginButton, .register_button, .register_button2 {
     width: 100%; 
     background-color: #0000ff !important;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: "Mitr";
     font-size: 1.5vw; 
     border: none;
     height: 50px !important;
@@ -77,7 +77,7 @@ p.text-center {
 
 .checkbox {
     color: rgba(0, 15, 103, 1);
-    font-family: 'Ubuntu', sans-serif;
+    font-family: "Mitr";
     font-size: 16px;
 }
 
@@ -108,7 +108,7 @@ p.text-center {
 .forgotPassword {
     text-decoration: none;
     color: rgba(0, 15, 103, 1);
-    font-family: 'Ubuntu', sans-serif;
+    font-family: "Mitr";
     font-size: 16px;
 }
 
@@ -147,21 +147,55 @@ p.text-center {
     }
 }
 
+/* Add this at the bottom of your LoginPage.css */
+
 @media (max-width: 750px) {
-    p.text-center {
-        font-size: 7vw;
-        margin-top: 20%;
+    body {
+        background: none !important;
+    }
+
+    .login_main {
+        background: none !important;
+        box-shadow: none !important;
+        padding: 10px;
+        width: 90%;
+        height: auto;
+        margin: 0;
     }
 
     .emailLabel, .passwordLabel {
-        font-size: 20px;
-    }
-    
-    .login_main {
-        height: 50%;}
-
-    .checkbox {
-        font-size: 1rem;
+        font-size: 18px;
+        margin-top: 20px;
+        
     }
 
+    .emailForm, .passwordForm for{
+        font-size: 16px;
+        margin-bottom: 20px;
+        background-color: white;
+    }
+
+    .register_button, .register_button2 {
+        font-size: 16px;
+        height: 45px !important;
+        margin-top: 20px;
+    }
+
+    p.text-center {
+        font-size: 6vw;
+        margin-top: 30%;
+
+    }
+
+    .success-toast,
+    .error-toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .registrater_main input, .form-control{
+        background-color: white;
+    }
 }

@@ -83,7 +83,7 @@
     .skillsCard{
         height: 380px;
         width:80%;
-        margin-left:10%
+   
     }
     .card-header, .skill_item{
         font-size:25px !important;
@@ -98,7 +98,7 @@
     .skillsCard{
         height: 370px;
         width:80%;
-        margin-left:10%
+  
     }
     .card-header{
         font-size:25px !important;

@@ -60,6 +60,8 @@
     background-position: 10px center;
     background-size: 35px 30px;
     padding-left: 40px; 
+    align-items: center;
+    margin-right: 50px;
   }
   
   .search_icon {
@@ -220,12 +222,16 @@
 
 }
 
+.searchbar{
+    align-items: center;
+    margin-right: 30px;
+  }
+
   
 @media only screen and (max-width: 600px) {
     .graph_card{
         height: 330px;
         width:80%;
-        margin-left:10%
     }
     .card-header,.testcard_text{
         font-size:20px !important;
@@ -255,13 +261,34 @@
     width: 80%;
     
    }
+   .cards_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+.search_filter_wrapper {
+    align-items: center;
+    margin-left: 0; /* Remove previous margin */
+    width: 100%;
+  }
+
+  .searchbar_container {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .searchbar {
+    width: 100%;
+    margin-right: 0;
+  }
+
 }
 
 @media only screen and (min-width: 601px) and (max-width: 992px) {
     .graph_card{
         height: 350px;
         width:80%;
-        margin-left:10%
     }
     .card-header{
         font-size:25px !important;
@@ -271,5 +298,27 @@
         flex-direction: column;
         gap: 30px
     }
+    .cards_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+ .search_filter_wrapper {
+    align-items: center;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .searchbar_container {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  .searchbar {
+    width: 100%;
+    margin-right: 0;
+  }
+
 }
 

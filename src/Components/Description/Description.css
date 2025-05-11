@@ -57,17 +57,17 @@
     padding: 15px 20px;
   }
   
-  .close-btn {
-    font-size: 18px;
+ .close-btn {
+    font-size: 20px;
     color: white;
     background-color: #6c757d;
     border: none;
-    padding: 8px 16px;
+    width: 30px;
+    padding-left: 10px;
     border-radius: 8px;
     font-weight: bold;
     transition: all 0.3s ease;
-  }
-  
+}
   .close-btn:hover {
     background-color: #545b62;
   }
@@ -97,7 +97,7 @@
       gap: 10px;
     }
   
-    .start-btn, .close-btn {
+    .start-btn {
       width: 100%;
     }
   }

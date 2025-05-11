@@ -1,127 +1,127 @@
-    .navbar_main{
-        padding: 25px;
-        padding-left: 5%;
-        padding-right: 5%;
+.navbar_main {
+    padding: 25px;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.navbar {
+    border-radius: 4px;
+    background-color: white !important;
+    font-weight: 500;
+    padding: 10px;
+    font-size: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .navbar_link {
+    margin-right: 5%;
+    width: 120px;
+}
+
+.navbar_link_end,
+.navbar_link {
+    background-color: blue;
+    border-radius: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #ffffff !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
+}
+
+.navbar_link_end {
+    background-color: rgb(219, 219, 219) !important;
+    color: rgb(0, 0, 0) !important;
+    margin-left: 50px;
+    width: 85px;
+    text-align: center;
+}
+
+.user-profile {
+    position: relative;
+    cursor: pointer;
+    margin-right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile img {
+    width: 30px;
+}
+
+.notification img {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    cursor: pointer;
+}
+
+.justify-content-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .navbar_main {
+        padding: 25px 5%;
     }
 
-    .navbar{
-        border-radius: 4px;
-        background-color: white !important;
-        font-weight: 500;
+    .navbar {
         padding: 10px;
         font-size: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    Nav{
-        display: flex;
+    .justify-content-end {
+        justify-content: flex-end;
+        padding: 0;
+        gap: 15px;
+        flex-wrap: nowrap;
     }
 
-    Nav .navbar_link
-    {
-        margin-right:5% ;
-        width: 120px;
-    }
-
-    .navbar_link_end, .navbar_link {
-        background-color: rgba(228, 228, 228, 0.915);
-        border-radius: 4px;
-        padding-left: 8px;
-        padding-right: 8px;
-        color: #000000 !important;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255); 
-    }
-    
-
-    .navbar_link_end{
-        background-color: blue;
-        margin-left: 50px;
-
+    .navbar_link_end {
+        font-size: 20px;
+        padding: 10px;
+        margin-left: 40px;
     }
 
     .user-profile {
-        position: relative;
-        cursor: pointer;
         margin-right: 20px;
-        width: 70px;
-        height: 45px;
-        background-color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255); 
     }
 
-    .user-profile img{
-        width: 35px;
-        }
+    .user-profile img {
+    width: 20px;
+    margin-right: 150px;
+}
 
-    .nav-right {
-        display: flex;
-        align-items: center;
-        height: auto; 
-    }
-    
+.notification img {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    cursor: pointer;
+    margin-right: 90px;
+}
 
-    @media only screen and (max-width: 600px) {
-        .navbar_main{
-            padding: 0;
-            padding-left: 0;
-            padding-right: 0;
-        }
 
-        .navbar{
-            border-radius: 0;
-        }
+    /* ✅ Переміщує лінк вправо */
+    nav .navbar_link {
+        width: 100%;
     }
 
-    @media only screen and (min-width: 601px) and (max-width: 992px) {
-        .navbar_main{
-            padding: 0;
-            padding-left: 0;
-            padding-right: 0;
-        }
 
-        .navbar{
-            border-radius: 0;
-        }
-    }
-
-    #notification-icon{
-        font-size: 28px;
-        display: flex;
-        align-items: center;
-        width: 35px;
-        height: 35px;
-      
-    }
-
-    .notification{
-        margin-right: 20px;
-        border-radius: 5px;
-        display: flex;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-        width: 70px;
-        height: 45px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255); 
-
-    }
-
-    .notification-badge {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: rgba(255, 0, 0, 0.37);
-        color: white;
-        border-radius: 50%;
-        font-size: 12px;
-        width: 22px;
-        height: 22px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
+}
