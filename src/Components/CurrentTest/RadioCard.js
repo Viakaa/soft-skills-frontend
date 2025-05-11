@@ -1,74 +1,110 @@
 import React, { useState } from "react";
-
-import { Radio, RadioGroup, FormControlLabel} from "@mui/material";
-import { TextField } from "@mui/material";
-import Box from "@mui/material/Box";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Typography,
+  Box,
+} from "@mui/material";
 
 const RadioCard = ({ question, number, onAnswerChange }) => {
-  const { question: questionId, answers } = question;
+  const { _id: questionId, question: questionText, answers } = question;
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (event) => {
     const selectedOption = event.target.value;
     setSelectedValue(selectedOption);
 
-    const selectedIndex = answers.findIndex(answer => answer === selectedOption);
+    const selectedIndex = answers.findIndex(
+      (answer) => String(answer) === String(selectedOption)
+    );
     if (selectedIndex !== -1) {
-      onAnswerChange(questionId, [selectedIndex]); 
+      onAnswerChange(questionId, [selectedIndex]);
     }
   };
 
+  if (!Array.isArray(answers) || answers.length === 0) {
+    return (
+      <Typography color="error">
+        No options available for this question.
+      </Typography>
+    );
+  }
 
   return (
     <>
       <div className="fristWrapper test_q">
         <div className="firstQuestion">{number}</div>
-        <TextField
+        <Typography
           className="question_wrap"
-          multiline
-          readOnly
-          InputProps={{
-            readOnly: true,
+          variant="body1"
+          sx={{
+            backgroundColor: "#f9f9f9",
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+            padding: 2,
+            fontSize: "1rem",
+            color: "#333",
+            lineHeight: 1.4,
+            boxSizing: "border-box",
+            cursor: "default",
+            userSelect: "none",
+                textAlign: "left"
           }}
-          value={question.question}
-          required
-        />
+        >
+          {questionText}
+        </Typography>
       </div>
+
       <div className="option-container">
-        <div className="correct-answer-section" >
+        <div className="correct-answer-section">
           <RadioGroup
-            name={`radio-group-${question.questionId}`}
+            name={`radio-group-${questionId}`}
             value={selectedValue}
             onChange={handleRadioChange}
-         
+            sx={{
+              display: "grid",
+              gap: 2,
+            }}
           >
             {answers.map((option, idx) => (
-              <Box
-               
-              >
-                <div className="checkbox-with-form-control">
-                  <div className="checkbox-container">
-                    <FormControlLabel
-                      control={<Radio  />}
-                      label={
-                        <TextField
-                        fullWidth
-                        multiline
-                          className="questionText"
-                       
-                          defaultValue={option}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                      
-                        />
-
-                      }
-                                        value={option} 
-                    />
-                  </div>
-                </div>
-              </Box>
+              <FormControlLabel
+                key={idx}
+                value={option}
+                control={
+                  <Radio
+                    sx={{
+                      color: "#0000FF",
+                      "&.Mui-checked": { color: "#0000FF" },
+                    }}
+                  />
+                }
+                label={
+                  <Box
+                    sx={{
+                      p: 2,
+                      backgroundColor: "#f9f9f9",
+                      border: "1px solid #ccc",
+                      borderRadius: "8px",
+                      fontSize: "1rem",
+                      color: "#333",
+                      width: "300px",
+                      cursor: "default",
+                      userSelect: "none",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {option}
+                  </Box>
+                }
+                sx={{
+                  alignItems: "flex-start",
+                  display: "flex",
+                  gap: 1,
+                  m: 0,
+                  width: "100%",
+                }}
+              />
             ))}
           </RadioGroup>
         </div>

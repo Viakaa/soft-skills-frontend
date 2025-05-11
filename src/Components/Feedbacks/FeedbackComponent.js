@@ -48,7 +48,7 @@ const FeedbackList = () => {
 
   return (
     <div className="feedback-container">
-      <h2 className="feedback-title">Фідбеки</h2>
+      <h2 className="feedback-title">Відгуки</h2>
       {fakeFeedbacks.length > 0 ? (
         fakeFeedbacks.map((feedback, index) => (
           <FeedbackCard key={index} feedback={feedback} />

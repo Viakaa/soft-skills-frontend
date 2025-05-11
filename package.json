@@ -38,7 +38,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js' || webpack-bundle-analyzer build/static/js/*.js"
-
   },
   "eslintConfig": {
     "extends": [

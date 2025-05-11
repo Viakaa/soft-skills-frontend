@@ -31,7 +31,7 @@ export default function DescriptionComponent({ show, setShow }) {
           Закрити
         </Button>
         <Button variant="primary" onClick={handleStartTest} className="start-btn">
-          Почати тесту
+          Почати тест
         </Button>
       </Modal.Footer>
     </Modal>

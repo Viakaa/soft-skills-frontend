@@ -6,17 +6,15 @@ text-align: center;
 font-size: 20px;
 padding-top: 5px;
 justify-content: center;
-width: 900px
+width: 900px;
+text-align: left;
 }
 
-.fristWrapper {
-    width: 750px; /* Або встанови фіксовану ширину */
-    margin: 0 auto; /* Центрує елемент */
-}
+
 
 .yes-no-buttons {
     justify-content: center;
-    gap: 16px; /* Збільшує відстань між кнопками */
+    gap: 16px; 
 }
 
 .firstQuestion{
@@ -26,11 +24,11 @@ width: 900px
 }
 
 .questionSlider {
-    width: 400px; /* Зменшена ширина */
+    width: 400px; 
 }
 
 .css-188mx6n-MuiSlider-root {
-    width: 400px; /* Вужчий повзунок */
+    width: 400px; 
 }
 
 .yesno_button {
@@ -42,12 +40,12 @@ width: 900px
 }
 
 .yesno_button:first-child {
-    background-color: #0000FF; /* Синій для Yes */
+    background-color: #0000FF;
     color: white;
 }
 
 .yesno_button:last-child {
-    background-color: #000000; /* Чорний для No */
+    background-color: #000000; 
     color: white;
 }
 
@@ -56,3 +54,51 @@ width: 900px
 }
 
 
+.fristWrapper {
+  margin-bottom: 16px;
+}
+
+.firstQuestion {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.question_wrap {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.option-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.correct-answer-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+    justify-content: center;
+  }
+
+.correct-answer-section .checkbox-with-form-control {
+  width: calc(50% - 8px); 
+}
+
+.checkbox-container {
+  background-color: #f9f9f9;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  border: 1px solid #ccc;
+}
+
+.MuiRadio-root.Mui-checked {
+  color: #0000FF !important;
+}
+
+.questionText {
+  background-color: #fff;
+}

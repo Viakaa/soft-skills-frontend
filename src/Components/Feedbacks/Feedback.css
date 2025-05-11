@@ -1,6 +1,6 @@
 .feedback-container {
-    margin: 0 auto;
-    padding: 20px;
+  width: -webkit-fill-available;
+  padding: 20px;
   }
   
   .feedback-title {

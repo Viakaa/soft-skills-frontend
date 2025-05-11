@@ -15,7 +15,10 @@ const NotificationsPage = () => {
 
   const fetchUserWithRetry = async (userId, retries = 5, delayTime = 1000) => {
     const cachedUser = localStorage.getItem(`user_${userId}`);
-    if (cachedUser) return JSON.parse(cachedUser);
+    if (cachedUser) {
+      console.log("Using cached user:", cachedUser);  
+      return JSON.parse(cachedUser);
+    }
   
     try {
       const token = localStorage.getItem('authToken');
@@ -26,10 +29,12 @@ const NotificationsPage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
   
+      console.log("Fetched user data:", response.data);
       localStorage.setItem(`user_${userId}`, JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       if (retries > 0 && error.response?.status === 429) {
+        console.log("Retrying to fetch user...");
         await new Promise((resolve) => setTimeout(resolve, delayTime));
         return fetchUserWithRetry(userId, retries - 1, delayTime * 2);
       }
@@ -40,6 +45,7 @@ const NotificationsPage = () => {
   
   const fetchUsers = useCallback(
     debounce(async () => {
+      console.log("Fetching users..."); 
       const uniqueUserIds = [...new Set(notifications.map((n) => n.ownerId))];
   
       const usersData = await Promise.all(
@@ -53,17 +59,21 @@ const NotificationsPage = () => {
         return acc;
       }, {});
   
-      setUsers((prevUsers) => ({ ...prevUsers, ...usersMap }));
+      setUsers((prevUsers) => {
+        const updatedUsers = { ...prevUsers, ...usersMap };
+        console.log("Updated users:", updatedUsers); 
+        return updatedUsers;
+      });
     }, 1000),
     [notifications]
   );
 
   useEffect(() => {
+    console.log("Notifications received:", notifications);
     if (notifications.length > 0) {
       fetchUsers();
     }
   }, [notifications, fetchUsers]);
-  
 
   const loadMoreNotifications = useCallback(async () => {
     if (isFetching || !hasMore) return;
@@ -79,6 +89,8 @@ const NotificationsPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+  
+      console.log("Fetched notifications:", response.data); 
   
       const fetchedNotifications = response.data;
   
@@ -105,48 +117,43 @@ const NotificationsPage = () => {
       setIsFetching(false);
     }
   }, [currentPage, isFetching, hasMore]);
-  
-  
+
+  // Log the paginated notifications to track if they are being set correctly
+  useEffect(() => {
+    console.log("Paginated notifications:", paginatedNotifications);
+  }, [paginatedNotifications]);
 
   return (
     <div className="notifications-page">
       <h1>Сповіщення</h1>
       {error && <div className="error">{error}</div>}
-      {paginatedNotifications.length === 0 ? (
-        <p className="no-notifications">Немає сповіщень</p>
-      ) : (
-        <div className="notifications-list">
-          {paginatedNotifications.map((notification) => {
-            const owner = users[notification.ownerId] || {};
-            return (
-              <div key={notification._id} className="notification-item">
-                <div className="notification-header">
-                  <div className="notification-author">
-                    {owner.firstName || 'Anonymous'} {owner.lastName || ''}
-                  </div>
-                  <div className="notification-title">{notification.title}</div>
-                  <div className="notification-time">
-                    {new Date(notification.created_at).toLocaleTimeString()} -{' '}
-                    {new Date(notification.created_at).toLocaleDateString()}
-                  </div>
-                </div>
-                <div className="notification-body">
-                  <p>{notification.meta?.description || 'No description available'}</p>
-                </div>
-              </div>
-            );
-          })}
-          {hasMore && (
-            <button
-              className="show-more-btn"
-              onClick={loadMoreNotifications}
-              disabled={isFetching}
-            >
-              {isFetching ? 'Loading...' : 'Show More'}
-            </button>
-          )}
+      {notifications.length === 0 ? (
+  <p className="no-notifications">Немає сповіщень</p>
+) : (
+  <div className="notifications-list">
+    {notifications.map((notification) => {
+      const owner = users[notification.ownerId] || {};
+      return (
+        <div key={notification._id} className="notification-item">
+          <div className="notification-header">
+            <div className="notification-author">
+              {owner.firstName || 'Anonymous'} {owner.lastName || ''}
+            </div>
+            <div className="notification-title">{notification.title}</div>
+            <div className="notification-time">
+              {new Date(notification.created_at).toLocaleTimeString()} -{' '}
+              {new Date(notification.created_at).toLocaleDateString()}
+            </div>
+          </div>
+          <div className="notification-body">
+            <p>{notification.meta?.description || 'No description available'}</p>
+          </div>
         </div>
-      )}
+      );
+    })}
+  </div>
+)}
+
     </div>
   );
 };

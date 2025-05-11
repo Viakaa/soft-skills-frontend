@@ -1,60 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import "./Results.css"; 
+import "./Results.css";
 
 const ResultPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const results = location.state?.results;
-
+const [characteristicTitles, setCharacteristicTitles] = useState({});
   const [characteristics, setCharacteristics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchCharacteristics = async () => {
-      if (!results || !results.tests) {
-        setError("No results found.");
-        setLoading(false);
-        return;
-      }
+useEffect(() => {
+  let ignore = false;
 
-      const latestTest = results.tests.find(test => test.testId === id);
-      const charData = latestTest?.results.characteristics || [];
+  const latestTest = results?.tests.find(test => test.testId === id);
+  const charData = latestTest?.results.characteristics || [];
 
-      if (charData.length === 0) {
-        setError("No characteristics found.");
-        setLoading(false);
-        return;
-      }
+  if (!results || !latestTest) {
+    setError("No results found.");
+    setLoading(false);
+    return;
+  }
 
-      try {
-        const authToken = localStorage.getItem("authToken");
-        const fetchPromises = charData.map(async (char) => {
-          const response = await axios.get(
-            `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${char.characteristicId}`,
-            { headers: { Authorization: `Bearer ${authToken}` } }
-          );
+  if (charData.length === 0) {
+    setError("No characteristics found.");
+    setLoading(false);
+    return;
+  }
 
-          return {
-            title: response.data.title,  
-            points: char.points
-          };
+  const fetchCharacteristics = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const characteristicsWithTitles = [];
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      for (const [index, char] of charData.entries()) {
+        if (index > 0) await delay(200);
+
+        const response = await axios.get(
+          `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${char.characteristicId}`,
+          { headers: { Authorization: `Bearer ${authToken}` } }
+        );
+
+        characteristicsWithTitles.push({
+          title: response.data.title,
+          points: char.points,
         });
+      }
 
-        const characteristicsWithTitles = await Promise.all(fetchPromises);
+      if (!ignore) {
         setCharacteristics(characteristicsWithTitles);
-      } catch (e) {
+        setLoading(false);
+      }
+    } catch (e) {
+      if (!ignore) {
         console.error("Error fetching characteristics:", e);
         setError("Failed to load characteristic details.");
-      } finally {
         setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchCharacteristics();
-  }, [id, results]);
+  fetchCharacteristics();
+
+  return () => {
+    ignore = true; 
+  };
+}, [id, results]);
+
 
   if (loading) return <div className="loading">Завантаження...</div>;
   if (error) return <div className="error-message">{error}</div>;

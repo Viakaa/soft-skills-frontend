@@ -71,61 +71,63 @@ const TestPage = () => {
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
-  
+
     const authToken = localStorage.getItem("authToken");
     const userId = localStorage.getItem("userId");
-  
+
     if (!authToken) {
-      console.error("Auth token is not available.");
-      return;
+        console.error("Auth token is not available.");
+        return;
     }
-  
+
     if (!userId) {
-      console.error("UserId is not available.");
-      return;
+        console.error("UserId is not available.");
+        return;
     }
-  
-    console.log('User ID:', userId);
-    console.log('Test ID:', id);
-  
 
     const formattedAnswers = questions.map((question) => {
-      const selectedAnswer = answers[question._id];
-  
-      if (selectedAnswer && selectedAnswer.length > 0) {
-        return {
-          questionId: question._id,
-          answers: selectedAnswer, 
-        };
-      }
-  
-      console.warn(`Question ${question._id} has no valid answer.`);
-      return null;
-    }).filter(Boolean); 
-  
-    if (formattedAnswers.length === 0) {
-      console.error("No valid answers selected.");
-      return;
-    }
-  
-    const url = `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/${id}/results`;
-  
-    try {
-      const response = await axios.post(url, formattedAnswers , {
-        headers: { 
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json"
+        const selectedAnswer = answers[question._id];
+
+        if (selectedAnswer && selectedAnswer.length > 0) {
+            return {
+                questionId: question._id,
+                answers: selectedAnswer,
+            };
         }
-      });
-  
-      console.log('Response:', response.data);
-      setShowCompletionToast(true);
-      navigate(`/results/${id}`, { state: { results: response.data } });    } catch (e) {
-      console.error('Error submitting results', e.response ? e.response.data : e.message);
-      alert('There was an error submitting your results. Please try again later.');
+
+        console.warn(`Question ${question._id} has no valid answer.`);
+        return null;
+    }).filter(Boolean);
+
+    if (formattedAnswers.length === 0) {
+        console.error("No valid answers selected.");
+        return;
     }
-  };
-  
+
+    const url = `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/${id}/results`;
+
+    try {
+        const response = await axios.post(url, formattedAnswers, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        console.log('Response:', response.data);
+        setShowCompletionToast(true);
+
+        if (id === '681fbfd546830d764b291752') {
+            navigate(`/emotional-intelligence-results/${id}`, { state: { results: response.data } });
+        } else {
+            navigate(`/results/${id}`, { state: { results: response.data } });
+        }
+    } catch (e) {
+        console.error('Error submitting results', e.response ? e.response.data : e.message);
+        alert('There was an error submitting your results. Please try again later.');
+    }
+};
+
 
   useEffect(() => {
     if (showCompletionToast) {
@@ -149,32 +151,32 @@ const TestPage = () => {
         )}
 
         <div className="item-list1" style={{ overflow: "unset" }}>
-          {questions.map((question, index) => (
-            <div key={index} style={{ marginTop: '20px' }} className="question-item">
-              {question.type === "yes_no" && (
-                <YesNoCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
-              )}
-              {question.type === "multiple_choice" && (
-                <MultipleChoiceCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
-              )}
-   {question.type === "slider" && (
-  <SliderCard 
-    number={index + 1} 
-    question={{
-      ...question,
-      sliderMin: Math.min(...question.answers.map(Number)), 
-      sliderMax: Math.max(...question.answers.map(Number))
-    }} 
-    onAnswerChange={handleAnswerChange} 
-  />
-)}
+        {questions.map((question, index) => (
+  <div key={question._id} style={{ marginTop: '20px' }} className="question-item">
+    {question.type === "yes_no" && (
+      <YesNoCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
+    )}
+    {question.type === "multiple_choice" && (
+      <MultipleChoiceCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
+    )}
+    {question.type === "slider" && (
+      <SliderCard
+        number={index + 1}
+        question={{
+          ...question,
+          sliderMin: Math.min(...question.answers.map(Number)),
+          sliderMax: Math.max(...question.answers.map(Number)),
+        }}
+        onAnswerChange={handleAnswerChange}
+      />
+    )}
+    {question.type === "radio" && (
+      <RadioCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
+    )}
+  </div>
+))}
 
 
-              {question.type === "radio" && (
-                <RadioCard number={index + 1} question={question} onAnswerChange={handleAnswerChange} />
-              )}
-            </div>
-          ))}
         </div>
 
         <Toast

@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 90%;
   margin: 20px auto;
   padding: 20px;
-  background-color: #eef2ff;
+  background-color: white;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   font-family: 'Ubuntu', sans-serif;
@@ -20,6 +20,8 @@
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  width: 100%;
 }
 
 .chart-title {
@@ -34,31 +36,31 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #b8a8ff;
-  border-radius: 15px;
+  background-color: #0D1119;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   align-items: center;
   overflow: hidden;
+  min-width: 250px;
+  width: 100%;
 }
 
 .date-scroll-container {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  max-height: 450PX;
+  max-height: 450px;
   width: 100%;
   padding-right: 10px;
   scrollbar-width: thin;
-  scrollbar-color: #a18aff #e0d7ff;
+  scrollbar-color: #0D1119 #d7deff;
   border-radius: 10px;
-  background: linear-gradient(#b8a8ff);
+  background: #0D1119;
   padding: 10px;
 }
 
 .date-scroll-container::-webkit-scrollbar {
   width: 8px;
-  border-radius: 10px;
 }
 
 .date-scroll-container::-webkit-scrollbar-track {
@@ -67,27 +69,21 @@
 }
 
 .date-scroll-container::-webkit-scrollbar-thumb {
-  background: #a18aff;
-  border-radius: 10px;
+  background: #ffffff;
   transition: background 0.3s ease-in-out;
 }
 
 .date-scroll-container::-webkit-scrollbar-thumb:hover {
-  background: #8b6fff;
-}
-
-.date-scroll-container {
-  scrollbar-color: #a18aff #e0d7ff;
+  background: #0000FF;
 }
 
 .date-item {
   display: block;
   text-align: center;
   padding: 12px;
-  margin: 5px;
-  background-color: #cfc5ff;
+  margin: 5px 0;
+  background-color: #232934;
   border: none;
-  border-radius: 10px;
   font-weight: bold;
   color: #fff;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -96,28 +92,21 @@
 }
 
 .date-item:hover {
-  background-color: #a18aff;
+  background-color: #0000FF;
   transform: scale(1.05);
 }
 
 .active-date {
-  background-color: #ffdfba;
-  color: #333;
+  background-color: #2a2aff;
+  color: #dadada;
   border: 2px solid #000;
   font-weight: bold;
 }
 
-
-@media screen and (max-width: 768px) {
-  .chart-container {
-      flex-direction: column;
-  }
-  .chart-section, .date-section {
-      margin-bottom: 15px;
-  }
-}
-.role-info-section H3{
-  color: #9999FF;
+.role-info-section h3 {
+  color: #0D1119;
+  font-size: 24px;
+  text-align: center;
 }
 
 .role-info-section table {
@@ -125,7 +114,6 @@
   border-collapse: collapse;
   margin-top: 20px;
   background-color: #fff;
-  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -136,19 +124,92 @@
 }
 
 .role-info-section th {
-  background-color: #9999FF;
+  background-color: #0D1119;
   color: #fff;
   font-weight: bold;
 }
 
 .role-info-section tbody tr:nth-child(odd) {
-  background-color: #f3f4ff;
+  background-color: #232934;
+  color: #fff;
+  border: 1px solid #0000FF ;
 }
 
 .role-info-section tbody tr:nth-child(even) {
-  background-color: #eef2ff;
+  background-color: #232934;
+  color: #fff;
+  border: 1px solid #0000FF ;
+
 }
 
 .role-info-section tbody tr:hover {
-  background-color: #d9dfff;
+  background-color: #424447;
+}
+
+.expandable-role-section {
+  margin: 20px 0;
+  width: -webkit-fill-available;
+}
+
+.role-details {
+  border: 1px solid #FFFFFF;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.role-summary {
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #FFFFFF;
+  padding: 12px 16px;
+  color: #0000ff;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ccc;
+}
+
+.role-description {
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .chart-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .chart-section, .date-section {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .chart-title {
+    font-size: 20px;
+  }
+
+  .date-item {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .role-info-section h3 {
+    font-size: 20px;
+  }
+
+  .role-summary {
+    font-size: 16px;
+  }
+
+  .role-description {
+    font-size: 14px;
+  }
 }

@@ -138,7 +138,7 @@ const BelbinResultPage = () => {
             <Line
               type="monotone"
               dataKey="score"
-              stroke="#8884d8"
+              stroke="#0000FF"
               activeDot={{ r: 8 }}
               dot={({ cx, cy, payload }) =>
                 topRoles.some((item) => item.role === payload.role) ? (
@@ -147,11 +147,11 @@ const BelbinResultPage = () => {
                     cy={cy}
                     r={6}
                     fill="#FDB7EA"
-                    stroke="#B7B1F2"
+                    stroke="#0000FF"
                     strokeWidth={1}
                   />
                 ) : (
-                  <circle cx={cx} cy={cy} r={5} fill="#8884d8" />
+                  <circle cx={cx} cy={cy} r={5} fill="#2a2aff" />
                 )
               }
             />
@@ -174,7 +174,7 @@ const BelbinResultPage = () => {
       </div>
 
       <div className="role-info-section">
-        <h3>Інформація про топ 3 ролі</h3>
+        <h3>Ваші три основні ролі в команді: </h3>
         <table>
           <thead>
             <tr>
@@ -198,6 +198,17 @@ const BelbinResultPage = () => {
           </tbody>
         </table>
       </div>
+      <div className="expandable-role-section">
+  {topRoles.map((role, index) => (
+    <details key={index} className="role-details">
+      <summary className="role-summary">{role.role.toUpperCase()}</summary>
+      <div className="role-description">
+        <p><strong>Характеристика:</strong> {roleInfo[role.role]?.characteristic}</p>
+        <p><strong>Функціональність:</strong> {roleInfo[role.role]?.functionality}</p>
+      </div>
+    </details>
+  ))}
+</div>
         <Feedback/>
     </div>
   );
