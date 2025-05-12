@@ -20,7 +20,7 @@
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  min-width: 570px;
+  min-width: 580px;
   width: 100%;
 }
 
@@ -41,7 +41,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   align-items: center;
   overflow: hidden;
-  min-width: 550px;
+  min-width: 580px;
   width: 100%;
 }
 
@@ -161,7 +161,7 @@
   margin-bottom: 10px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-width: 570px;
+  min-width: 580px;
 }
 
 .role-summary {
