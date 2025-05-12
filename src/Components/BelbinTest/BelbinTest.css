@@ -81,7 +81,7 @@ button.submit-button {
   width: 100%;
   padding: 12px 20px;
   font-size: 1.1rem;
-  background: linear-gradient(135deg, var(--primary-color));
+  background: blue;
   color: rgb(255, 255, 255);
   border: none;
   border-radius: 8px;
