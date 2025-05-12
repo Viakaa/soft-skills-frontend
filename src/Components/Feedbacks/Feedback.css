@@ -1,6 +1,7 @@
 .feedback-container {
   width: -webkit-fill-available;
   padding: 20px;
+  min-width: 580px;
   }
   
   .feedback-title {

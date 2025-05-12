@@ -28,7 +28,7 @@ export default function DescriptionComponent({ show, setShow }) {
       </Modal.Body>
       <Modal.Footer className="modal-footer">
         <Button variant="secondary" onClick={handleClose} className="close-btn">
-          Закрити
+          х
         </Button>
         <Button variant="primary" onClick={handleStartTest} className="start-btn">
           Почати тест

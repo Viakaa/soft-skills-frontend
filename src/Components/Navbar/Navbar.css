@@ -2,7 +2,9 @@
     padding: 25px;
     padding-left: 5%;
     padding-right: 5%;
+    min-width: 610px;
 }
+
 
 .navbar {
     border-radius: 4px;
@@ -27,45 +29,54 @@ nav .navbar_link {
 
 .navbar_link_end,
 .navbar_link {
-    background-color: blue;
+    background-color: rgb(219, 219, 219);
     border-radius: 4px;
     padding-left: 8px;
     padding-right: 8px;
-    color: #ffffff !important;
+    color: #000000 !important;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
+
 }
 
 .navbar_link_end {
-    background-color: rgb(219, 219, 219) !important;
+    
     color: rgb(0, 0, 0) !important;
     margin-left: 50px;
     width: 85px;
     text-align: center;
+     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
+
 }
 
 .user-profile {
     position: relative;
     cursor: pointer;
     margin-right: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
+    width: 50px;
+    height: 50px;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 .user-profile img {
-    width: 30px;
+    width: 40px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
+    padding: 5px;
+    
 }
 
 .notification img {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 0px rgb(25, 0, 255);
+    margin-right: 10px;
+    padding: 5px;
 }
 
 .justify-content-end {
@@ -105,22 +116,23 @@ nav .navbar_link {
 
     .user-profile img {
     width: 20px;
-    margin-right: 150px;
+    margin-right: 450px;
 }
 
 .notification img {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     cursor: pointer;
-    margin-right: 90px;
+    margin-right: 240px;
 }
 
 
     /* ✅ Переміщує лінк вправо */
     nav .navbar_link {
         width: 100%;
+         margin-bottom: 20px;
     }
 
 

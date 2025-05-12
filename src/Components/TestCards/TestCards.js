@@ -1,20 +1,19 @@
 import "./TestCards.css";
 import { Card, Button } from "react-bootstrap";
 import axios from "axios";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../../Redux/Actions/userActions.js";
 import FirstTestImage from "../../Assets/Images/newTestImage.png";
 import DescriptionComponent from "../Description/DescriptionComponent";
-import debounce from "lodash.debounce";
 
 export default function TestCards() {
   const Skeleton = () => <div className="skeleton"></div>;
 
   const [tests, setTests] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [showDescription, setShowDescription] = useState(false);
   const [selectedTestId, setSelectedTestId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // <-- New state for search input
 
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -28,7 +27,9 @@ export default function TestCards() {
     try {
       const response = await axios.get(
         "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
-        { headers: { Authorization: `Bearer ${authToken}` } }
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
       );
 
       const fetchedTests = response.data.map((test) => ({
@@ -37,7 +38,7 @@ export default function TestCards() {
       }));
 
       setTests(fetchedTests);
-      localStorage.setItem("tests", JSON.stringify(fetchedTests));
+
     } catch (error) {
       if (error.response?.status === 429 && retries > 0) {
         console.warn(`Too Many Requests: Retrying in ${delay}ms...`);
@@ -48,23 +49,16 @@ export default function TestCards() {
     }
   };
 
-  const debouncedFetchTests = useCallback(debounce(fetchTests, 3000), []);
-
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
-    const cachedTests = localStorage.getItem("tests");
 
-    if (!authToken) {
-      console.error("Auth token is not available.");
+    if (!userInfo || !authToken) {
+      console.warn("Missing user info or token. Aborting test fetch.");
       return;
     }
 
-    if (cachedTests) {
-      setTests(JSON.parse(cachedTests));
-    } else {
-      debouncedFetchTests(authToken);
-    }
-  }, [debouncedFetchTests]);
+    fetchTests(authToken);
+  }, [userInfo]);
 
   if (isLoading || !userInfo) {
     return <Skeleton />;
@@ -79,6 +73,11 @@ export default function TestCards() {
     }
   };
 
+  // Filtered tests based on search input
+  const filteredTests = tests.filter((test) =>
+    test.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <div className="testcards_main">
@@ -91,70 +90,72 @@ export default function TestCards() {
                 className="searchbar"
                 placeholder="Пошук тестів..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
         </div>
 
         <div className="cards_wrapper justify-content-center">
-          {tests
-            .filter((test) => test.title.toLowerCase().includes(searchTerm))
-            .map((test) => (
-              <div className="firstCard" key={test.id}>
-                <Card
+          {filteredTests.map((test) => (
+            <div className="firstCard" key={test.id}>
+              <Card
+                style={{
+                  width: "23rem",
+                  height: "36.5rem",
+                  backgroundColor: "white",
+                }}
+              >
+                <Card.Img
                   style={{
-                    width: "23rem",
-                    height: "36.5rem",
-                    backgroundColor: "white",
+                    marginTop: "-2.1%",
+                    marginLeft: "-3.4%",
+                    width: "107%",
                   }}
-                >
-                  <Card.Img
+                  variant="top"
+                  src={FirstTestImage}
+                />
+                <Card.Body className="flex-column align-items-center">
+                  <Card.Title
                     style={{
-                      marginTop: "-2.1%",
-                      marginLeft: "-3.4%",
-                      width: "107%",
+                      color: "#292E46",
+                      fontWeight: "500",
+                      textAlign: "center",
                     }}
-                    variant="top"
-                    src={FirstTestImage}
-                  />
-                  <Card.Body className="flex-column align-items-center">
-                    <Card.Title
-                      style={{
-                        color: "#292E46",
-                        fontWeight: "500",
-                        textAlign: "center",
-                      }}
-                    >
-                      {test.title}
-                    </Card.Title>
-                    <Card.Text
-                      style={{
-                        color: "#292E46",
-                        textAlign: "center",
-                        fontSize: "13px",
-                        paddingLeft: "10%",
-                        paddingRight: "10%",
-                      }}
-                    >
-                      Натисніть «Почати», щоб розпочати тест і дізнатися про свої м’які навички
-                    </Card.Text>
-                    <Button
-                      onClick={() => handleStartClick(test.id)}
-                      variant="primary"
-                      className="start_test_btn"
-                    >
-                      Почати
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            ))}
+                  >
+                    {test.title}
+                  </Card.Title>
+                  <Card.Text
+                    style={{
+                      color: "#292E46",
+                      textAlign: "center",
+                      fontSize: "13px",
+                      paddingLeft: "10%",
+                      paddingRight: "10%",
+                    }}
+                  >
+                    Натисніть «Почати», щоб розпочати тест і дізнатися про свої
+                    софт скіли
+                  </Card.Text>
+                  <Button
+                    onClick={() => handleStartClick(test.id)}
+                    variant="primary"
+                    className="start_test_btn"
+                  >
+                    Почати
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
 
       {showDescription && (
-        <DescriptionComponent show={showDescription} setShow={setShowDescription} />
+        <DescriptionComponent
+          show={showDescription}
+          setShow={setShowDescription}
+        />
       )}
     </>
   );
