@@ -51,8 +51,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   align-items: center;
   justify-content: center; 
-  min-width: 570px;
-  max-width: 300px;
+    min-width: 200px;
+    max-width: 300px;
   height: 400px;
   overflow: hidden;
 }
@@ -160,3 +160,61 @@
   background-color: #232934;
 }
 
+@media (max-width: 768px) {
+  .results-layout {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .radar-chart-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .date-section {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    min-width: unset;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+  .date-item {
+    flex: 0 0 auto;
+    margin: 5px;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .characteristics-table {
+    margin-top: 30px;
+    overflow-x: auto;
+  }
+
+  .characteristics-table table {
+    font-size: 14px;
+    min-width: 400px;
+  }
+
+  .results-container h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .results-container p {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .characteristics-table h3 {
+    font-size: 20px;
+  }
+}
