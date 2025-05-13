@@ -1,12 +1,28 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Carousel } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./UserTests.css";
 
 export default function UserTests() {
   const [matchedData, setMatchedData] = useState({});
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
+  const navigate = useNavigate();
+
+  const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await axios.get(url, options);
+      } catch (error) {
+        if (error.response?.status === 429 && i < retries - 1) {
+          await new Promise(res => setTimeout(res, delay));
+        } else {
+          throw error;
+        }
+      }
+    }
+  };
 
   const fetchUserResults = useCallback(async () => {
     try {
@@ -23,7 +39,7 @@ export default function UserTests() {
 
       const characteristicsPromises = userResults.characteristics.map(async (char) => {
         try {
-          const charResponse = await axios.get(
+          const charResponse = await fetchWithRetry(
             `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${char.characteristicId}`,
             {
               headers: {
@@ -34,7 +50,7 @@ export default function UserTests() {
           return { ...char, details: charResponse.data };
         } catch (error) {
           console.error(`Error fetching characteristic ID ${char.characteristicId}:`, error);
-          return null; 
+          return null;
         }
       });
 
@@ -73,8 +89,17 @@ export default function UserTests() {
 
   return (
     <div className="main_wrapper">
+      <div className="buttons-container">
+        <button onClick={() => navigate(`/emotional-intelligence-results/${userId}`)}>
+          Результати емоційного інтелекту
+        </button>
+        <button onClick={() => navigate(`/belbinresult/${userId}`)}>
+          Результати тесту Белбіна
+        </button>
+      </div>
+
       {Object.keys(matchedData).length === 0 ? (
-        <div style={{color:'white'}}>No data available</div>
+        <div style={{ color: 'white' }}>No data available</div>
       ) : (
         Object.keys(matchedData).map((softSkill, index) => (
           <div className="test1" key={index}>
@@ -89,7 +114,13 @@ export default function UserTests() {
                     {chunk.map((char, charIndex) => (
                       <div className="test1_card1" key={charIndex}>
                         <p className="characteritiscs_title">{char.title}</p>
-                        <p style={{ backgroundColor: "rgba(248, 251, 255, 1)", borderRadius: "10px" }} >
+                        <p
+                          style={{
+                            backgroundColor: "rgb(225, 225, 225)",
+                            borderRadius: "10px",
+                            boxShadow:"black"
+                          }}
+                        >
                           {char.points}
                         </p>
                       </div>
