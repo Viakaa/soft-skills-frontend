@@ -20,7 +20,8 @@
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  min-width: 580px;
+  min-width: 100px;
+  min-height: 100px;
   width: 100%;
 }
 
@@ -41,7 +42,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   align-items: center;
   overflow: hidden;
-  min-width: 580px;
+  min-width: 100px;
   width: 100%;
 }
 
@@ -116,33 +117,44 @@
   background-color: #fff;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 100px;
 }
 
 .role-info-section th, .role-info-section td {
   padding: 12px 15px;
   text-align: left;
+  width: 30px;
+  max-width: 30px;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .role-info-section th {
   background-color: #0D1119;
   color: #fff;
   font-weight: bold;
+  width: 30px;
+  max-width: 30px;
 }
 
-.role-info-section  {
-  min-width: 500px;
+.role-info-section{
+  width: 100%;
+  min-width: 100px;
 }
-
 .role-info-section tbody tr:nth-child(odd) {
   background-color: #232934;
   color: #fff;
   border: 1px solid #0000FF ;
+    width: 30px;
+  max-width: 30px;
 }
 
 .role-info-section tbody tr:nth-child(even) {
   background-color: #232934;
   color: #fff;
   border: 1px solid #0000FF ;
+    width: 30px;
+  max-width: 30px;
 
 }
 
@@ -161,7 +173,7 @@
   margin-bottom: 10px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-width: 580px;
+  min-width: 100px;
 }
 
 .role-summary {
