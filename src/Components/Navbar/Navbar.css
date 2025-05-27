@@ -88,6 +88,11 @@ nav .navbar_link {
     width: 100%;
 }
 @media only screen and (max-width: 600px) {
+
+      .desktop-only {
+    display: none !important;
+  }
+  
     .navbar_main {
         padding: 25px 5%;
             min-width: 100px;

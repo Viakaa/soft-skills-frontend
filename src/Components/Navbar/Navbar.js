@@ -62,22 +62,28 @@ const handleUnreadCountChange = useCallback(
                 </Nav.Link>
               )}
               {isAdmin && (
-                <NavDropdown
-                  className="navbar_link"
-                  title="Адмін"
-                  id="navbarScrollingDropdown"
-                >
-                  <NavDropdown.Item href="/adminpanel">
-                    Адмін Панель
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="/test_constructor">
-                    Конструктор
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="/adminnotifications">
-                    Адмін Нотифікації
-                  </NavDropdown.Item>
-                </NavDropdown>
-              )}
+  <NavDropdown
+    className="navbar_link"
+    title="Адмін"
+    id="navbarScrollingDropdown"
+  >
+    <NavDropdown.Item href="/adminpanel">
+      Адмін Панель
+    </NavDropdown.Item>
+
+    <div className="desktop-only">
+      <NavDropdown.Item href="/test_constructor">
+        Конструктор
+      </NavDropdown.Item>
+      <NavDropdown.Item href="/adminnotifications">
+      Адмін Нотифікації
+    </NavDropdown.Item>
+    </div>
+
+  
+  </NavDropdown>
+)}
+
               {!isLoggedIn && (
                 <>
                   <Nav.Link className="navbar_link" href="/login">
