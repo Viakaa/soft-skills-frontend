@@ -41,7 +41,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
           color: 'white',
         }}
       >
-        Yes
+        Так
       </Button>
 
       <Button
@@ -53,7 +53,7 @@ const YesNoCard = ({ question, number, onAnswerChange }) => {
           color: 'white',
         }}
       >
-        No
+        Ні
       </Button>
       </div>
     </>

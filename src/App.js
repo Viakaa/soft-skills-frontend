@@ -14,6 +14,7 @@ import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor1 from "./Components/DNDconstructor/Component/DNDconstructor1.js"
 import ResultPage from "./Components/CurrentTest/Results.js";
 import EmotionalIntelligenceResults from "./Components/EmotionalIntelligence/EmotionalIntelligenceResult.js";
+import CriticalThinkingResults from "./Components/CriticalThinking/CriticalThinkingResult.js";
 import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";
 import NotificationsPage from "./Components/Notifications/NotificationsPage.js"
 import NotificationsBar from "./Components/Notifications/Notifications.js";
@@ -42,6 +43,7 @@ function App() {
           <Route path="/results/:id" element={<PrivateRoute><ResultPage /></PrivateRoute>} />
           <Route path="/test/:id" element={<PrivateRoute><TestPage /></PrivateRoute>} />
           <Route path="/test/677ffc10bc648d0df2743ff7" element={<PrivateRoute><BelbinTest /></PrivateRoute>} />
+          <Route path="/critical-thinking-results/:userId" element={<PrivateRoute><CriticalThinkingResults /></PrivateRoute>} />
           <Route path="/emotional-intelligence-results/:userId" element={<PrivateRoute><EmotionalIntelligenceResults /></PrivateRoute>} />
           <Route path="/belbinresult/:userId" element={<PrivateRoute><BelbinResult /></PrivateRoute>} />
           <Route path="*" element={<NotFoundPage />} />

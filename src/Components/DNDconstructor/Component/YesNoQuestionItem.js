@@ -97,13 +97,13 @@ const YesNoQuestionItem = ({
     <div className="question-item">
       <div className="fristWrapper">
         <div className="firstQuestion">{index + 1}</div>
-        <input 
-          className="fristQuestionText"
-          contenteditable="true"
-          value={questionName}
-          required
-          onChange={handleChangeQuestionName}
-        />
+       <textarea
+        className="fristQuestionText"
+        value={questionName}
+        onChange={handleChangeQuestionName}
+        rows={4} 
+        style={{ width: "100%", resize: "vertical" }}
+      />
 
         <button className="closeButton" onClick={() => onDelete(index)}>
           X
@@ -128,7 +128,7 @@ const YesNoQuestionItem = ({
           }}
           className="yesno_button"
         >
-          Yes
+          Так
         </Button>
 
         <Button
@@ -150,7 +150,7 @@ const YesNoQuestionItem = ({
           }}
           className="yesno_button"
         >
-          No
+          Ні
         </Button>
       </div>
       <div className="wrapperPointsYN">

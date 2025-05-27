@@ -1,0 +1,24 @@
+.results-container {
+  padding: 20px;
+}
+
+.date-scroll-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.date-item {
+  padding: 8px 12px;
+  border: none;
+  background: #232934;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.date-item.active-date {
+  background: #0000FF;
+  color: white;
+  font-weight: bold;
+}

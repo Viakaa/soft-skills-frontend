@@ -106,26 +106,28 @@ const TestPage = () => {
 
     const url = `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${userId}/tests/${id}/results`;
 
-    try {
-        const response = await axios.post(url, formattedAnswers, {
-            headers: {
-                Authorization: `Bearer ${authToken}`,
-                "Content-Type": "application/json",
-            },
-        });
+   try {
+    const response = await axios.post(url, formattedAnswers, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+    });
 
-        console.log('Response:', response.data);
-        setShowCompletionToast(true);
+    console.log('Response:', response.data);
+    setShowCompletionToast(true);
 
-        if (id === '681fbfd546830d764b291752') {
-            navigate(`/emotional-intelligence-results/${id}`, { state: { results: response.data } });
-        } else {
-            navigate(`/results/${id}`, { state: { results: response.data } });
-        }
-    } catch (e) {
-        console.error('Error submitting results', e.response ? e.response.data : e.message);
-        alert('There was an error submitting your results. Please try again later.');
+    if (id === '681fbfd546830d764b291752') {
+        navigate(`/emotional-intelligence-results/${id}`, { state: { results: response.data } });
+    } else if (id === '683335f246830d764b292356') {
+        navigate(`/critical-thinking-results/${id}`, { state: { results: response.data } });
+    } else {
+        navigate(`/results/${id}`, { state: { results: response.data } });
     }
+} catch (e) {
+    console.error('Error submitting results', e.response ? e.response.data : e.message);
+    alert('There was an error submitting your results. Please try again later.');
+}
 };
 
 
@@ -175,8 +177,6 @@ const TestPage = () => {
     )}
   </div>
 ))}
-
-
         </div>
 
         <Toast
