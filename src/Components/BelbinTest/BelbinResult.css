@@ -113,3 +113,49 @@ h2 {
 .top-role {
   margin-bottom: 10px;
 }
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .role-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .role-buttons button {
+    padding: 8px 14px;
+    border-radius: 5px;
+    background-color: #232934;
+    color:white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .role-buttons button.active {
+    background-color:blue;
+    color: white;
+  }
+
+  .role-card {
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #232934;
+    color: white;
+  }
+}

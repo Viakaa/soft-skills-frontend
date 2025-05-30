@@ -1,18 +1,24 @@
-.navcol{
-    background-color:black !important;
-    border-radius: 0 !important;
+.navcol {
+    background-color: black !important;
     color: white !important;
     border-radius: 20px !important;
     padding-top: 2%;
-
+    text-align: center;    
+    margin-bottom: 30px;
 }
+
+
 .navitm{
     background-color: transparent !important;
     border-radius: 0 !important;
     color: white !important;
     border-radius: 20px !important;
     padding-top: 2%;
+    margin-bottom: 10px;
+}
 
+.nav-item{
+    margin-bottom: 10px;
 }
 
 .navitm:hover{
@@ -24,5 +30,30 @@
     font-family: 'Ubuntu', sans-serif;
 }
 
+@media (max-width: 768px) {
+  .navcol {
+    flex-direction: row !important;
+    justify-content: center;
+    max-height: none !important;
+    padding: 10px;
+  }
 
+  .navitm {
+    margin: 0 10px;
+    border: 1px solid white;
+    border-radius: 8px !important;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+.navcol .nav-item:nth-child(2),
+.navcol .nav-item:nth-child(3) {
+  display: none !important;
+}
+
+  .adm_nav {
+    margin-left: 0;
+    padding: 10px;
+  }
+}
 

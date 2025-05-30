@@ -1,18 +1,17 @@
 .a_testcard{
-    border: 3px solid var(--primary-color) !important;
-    background-color: var(--primary-color) !important;
+    background-color: #232934;
     font-family: 'Ubuntu', sans-serif;
     color: rgba(248, 251, 255, 1) !important;
     
 }
 .test_edit{
-    background-color: rgba(137, 107, 179, 1) !important;
     border: none !important;
     margin-top: 20px;
 }
 
-.a_testcard .card-title, .card-text{
+.a_testcard .card-title h5, .card-text{
     margin: 0 !important;
+    margin-top: 20px;
 }
 
 .a_testcard .card-img-top{
@@ -26,12 +25,24 @@
     padding: 5px;
     font-family: 'Ubuntu', sans-serif;
     margin-bottom: 15px;
-    color: var(--text-color)
+    color: white
     
+}
+
+.all_tests.text-center h1{
+    color: white;
+    padding-top: 15px;
 }
 
 .btn-primary{
     background-color: #0000ff;
     margin-right: 10px;
     color: white;
+    margin-top: 50px;
 }
+
+
+.btn-danger{
+    margin-top: 50px;
+}
+

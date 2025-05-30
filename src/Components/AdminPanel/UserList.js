@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Row, Button, Modal, Form, Toast, Pagination } from "react-bootstrap";
+import { Card, Col, Row, Button, Modal, Form, Toast, Pagination, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import "./UserList.css";
 import uimg from "../../Assets/Images/avatar.png";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(6); 
+  const [usersPerPage] = useState(6);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [directionFilter, setDirectionFilter] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [directionOptions] = useState(['Web-programming', 'Data science', 'Business Analysis', 'DevOps','Management','Digital Economy','Digital Marketing and sales']);
+  const [directionOptions] = useState([
+    'Web-programming', 'Data science', 'Business Analysis',
+    'DevOps', 'Management', 'Digital Economy', 'Digital Marketing and sales'
+  ]);
+
   const [editFormData, setEditFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     direction: "",
   });
-
-  const handleDirectionChange = (e) => {
-    setEditFormData({
-      ...editFormData,
-      direction: e.target.value,
-    });
-  };
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -36,7 +37,10 @@ function UserList() {
     fetchUsers(authToken);
   }, []);
 
-  //get users data
+  useEffect(() => {
+    filterUsers();
+  }, [users, searchQuery, directionFilter]);
+
   const fetchUsers = async (authToken) => {
     try {
       const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users", {
@@ -48,7 +52,20 @@ function UserList() {
     }
   };
 
-  //edit user form
+  const filterUsers = () => {
+    let filtered = users.filter(user =>
+      (`${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
+    if (directionFilter) {
+      filtered = filtered.filter(user => user.direction === directionFilter);
+    }
+
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  };
+
   const handleEditClick = (user) => {
     setCurrentUser(user);
     setEditFormData({
@@ -60,7 +77,6 @@ function UserList() {
     setShowModal(true);
   };
 
-  //handle changes in form
   const handleFormChange = (e) => {
     setEditFormData({
       ...editFormData,
@@ -68,7 +84,13 @@ function UserList() {
     });
   };
 
-  //submit edit_form
+  const handleDirectionChange = (e) => {
+    setEditFormData({
+      ...editFormData,
+      direction: e.target.value,
+    });
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
@@ -84,18 +106,13 @@ function UserList() {
     }
   };
 
-  //total pages
-  const totalPages = Math.ceil(users.length / usersPerPage);
-  
-  //get current users
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  //cgange page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  //generate page numbers
   let items = [];
   for (let number = 1; number <= totalPages; number++) {
     items.push(
@@ -110,7 +127,32 @@ function UserList() {
       <div className="all_users text-center">
         <h1>Користувачі</h1>
       </div>
-      <Row xs={1} md={3} className="g-4">
+
+      <Row className="mb-4 justify-content-center">
+        <Col md={4}>
+          <Form.Select
+  className="custom-select"
+  value={directionFilter}
+  onChange={(e) => setDirectionFilter(e.target.value)}
+>
+  <option value="">Усі напрямки</option>
+  {directionOptions.map((dir, idx) => (
+    <option key={idx} value={dir}>{dir}</option>
+  ))}
+</Form.Select>
+
+        </Col>
+        <Col md={4}>
+          <Form.Control
+            type="text"
+            placeholder="Пошук за ім’ям або поштою"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </Col>
+      </Row>
+
+      <Row xs={2} md={3} className="g-4">
         {currentUsers.map((user, index) => (
           <Col key={index}>
             <Card className="flex a_usercard text-center">
@@ -167,7 +209,7 @@ function UserList() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-            <Form.Label>Напрямок</Form.Label>
+              <Form.Label>Напрямок</Form.Label>
               <Form.Control
                 as="select"
                 name="direction"
@@ -197,7 +239,7 @@ function UserList() {
           top: 20,
           right: 20,
           zIndex: 1000,
-          backgroundColor: "#dff0d8", 
+          backgroundColor: "#dff0d8",
         }}
       >
         <Toast.Header style={{ backgroundColor: "#5cb85c", color: "white" }}>

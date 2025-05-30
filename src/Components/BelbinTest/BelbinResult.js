@@ -13,7 +13,7 @@ import {
 import "./BelbinGraphicResult.css";
 import "./BelbinResult.css";
 import roleInfo from "./roles_info.json";
-import Feedback from "../Feedbacks/FeedbackComponent"
+import Feedback from "../Feedbacks/FeedbackComponent";
 
 const BelbinResultPage = () => {
   const { userId } = useParams();
@@ -21,6 +21,7 @@ const BelbinResultPage = () => {
   const [data, setData] = useState(null);
   const [dates, setDates] = useState([]);
   const [activeDate, setActiveDate] = useState("");
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(0); // For mobile role switching
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -85,13 +86,10 @@ const BelbinResultPage = () => {
                 value
               }));
 
-          formattedTests[test.created_at] = resultsArray.reduce(
-            (acc, curr) => {
-              acc[curr.role] = curr.value;
-              return acc;
-            },
-            {}
-          );
+          formattedTests[test.created_at] = resultsArray.reduce((acc, curr) => {
+            acc[curr.role] = curr.value;
+            return acc;
+          }, {});
         });
 
         const sortedDates = Object.keys(formattedTests).sort(
@@ -158,7 +156,7 @@ const BelbinResultPage = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      
+
       <div className="date-section">
         <div className="date-scroll-container">
           {dates.map((date) => (
@@ -175,41 +173,70 @@ const BelbinResultPage = () => {
 
       <div className="role-info-section">
         <h3>Ваші три основні ролі в команді: </h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Роль</th>
-              <th>Можлива позиція</th>
-              <th>Характеристики</th>
-              <th>Роль у команді</th>
-              <th>Слабкості</th>
-            </tr>
-          </thead>
-          <tbody>
-            {topRoles.map((role) => (
-              <tr key={role.role}>
-                <td>{role.role}</td>
-                <td>{roleInfo[role.role]?.possible_position}</td>
-                <td>{roleInfo[role.role]?.personal_characteristics}</td>
-                <td>{roleInfo[role.role]?.team_role}</td>
-                <td>{roleInfo[role.role]?.weaknesses}</td>
+
+        {/* Desktop Table */}
+        <div className="role-info-table desktop-only">
+          <table>
+            <thead>
+              <tr>
+                <th>Роль</th>
+                <th>Можлива позиція</th>
+                <th>Характеристики</th>
+                <th>Роль у команді</th>
+                <th>Слабкості</th>
               </tr>
+            </thead>
+            <tbody>
+              {topRoles.map((role) => (
+                <tr key={role.role}>
+                  <td>{role.role}</td>
+                  <td>{roleInfo[role.role]?.possible_position}</td>
+                  <td>{roleInfo[role.role]?.personal_characteristics}</td>
+                  <td>{roleInfo[role.role]?.team_role}</td>
+                  <td>{roleInfo[role.role]?.weaknesses}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile Buttons and Single Role Info */}
+        <div className="mobile-only role-switcher">
+          <div className="role-buttons">
+            {topRoles.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedRoleIndex(index)}
+                className={selectedRoleIndex === index ? "active" : ""}
+              >
+                Роль {index + 1}
+              </button>
             ))}
-          </tbody>
-        </table>
+          </div>
+
+          <div className="role-card">
+            <p><strong>Роль:</strong> {topRoles[selectedRoleIndex].role}</p>
+            <p><strong>Можлива позиція:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.possible_position}</p>
+            <p><strong>Характеристики:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.personal_characteristics}</p>
+            <p><strong>Роль у команді:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.team_role}</p>
+            <p><strong>Слабкості:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.weaknesses}</p>
+          </div>
+        </div>
       </div>
+
       <div className="expandable-role-section">
-  {topRoles.map((role, index) => (
-    <details key={index} className="role-details">
-      <summary className="role-summary">{role.role.toUpperCase()}</summary>
-      <div className="role-description">
-        <p><strong>Характеристика:</strong> {roleInfo[role.role]?.characteristic}</p>
-        <p><strong>Функціональність:</strong> {roleInfo[role.role]?.functionality}</p>
+        {topRoles.map((role, index) => (
+          <details key={index} className="role-details">
+            <summary className="role-summary">{role.role.toUpperCase()}</summary>
+            <div className="role-description">
+              <p><strong>Характеристика:</strong> {roleInfo[role.role]?.characteristic}</p>
+              <p><strong>Функціональність:</strong> {roleInfo[role.role]?.functionality}</p>
+            </div>
+          </details>
+        ))}
       </div>
-    </details>
-  ))}
-</div>
-        <Feedback/>
+
+      <Feedback />
     </div>
   );
 };
