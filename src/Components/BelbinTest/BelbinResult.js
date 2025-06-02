@@ -21,7 +21,7 @@ const BelbinResultPage = () => {
   const [data, setData] = useState(null);
   const [dates, setDates] = useState([]);
   const [activeDate, setActiveDate] = useState("");
-  const [selectedRoleIndex, setSelectedRoleIndex] = useState(0); // For mobile role switching
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(0); 
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -174,7 +174,6 @@ const BelbinResultPage = () => {
       <div className="role-info-section">
         <h3>Ваші три основні ролі в команді: </h3>
 
-        {/* Desktop Table */}
         <div className="role-info-table desktop-only">
           <table>
             <thead>
@@ -200,7 +199,6 @@ const BelbinResultPage = () => {
           </table>
         </div>
 
-        {/* Mobile Buttons and Single Role Info */}
         <div className="mobile-only role-switcher">
           <div className="role-buttons">
             {topRoles.map((_, index) => (

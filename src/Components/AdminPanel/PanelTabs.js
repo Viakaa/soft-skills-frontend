@@ -10,7 +10,7 @@ import "./PanelTabs.css";
 import CharacteristicList from './CharacteristicList.js';
 
 function PanelTabs() {
-  const [activeKey, setActiveKey] = useState(null); // No active tab initially
+  const [activeKey, setActiveKey] = useState(null); 
 
   return (
     <div className='adm_nav' style={{ padding: '40px' }}>

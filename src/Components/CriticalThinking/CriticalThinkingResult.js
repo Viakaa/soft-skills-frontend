@@ -159,7 +159,7 @@ const totalValue = pieData.reduce((sum, entry) => sum + entry.value, 0);
       {pieData.length > 0 ? (
         <div className="results-layout">
           <div className="chart-wrapper"
-         style={{ height: 400, minWidth: 600 }}>
+         style={{ height: 400, minWidth: 400 }}>
             <ResponsiveContainer width="100%" height={400} >
               <PieChart>
                <Pie
@@ -169,9 +169,9 @@ const totalValue = pieData.reduce((sum, entry) => sum + entry.value, 0);
                 cx="50%"
                 cy="50%"
                 outerRadius={120}
-                label={({ name, value }) => {
+                label={({ value }) => {
                     const percent = ((value / totalValue) * 100).toFixed(1);
-                    return `${name}: ${percent}%`;
+                    return ` ${percent}%`;
                 }}
                 >
                 {pieData.map((entry) => (
