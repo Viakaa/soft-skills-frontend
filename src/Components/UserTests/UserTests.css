@@ -77,7 +77,6 @@
 
 .buttons-container button {
     background-color: #ffffff;
-    color: rgba(56, 43, 74, 1);
     font-family: 'Ubuntu', sans-serif;
     font-size: 18px;
     padding: 12px 24px;
@@ -87,7 +86,7 @@
 }
 
 .buttons-container button:hover {
-    background-color: rgba(56, 43, 74, 1);
+    background-color: #232934;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);

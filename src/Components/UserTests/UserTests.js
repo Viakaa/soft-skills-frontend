@@ -96,6 +96,9 @@ export default function UserTests() {
         <button onClick={() => navigate(`/belbinresult/${userId}`)}>
           Результати тесту Белбіна
         </button>
+         <button onClick={() => navigate(`/critical-thinking-results/${userId}`)}>
+          Результати критичного мислення
+        </button>
       </div>
 
       {Object.keys(matchedData).length === 0 ? (

@@ -22,3 +22,13 @@
   color: white;
   font-weight: bold;
 }
+
+@media (max-width: 750px) {
+  .question-item{
+    width: 400px;
+  }
+
+  .create-test{
+    width: 25%;
+  }
+}

@@ -33,7 +33,7 @@ h1 {
 }
 
 .form-group label {
-  width: 150px; /* adjust based on your label length */
+  width: 150px; 
   font-weight: bold;
 }
 
