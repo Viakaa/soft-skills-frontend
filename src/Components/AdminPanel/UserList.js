@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Card, Col, Row, Button, Modal, Form, Toast, Pagination, InputGroup } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Row,
+  Button,
+  Modal,
+  Form,
+  Toast,
+  Pagination,
+} from "react-bootstrap";
 import axios from "axios";
 import "./UserList.css";
 import uimg from "../../Assets/Images/avatar.png";
@@ -12,20 +21,29 @@ function UserList() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [directionFilter, setDirectionFilter] = useState("");
+  const [courseFilter, setCourseFilter] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+
   const [directionOptions] = useState([
-    'Web-programming', 'Data science', 'Business Analysis',
-    'DevOps', 'Management', 'Digital Economy', 'Digital Marketing and sales'
+    "Web-programming",
+    "Data science",
+    "Business Analysis",
+    "DevOps",
+    "Management",
+    "Digital Economy",
+    "Digital Marketing and sales",
   ]);
+const [courseOptions] = useState([1, 2, 3, 4]);
 
   const [editFormData, setEditFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     direction: "",
+    course: "",
   });
 
   useEffect(() => {
@@ -39,13 +57,16 @@ function UserList() {
 
   useEffect(() => {
     filterUsers();
-  }, [users, searchQuery, directionFilter]);
+  }, [users, searchQuery, directionFilter, courseFilter]);
 
   const fetchUsers = async (authToken) => {
     try {
-      const response = await axios.get("http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users", {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.get(
+        "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users",
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -53,14 +74,20 @@ function UserList() {
   };
 
   const filterUsers = () => {
-    let filtered = users.filter(user =>
-      (`${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+    let filtered = users.filter((user) => {
+      const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+      const email = user.email.toLowerCase();
+      const matchesQuery =
+        fullName.includes(searchQuery.toLowerCase()) ||
+        email.includes(searchQuery.toLowerCase());
 
-    if (directionFilter) {
-      filtered = filtered.filter(user => user.direction === directionFilter);
-    }
+      const matchesDirection =
+        !directionFilter || user.direction === directionFilter;
+
+      const matchesCourse = !courseFilter || user.course === courseFilter;
+
+      return matchesQuery && matchesDirection && matchesCourse;
+    });
 
     setFilteredUsers(filtered);
     setCurrentPage(1);
@@ -69,10 +96,11 @@ function UserList() {
   const handleEditClick = (user) => {
     setCurrentUser(user);
     setEditFormData({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      direction: user.direction,
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.email || "",
+      direction: user.direction || "",
+      course: user.course || "",
     });
     setShowModal(true);
   };
@@ -84,20 +112,17 @@ function UserList() {
     });
   };
 
-  const handleDirectionChange = (e) => {
-    setEditFormData({
-      ...editFormData,
-      direction: e.target.value,
-    });
-  };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem("authToken");
     try {
-      await axios.patch(`http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${currentUser._id}`, editFormData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      await axios.patch(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/users/${currentUser._id}`,
+        editFormData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
       setShowModal(false);
       setShowToast(true);
       fetchUsers(authToken);
@@ -113,15 +138,6 @@ function UserList() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  let items = [];
-  for (let number = 1; number <= totalPages; number++) {
-    items.push(
-      <Pagination.Item key={number} active={number === currentPage} onClick={() => paginate(number)}>
-        {number}
-      </Pagination.Item>
-    );
-  }
-
   return (
     <>
       <div className="all_users text-center">
@@ -129,15 +145,31 @@ function UserList() {
       </div>
 
       <Row className="mb-4 justify-content-center">
-        <Col md={4}>
+        <Col md={3}>
           <Form.Select
-  className="custom-select"
-  value={directionFilter}
-  onChange={(e) => setDirectionFilter(e.target.value)}
+            className="custom-select"
+            value={directionFilter}
+            onChange={(e) => setDirectionFilter(e.target.value)}
+          >
+            <option value="">Усі напрямки</option>
+            {directionOptions.map((dir, idx) => (
+              <option key={idx} value={dir}>
+                {dir}
+              </option>
+            ))}
+          </Form.Select>
+        </Col>
+        <Col md={3}>
+          <Form.Select
+           className="custom-select"
+  value={courseFilter}
+  onChange={(e) => setCourseFilter(Number(e.target.value))}
 >
-  <option value="">Усі напрямки</option>
-  {directionOptions.map((dir, idx) => (
-    <option key={idx} value={dir}>{dir}</option>
+  <option value={0}>Усі курси</option>
+  {courseOptions.map((course) => (
+    <option key={course} value={course}>
+      Курс {course}
+    </option>
   ))}
 </Form.Select>
 
@@ -156,12 +188,19 @@ function UserList() {
         {currentUsers.map((user, index) => (
           <Col key={index}>
             <Card className="flex a_usercard text-center">
-              <Card.Img style={{ width: '50%' }} variant="top" src={uimg} />
+              <Card.Img style={{ width: "50%" }} variant="top" src={uimg} />
               <Card.Body>
-                <Card.Title>{`${user.firstName} ${user.lastName}`}</Card.Title>
+                <Card.Title>
+                  {`${user.firstName} ${user.lastName}`}
+                </Card.Title>
                 <Card.Text>Пошта: {user.email}</Card.Text>
                 <Card.Text>Напрямок: {user.direction}</Card.Text>
-                <Button className='user_edit' variant="primary" onClick={() => handleEditClick(user)}>
+                <Card.Text>Курс: {user.course}</Card.Text>
+                <Button
+                  className="user_edit"
+                  variant="primary"
+                  onClick={() => handleEditClick(user)}
+                >
                   Редагувати
                 </Button>
               </Card.Body>
@@ -170,7 +209,17 @@ function UserList() {
         ))}
       </Row>
 
-      <Pagination className="pagination_ justify-content-center">{items}</Pagination>
+      <Pagination className="pagination_ justify-content-center">
+        {[...Array(totalPages)].map((_, number) => (
+          <Pagination.Item
+            key={number + 1}
+            active={number + 1 === currentPage}
+            onClick={() => paginate(number + 1)}
+          >
+            {number + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header className="modalHeader" closeButton>
@@ -210,19 +259,35 @@ function UserList() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Напрямок</Form.Label>
-              <Form.Control
-                as="select"
+              <Form.Select
                 name="direction"
                 value={editFormData.direction}
-                onChange={handleDirectionChange}
+                onChange={handleFormChange}
                 required
               >
                 {directionOptions.map((option, idx) => (
-                  <option key={idx} value={option}>{option}</option>
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
                 ))}
-              </Form.Control>
+              </Form.Select>
             </Form.Group>
-            <Button className='user_edit' variant="primary" type="submit">
+            <Form.Group className="mb-3">
+              <Form.Label>Курс</Form.Label>
+              <Form.Select
+                name="course"
+                value={editFormData.course}
+                onChange={handleFormChange}
+                required
+              >
+                {courseOptions.map((course, idx) => (
+                  <option key={idx} value={course}>
+                    {course}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Button className="user_edit" variant="primary" type="submit">
               Зберегти зміни
             </Button>
           </Form>

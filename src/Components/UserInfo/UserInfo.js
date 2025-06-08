@@ -47,7 +47,7 @@ export default function UserInfo() {
                 <div className="row">
                   <div className="col-md-12">
                     <div className="info">
-                      <label className="labels">Роль у команді:</label>
+                      <label className="labels">Напрямок:</label>
                       <span className="infotext">{userInfo.direction}</span>
                     </div>
                   </div>
