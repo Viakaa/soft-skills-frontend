@@ -31,7 +31,6 @@ function TestList() {
     }
   };
 
-  // Delete test
   const handleDeleteTest = async (testId) => {
     try {
       const authToken = localStorage.getItem("authToken");

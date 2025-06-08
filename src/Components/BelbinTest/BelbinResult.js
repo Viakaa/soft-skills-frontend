@@ -15,13 +15,24 @@ import "./BelbinResult.css";
 import roleInfo from "./roles_info.json";
 import Feedback from "../Feedbacks/FeedbackComponent";
 
+const roleTranslation = {
+  implementer: "Реалізатор",
+  coordinator: "Координатор",
+  creator: "Творець",
+  generatorOfIdeas: "Генератор ідей",
+  researcher: "Дослідник",
+  expert: "Експерт",
+  specialist: "Спеціаліст",
+  diplomat: "Дипломат"
+};
+
 const BelbinResultPage = () => {
   const { userId } = useParams();
   const { state } = useLocation();
   const [data, setData] = useState(null);
   const [dates, setDates] = useState([]);
   const [activeDate, setActiveDate] = useState("");
-  const [selectedRoleIndex, setSelectedRoleIndex] = useState(0); 
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -129,9 +140,15 @@ const BelbinResultPage = () => {
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="role" />
+            <XAxis
+              dataKey="role"
+              tickFormatter={(value) => roleTranslation[value] || value}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip
+              formatter={(value) => value}
+              labelFormatter={(label) => roleTranslation[label] || label}
+            />
             <Legend />
             <Line
               type="monotone"
@@ -188,7 +205,7 @@ const BelbinResultPage = () => {
             <tbody>
               {topRoles.map((role) => (
                 <tr key={role.role}>
-                  <td>{role.role}</td>
+                  <td>{roleTranslation[role.role] || role.role}</td>
                   <td>{roleInfo[role.role]?.possible_position}</td>
                   <td>{roleInfo[role.role]?.personal_characteristics}</td>
                   <td>{roleInfo[role.role]?.team_role}</td>
@@ -213,11 +230,27 @@ const BelbinResultPage = () => {
           </div>
 
           <div className="role-card">
-            <p><strong>Роль:</strong> {topRoles[selectedRoleIndex].role}</p>
-            <p><strong>Можлива позиція:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.possible_position}</p>
-            <p><strong>Характеристики:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.personal_characteristics}</p>
-            <p><strong>Роль у команді:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.team_role}</p>
-            <p><strong>Слабкості:</strong> {roleInfo[topRoles[selectedRoleIndex].role]?.weaknesses}</p>
+            <p>
+              <strong>Роль:</strong>{" "}
+              {roleTranslation[topRoles[selectedRoleIndex].role] ||
+                topRoles[selectedRoleIndex].role}
+            </p>
+            <p>
+              <strong>Можлива позиція:</strong>{" "}
+              {roleInfo[topRoles[selectedRoleIndex].role]?.possible_position}
+            </p>
+            <p>
+              <strong>Характеристики:</strong>{" "}
+              {roleInfo[topRoles[selectedRoleIndex].role]?.personal_characteristics}
+            </p>
+            <p>
+              <strong>Роль у команді:</strong>{" "}
+              {roleInfo[topRoles[selectedRoleIndex].role]?.team_role}
+            </p>
+            <p>
+              <strong>Слабкості:</strong>{" "}
+              {roleInfo[topRoles[selectedRoleIndex].role]?.weaknesses}
+            </p>
           </div>
         </div>
       </div>
@@ -225,10 +258,18 @@ const BelbinResultPage = () => {
       <div className="expandable-role-section">
         {topRoles.map((role, index) => (
           <details key={index} className="role-details">
-            <summary className="role-summary">{role.role.toUpperCase()}</summary>
+            <summary className="role-summary">
+              {roleTranslation[role.role]?.toUpperCase() || role.role.toUpperCase()}
+            </summary>
             <div className="role-description">
-              <p><strong>Характеристика:</strong> {roleInfo[role.role]?.characteristic}</p>
-              <p><strong>Функціональність:</strong> {roleInfo[role.role]?.functionality}</p>
+              <p>
+                <strong>Характеристика:</strong>{" "}
+                {roleInfo[role.role]?.characteristic}
+              </p>
+              <p>
+                <strong>Функціональність:</strong>{" "}
+                {roleInfo[role.role]?.functionality}
+              </p>
             </div>
           </details>
         ))}

@@ -64,7 +64,7 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
     <>
       <p>{notification.meta.message.split('Test Link:')[0].trim()}</p>
       <a
-        href={notification.meta.message.split('Test Link:')[1]?.trim()} // The extracted URL
+        href={notification.meta.message.split('Test Link:')[1]?.trim()} 
         className="go-to-test-button"
       >
         Перейти до тесту
