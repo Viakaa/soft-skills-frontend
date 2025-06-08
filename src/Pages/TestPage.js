@@ -152,7 +152,7 @@ const TestPage = () => {
           </div>
         )}
 
-        <div className="item-list1" style={{ overflow: "unset" }}>
+        <div className="item-list1" style={{ overflow: "unset", width:"100%"}}>
         {questions.map((question, index) => (
   <div key={question._id} style={{ marginTop: '20px' }} className="question-item">
     {question.type === "yes_no" && (

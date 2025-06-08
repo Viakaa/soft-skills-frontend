@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  contain: layout;
 }
 
 .test_name {
@@ -38,9 +39,6 @@
   background-color: #f9f9f9;
 }
 
-.item-list1{
-  width: 100%;
-}
 
 @media (max-width: 768px) {
   .main-content {
