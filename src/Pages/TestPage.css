@@ -1,4 +1,3 @@
-/* Base styles (desktop and general) */
 .main-content {
   padding: 20px;
   max-width: 800px;
@@ -39,8 +38,10 @@
   background-color: #f9f9f9;
 }
 
+.item-list1{
+  width: 100%;
+}
 
-/* Mobile styles (up to 768px) */
 @media (max-width: 768px) {
   .main-content {
     padding: 10px;
@@ -66,7 +67,6 @@
 }
 
 
-/* Tablet styles (769px to 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .main-content {
     padding: 15px;
