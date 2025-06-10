@@ -7,7 +7,7 @@ const NotificationForm = () => {
   const [search, setSearch] = useState("");
   const [tests, setTests] = useState([]);
   const [formData, setFormData] = useState({
-    type: "Test Invitation",
+    type: "testInvitation",
     nameOrArticle: "",
     dateOfEvent: "",
     role: "Web-Programming",
@@ -92,7 +92,7 @@ const NotificationForm = () => {
 
   const handleClearForm = () => {
     setFormData({
-      type: "Test Invitation",
+      type: "testInvitation",
       nameOrArticle: "",
       dateOfEvent: "",
       role: "Web-Programming",
@@ -127,7 +127,7 @@ const NotificationForm = () => {
 
     let apiData;
 
-    if (formData.type === "Test Invitation") {
+    if (formData.type === "testInvitation") {
       if (!formData.selectedTest) {
         setError("Please select a test for the invitation.");
         return;
@@ -211,7 +211,7 @@ const NotificationForm = () => {
           />
         </div>
         <div className="form-group">
-          <label>{formData.type === "Запрошення на тест" ? "Кінцева дата:" : "Дата події:"}</label>
+          <label>{formData.type === "testInvitation" ? "Кінцева дата:" : "Дата події:"}</label>
           <input
             type="datetime-local"
             name="dateOfEvent"
@@ -275,7 +275,7 @@ const NotificationForm = () => {
         </div>
       </div>
   
-      {formData.type === "Запрошення на тест" ? (
+      {formData.type === "testInvitation" ? (
         <div className="form-group">
           <label>Оберіть тест:</label>
           {tests.length === 0 ? (

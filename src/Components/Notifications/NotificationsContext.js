@@ -30,32 +30,34 @@ export const NotificationsProvider = ({ children }) => {
   }, []);
 
   
-  const markNotificationAsRead = useCallback(async (notificationId) => {
-    if (!notificationId) return; 
-    
-    const token = localStorage.getItem('authToken');
-  
-    try {
-      const response = await axios.patch(
-        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/${notificationId}`,
+ const markNotificationAsRead = useCallback(async (notificationIds) => {
+  const token = localStorage.getItem('authToken');
+
+  try {
+    const requests = notificationIds.map(id =>
+      axios.patch(
+        `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/notifications/${id}`,
         { status: 'read' },
         { headers: { Authorization: `Bearer ${token}` } }
-      );
-  
-      if (response.status === 200) {
-        setNotifications((prev) =>
-          prev.map((notification) =>
-            notification._id === notificationId ? { ...notification, status: 'read' } : notification
-          )
-        );
-        setUnreadCount((prev) => Math.max(prev - 1, 0));
-      }
-    } catch (error) {
-      console.error('Failed to mark notification as read:', error);
-    }
-  }, [setUnreadCount]);
-  
-  
+      )
+    );
+
+    await Promise.all(requests);
+
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notificationIds.includes(notification._id)
+          ? { ...notification, status: 'read' }
+          : notification
+      )
+    );
+
+    setUnreadCount((prev) => Math.max(prev - notificationIds.length, 0));
+  } catch (error) {
+    console.error('Failed to mark notifications as read:', error);
+  }
+}, []);
+
   
 
   useEffect(() => {

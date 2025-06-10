@@ -5,6 +5,7 @@
     PolarRadiusAxis, Tooltip, ResponsiveContainer
   } from 'recharts';
   import './EmotionalIntelligence.css';
+import pLimit from 'p-limit';
 
   const EmotionalIntelligenceResults = () => {
     const [data, setData] = useState({});
@@ -105,39 +106,45 @@
       }
     };
 
-    const fetchCharacteristicTitles = async (tests) => {
-      const token = localStorage.getItem("authToken");
-      const titleMap = {};
+   const fetchCharacteristicTitles = async (tests) => {
+  const token = localStorage.getItem("authToken");
 
-      const allCharIds = tests
-        .flatMap(test => test.results?.characteristics || [])
-        .map(c => c.characteristicId);
+  const allCharIds = tests
+    .flatMap(test => test.results?.characteristics || [])
+    .map(c => c.characteristicId);
 
-      const uniqueCharIds = [...new Set(allCharIds)];
+  const uniqueCharIds = [...new Set(allCharIds)];
+  const alreadyFetched = new Set(Object.keys(characteristicTitles));
+  const toFetchIds = uniqueCharIds.filter(id => !alreadyFetched.has(id));
 
-      for (const id of uniqueCharIds) {
-        try {
-          const res = await fetch(
-            `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+  const limit = pLimit(3); // Max 3 requests at a time
+  const newTitleMap = { ...characteristicTitles };
 
-          if (res.ok) {
-            const data = await res.json();
-            titleMap[id] = data.title;
+  const promises = toFetchIds.map(id =>
+    limit(async () => {
+      try {
+        const res = await fetch(
+          `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/characteristics/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        } catch (e) {
-          console.error("Failed to fetch characteristic title for", id, e);
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          newTitleMap[id] = data.title;
         }
+      } catch (e) {
+        console.warn("Error fetching", id, e);
       }
+    })
+  );
 
-      setCharacteristicTitles(titleMap);
-    };
-
+  await Promise.all(promises);
+  setCharacteristicTitles(newTitleMap);
+};
     const calculateOverallScore = (testData) => {
       const scores = Object.values(testData);
       const totalScore = scores.reduce((acc, score) => acc + score, 0);

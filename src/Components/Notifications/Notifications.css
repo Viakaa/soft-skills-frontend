@@ -154,7 +154,7 @@ h3 {
 
   .go-to-test-button {
     display: inline-block;
-    background-color: #007bff; 
+    background-color: blue; 
     color: white;            
     padding: 10px 20px;      
     border-radius: 5px;       
@@ -164,7 +164,7 @@ h3 {
   }
   
   .go-to-test-button:hover {
-    background-color: #0056b3;
+    background-color: blue;
   }
   
   .go-to-test-button:focus {
@@ -172,7 +172,7 @@ h3 {
   }
   
   .go-to-test-button:active {
-    background-color: #004085;
+    background-color: blue;
   }
   
   @media screen and (max-width: 768px) {

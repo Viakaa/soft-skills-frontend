@@ -4,7 +4,9 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../../Redux/Actions/userActions.js";
-import FirstTestImage from "../../Assets/Images/newTestImage.png";
+import FirstTestImage from "../../Assets/Images/FirstTestImage.svg";
+import SecondTestImage from "../../Assets/Images/SecondTestImage.svg";
+import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
 import DescriptionComponent from "../Description/DescriptionComponent";
 
 export default function TestCards() {
@@ -13,7 +15,7 @@ export default function TestCards() {
   const [tests, setTests] = useState([]);
   const [showDescription, setShowDescription] = useState(false);
   const [selectedTestId, setSelectedTestId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // <-- New state for search input
+  const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -73,10 +75,11 @@ export default function TestCards() {
     }
   };
 
-  // Filtered tests based on search input
   const filteredTests = tests.filter((test) =>
     test.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const images = [FirstTestImage, SecondTestImage, ThirdTestImage];
 
   return (
     <>
@@ -97,7 +100,7 @@ export default function TestCards() {
         </div>
 
         <div className="cards_wrapper justify-content-center">
-          {filteredTests.map((test) => (
+          {filteredTests.map((test, index) => (
             <div className="firstCard" key={test.id}>
               <Card
                 style={{
@@ -106,15 +109,16 @@ export default function TestCards() {
                   backgroundColor: "white",
                 }}
               >
-                <Card.Img
-                  style={{
-                    marginTop: "-2.1%",
-                    marginLeft: "-3.4%",
-                    width: "107%",
-                  }}
-                  variant="top"
-                  src={FirstTestImage}
-                />
+              <Card.Img
+  style={{
+    marginTop: "-2.1%",
+    marginLeft: "-3.4%",
+    width: "107%",
+  }}
+  variant="top"
+  src={images[index % images.length]}
+/>
+
                 <Card.Body className="flex-column align-items-center">
                   <Card.Title
                     style={{

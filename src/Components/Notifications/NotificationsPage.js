@@ -129,7 +129,7 @@ const NotificationsPage = () => {
               <div key={notification._id} className="notification-item">
                 <div className="notification-header">
                   <div className="notification-author">
-                    {owner.firstName || 'Anonymous'} {owner.lastName || ''}
+                    {owner.firstName} {owner.lastName || ''}
                   </div>
                   <div className="notification-title">{notification.title}</div>
                   <div className="notification-time">

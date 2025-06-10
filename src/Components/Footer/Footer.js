@@ -6,9 +6,16 @@ const Footer = () => {
     <div className="footer">
       <div className="contact-card">
         <h3>Контактна інформація:</h3>
-        <p>+380971259456</p>
-        <p>email42453w@gmail.com</p>
-        <p>Вул. Шевченка м.Нове Місто</p>
+        <p>Антоніна Палецька-Юкало 
+Керівниця Школи Soft Skills 
+paletska-yukalo_a@itstep.org
+</p>
+        <p>
+Юлія Балебрух <br></br> Психолог ІТ СТЕП Університету 
+ubalebruh@gmail.com</p>
+        <p>Уляна Войтович  <br></br>  
+Менеджер проекту
+tyg84085@gmail.com</p>
       </div>
       <div className="footer-links">
         <div className="footer-link">

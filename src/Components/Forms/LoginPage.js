@@ -72,7 +72,7 @@ function LoginForm() {
           <Button variant="primary" type="submit" className="register_button">
             Увійти
           </Button>
-          <Button  variant="primary" href='/registration' type="submit" className='register_button2'>
+          <Button  variant="" href='/registration' type="submit" className='register_button2'>
           Зареєструватись
         </Button>
         </Form>
