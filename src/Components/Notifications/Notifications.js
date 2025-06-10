@@ -41,8 +41,8 @@ const NotificationSidebar = ({ isVisible, onClose }) => {
 
   return (
     <div className={`notification-sidebar ${isVisible ? 'visible' : ''}`}>
-      <div className="close-btn" onClick={onClose}>×</div>
-      <h3>Сповіщення</h3>
+      <div className="close-btn_notification" onClick={onClose}>×</div>
+      <h3>Сповіщення</h3> 
       <div className="viewAll" onClick={handleViewAllClick}>
         Переглянути всі
       </div>

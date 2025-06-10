@@ -35,7 +35,6 @@ const NotificationsPage = () => {
         await new Promise((resolve) => setTimeout(resolve, delayTime));
         return fetchUserWithRetry(userId, retries - 1, delayTime * 2);
       }
-      console.error('Failed to fetch user:', error);
       return null;
     }
   };
@@ -138,7 +137,7 @@ const NotificationsPage = () => {
                   </div>
                 </div>
                 <div className="notification-body">
-                  <p>{notification.meta?.description || 'No description available'}</p>
+                  <p>{notification.meta?.description || 'Опис не було додано'}</p>
                 </div>
               </div>
             );

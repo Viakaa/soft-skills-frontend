@@ -12,7 +12,7 @@ import './global.css';
 import BelbinTest from "./Components/BelbinTest/BelbinTest.js";
 import BelbinResult from "./Components/BelbinTest/BelbinResult.js";
 import DNDconstructor1 from "./Components/DNDconstructor/Component/DNDconstructor1.js"
-import ResultPage from "./Components/CurrentTest/Results.js";
+import ResultPage from "./Components/CurrentTest/Results/Results.js";
 import EmotionalIntelligenceResults from "./Components/EmotionalIntelligence/EmotionalIntelligenceResult.js";
 import CriticalThinkingResults from "./Components/CriticalThinking/CriticalThinkingResult.js";
 import NotificationForm from "./Components/AdminNotifications/AdminNotifications.js";

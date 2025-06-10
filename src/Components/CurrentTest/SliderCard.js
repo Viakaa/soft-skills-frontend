@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Slider from "@mui/material/Slider";
 import { TextField } from "@mui/material";
-import './MultipleChoiceCard/quest_cards.css';
+import './quest_cards.css';
 
 const SliderCard = ({ question, number, onAnswerChange }) => {
   const { question: title, characteristics, questionId, sliderMin, sliderMax } = question;

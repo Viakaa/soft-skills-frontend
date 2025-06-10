@@ -118,18 +118,6 @@ function RegistrationForm() {
             required
           />
         </Form.Group>
-        
-        {/* <Form.Group>
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            name="phoneNumber"
-            type="text"
-            required
-          />
-        </Form.Group>
-         */}
         <Form.Group>
           <Form.Label>Стать</Form.Label>
           <Form.Control required as="select" value={formData.sex} onChange={handleChange} name="sex">

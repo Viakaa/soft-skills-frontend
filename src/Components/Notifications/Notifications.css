@@ -24,12 +24,18 @@
 }
 
 
-.close-btn {
-    font-size: 24px;
-    position: absolute;
-    right: 15px;
-    cursor: pointer;
-    color: #444;
+.close-btn_notification {
+    margin-top: 5%;
+    margin-left: 85%;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 10px;
+    transition: all .3s ease;
+    width: 30px;
 }
 
 h3 {

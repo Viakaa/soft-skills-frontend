@@ -117,7 +117,7 @@ import pLimit from 'p-limit';
   const alreadyFetched = new Set(Object.keys(characteristicTitles));
   const toFetchIds = uniqueCharIds.filter(id => !alreadyFetched.has(id));
 
-  const limit = pLimit(3); // Max 3 requests at a time
+  const limit = pLimit(3);
   const newTitleMap = { ...characteristicTitles };
 
   const promises = toFetchIds.map(id =>

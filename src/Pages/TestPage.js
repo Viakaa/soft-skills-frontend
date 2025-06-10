@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from "react-router";
 import axios from "axios";
-import YesNoCard from "../Components/CurrentTest/MultipleChoiceCard/YesNoCard";
-import MultipleChoiceCard from "../Components/CurrentTest/MultipleChoiceCard/MultipleChoiceCard";
+import YesNoCard from "../Components/CurrentTest/YesNoCard";
+import MultipleChoiceCard from "../Components/CurrentTest/MultipleChoiceCard";
 import SliderCard from "../Components/CurrentTest/SliderCard";
 import RadioCard from "../Components/CurrentTest/RadioCard";
 import { useNavigate } from 'react-router-dom';

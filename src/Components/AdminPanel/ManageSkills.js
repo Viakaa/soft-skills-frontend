@@ -117,7 +117,6 @@ function ManageSkills() {
       title: option.textContent,
     }));
   
-    // Avoid duplicates by filtering out already added characteristics
     const updatedCharacteristics = [...newSkill.characteristics, ...selectedOptions].reduce((acc, char) => {
       if (!acc.some(c => c.characteristicId === char.characteristicId)) {
         acc.push(char);
@@ -143,7 +142,6 @@ function ManageSkills() {
   
 
   const deleteSelectedCharacteristic = (characteristicId) => {
-    // Remove the characteristic from the list
     setNewSkill((prevState) => ({
       ...prevState,
       characteristics: prevState.characteristics.filter(
@@ -158,7 +156,6 @@ function ManageSkills() {
     console.log(newSkill);
   }, [newSkill]);
 
-  //get skills from database
   const fetchSkills = async (authToken) => {
     try {
       const response = await axios.get(
