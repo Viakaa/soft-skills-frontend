@@ -19,9 +19,6 @@
     margin-top: 10px;
 }
 
-.nav-item{
-    margin-bottom: 10px;
-}
 
 .navitm:hover{
     color: var(--secondary-color);

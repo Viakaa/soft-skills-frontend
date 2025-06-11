@@ -33,12 +33,19 @@ const BelbinResultPage = () => {
   const [dates, setDates] = useState([]);
   const [activeDate, setActiveDate] = useState("");
   const [selectedRoleIndex, setSelectedRoleIndex] = useState(0);
+  const [hasResults, setHasResults] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
     if (state && state.tests) {
       const belbinTests = state.tests.filter((test) => test.type === "belbin");
+
+      if (belbinTests.length === 0) {
+        setHasResults(false);
+        return;
+      }
+
       const formattedTests = {};
 
       belbinTests.forEach((test) => {
@@ -87,6 +94,12 @@ const BelbinResultPage = () => {
         const belbinTests = userData.tests.filter(
           (test) => test.type === "belbin"
         );
+
+        if (belbinTests.length === 0) {
+          setHasResults(false);
+          return;
+        }
+
         const formattedTests = {};
 
         belbinTests.forEach((test) => {
@@ -118,7 +131,17 @@ const BelbinResultPage = () => {
     }
   };
 
-  if (!data || dates.length === 0) return <p>Loading...</p>;
+  if (!hasResults) {
+    return (
+      <div className="no-results-message">
+        <p>Ви ще не проходили тест Белбіна. Будь ласка, пройдіть тест, щоб побачити результати.</p>
+      </div>
+    );
+  }
+
+  if (!data || dates.length === 0) {
+    return <p>Завантаження...</p>;
+  }
 
   const formattedData = Object.entries(data[activeDate] || {}).map(
     ([role, score]) => ({

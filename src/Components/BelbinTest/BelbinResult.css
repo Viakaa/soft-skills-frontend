@@ -120,7 +120,18 @@ h2 {
 .mobile-only {
   display: none;
 }
-
+.no-results-message {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px 20px;
+  background-color: #ffffff;
+  border: 1px solid #808080;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #808080;
+  font-weight: 600;
+}
 @media (max-width: 768px) {
   .desktop-only {
     display: none;

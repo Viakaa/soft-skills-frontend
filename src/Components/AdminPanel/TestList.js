@@ -60,7 +60,7 @@ function TestList() {
                 <Card.Title>{test.title}</Card.Title>
               </Card.Body>
               <div className="d-flex justify-content-around pb-2">
-                <Link to={`/test/${test._id}`} className="btn btn-primary">Переглянути</Link>
+                <Link to={`/test/${test._id}`} className="btn review-btn">Переглянути</Link>
                 <Button variant="danger" onClick={() => handleDeleteTest(test._id)}>
                   Видалити
                 </Button>

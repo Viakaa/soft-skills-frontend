@@ -62,7 +62,7 @@ function RegistrationForm() {
     <div className="d-flex justify-content-center registration-container">
       <Form style={{ width: "450px" }} className="registrater_main" onSubmit={handleSubmit}>
         <h1 className="create_txt">Створіть Акаунт</h1>
-        <p style={{color:'rgba(220, 235, 255, 1)', fontSize:'15px'}}>Створіть акаунт для доступу до усіх функцій та можливостей soft skills school</p>
+        <p style={{color:'rgb(0, 110, 255)', fontSize:'15px'}}>Створіть акаунт для доступу до усіх функцій та можливостей soft skills school</p>
         
         <Form.Group>
           <Form.Label>Ім'я</Form.Label>
@@ -87,7 +87,7 @@ function RegistrationForm() {
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Електронна пошта</Form.Label>
           <Form.Control
             value={formData.email}
             onChange={handleChange}

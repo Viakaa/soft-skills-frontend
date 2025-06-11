@@ -34,16 +34,27 @@
     padding-top: 15px;
 }
 
-.btn-primary{
-    background-color: #0000ff;
-    margin-right: 10px;
-    color: white;
-    height: 50px;
-    margin-top: 10px;
+.review-btn {
+  background-color: #0000ff;
+  margin-right: 10px;
+  color: white;
+  height: 50px;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
 }
+
+.review-btn:hover {
+  background-color: #0000cc; 
+}
+
 
 
 .btn-danger{
     margin-top: 50px;
+      height: 50px;
+
 }
 
