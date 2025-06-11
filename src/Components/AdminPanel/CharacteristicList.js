@@ -83,14 +83,14 @@ function ManageSkills() {
   return (
     <>
       <div className="manageTable">
-        <h1 className="manageTable__title">Characteristics</h1>
+        <h1 className="manageTable__title">Характеристики</h1>
         
         <button type="button" id="add_characteristic" className="manageTable__add" onClick={handleShowModal}>
           <svg className="manageTable__ico" width="35" height="33" viewBox="0 0 35 33" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.91998 16.5H31.2" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
             <path d="M17.56 30V3.00001" stroke="#292E46" strokeWidth="6" strokeLinecap="round"/>
           </svg>
-          Add new characteristic...
+         Додати нову характеристику...
         </button>
 
         <table className="manageTable__table">
@@ -112,12 +112,12 @@ function ManageSkills() {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header className="modalHeader" closeButton>
-          <Modal.Title className="titleModal">Add New Characteristic</Modal.Title>
+          <Modal.Title className="titleModal">Додати нову характеристику</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modalBody">
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>Назва</Form.Label>
               <Form.Control
                 name="characteristic_input"
                 type="text"
@@ -131,27 +131,27 @@ function ManageSkills() {
         </Modal.Body>
         <Modal.Footer className="modalFooter">
           <Button variant="secondary" className="saveButton" onClick={handleCloseModal}>
-            Close
+            Скасувати
           </Button>
           <Button  className="saveButton" onClick={handleSaveCharacteristic}>
-            Save
+            Зберегти
           </Button>
         </Modal.Footer>
       </Modal>
 
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
+          <Modal.Title>Підтвердження видалення</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete this characteristic?
+          Чи ви впевнені що хочете видалити цю характеристику?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" className="saveButton" onClick={handleCloseDeleteModal}>
-            Cancel
+          <Button variant="danger" className="saveButton" onClick={handleCloseDeleteModal}>
+            Скасувати
           </Button>
           <Button variant="danger"  onClick={handleDeleteCharacteristic}>
-            Delete
+            Видалити
           </Button>
         </Modal.Footer>
       </Modal>

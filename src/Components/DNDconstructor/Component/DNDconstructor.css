@@ -437,3 +437,15 @@
 .create-test-btn:hover {
   background-color: #218838; 
 }
+
+.correct-answer-dndssection {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.option-dndcontainer{
+   display: flex;
+  gap: 12px;
+}

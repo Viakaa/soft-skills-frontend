@@ -37,7 +37,7 @@ const MultipleChoiceCard = ({ question, number, onAnswerChange }) => {
 
       </div>
 
-      <div className="option-container">
+      <div className="option-testcontainer ">
         <div className="correct-answer-section" style={{ display: "flex" }}>
           {answers.map((option, idx) => (
             <Box

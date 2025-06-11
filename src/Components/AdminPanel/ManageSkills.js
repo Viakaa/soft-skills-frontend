@@ -333,7 +333,7 @@ function ManageSkills() {
                   </div>
                   {!isCharacteristicsValid && (
                     <div style={{ color: '#fffff' }}>
-                      Будь ласка виберіть хоча б одну характеристику.
+                      Будь ласка, виберіть хоча б одну характеристику.
                     </div>
                   )}
                 </Form.Group>

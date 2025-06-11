@@ -145,15 +145,16 @@ const NotificationsPage = () => {
         </div>
       )}
 
-      {hasMore && (
-        <button
-          className="show-more-btn"
-          onClick={loadMoreNotifications}
-          disabled={isFetching}
-        >
-          {isFetching ? 'Завантаження...' : 'Завантажити ще'}
-        </button>
-      )}
+     {hasMore && paginatedNotifications.length >= notificationsPerPage && (
+  <button
+    className="show-more-btn"
+    onClick={loadMoreNotifications}
+    disabled={isFetching}
+  >
+    {isFetching ? 'Завантаження...' : 'Завантажити ще'}
+  </button>
+)}
+ 
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Radio,  FormControlLabel} from "@mui/material";
 import { FormGroup } from "@mui/material";
 import Form from "react-bootstrap/Form";
 import { MenuProps } from "./MenuProps";
+import "./DNDconstructor.css"
 
 const RadioButtonItem = ({
   content,
@@ -110,8 +111,8 @@ const RadioButtonItem = ({
           X
         </button>
       </div>
-      <div className="option-container">
-      <div className="correct-answer-section" style={{ display: "flex" }}>
+      <div className="option-dndcontainer">
+      <div className="correct-answer-dndssection" style={{ display: "flex" }}>
     
           <div>
             {options.map((option, idx) => (

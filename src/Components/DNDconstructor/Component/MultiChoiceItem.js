@@ -121,8 +121,8 @@ const MultiChoiceItem = ({
         </button>
       </div>
 
-      <div className="option-container">
-        <div className="correct-answer-section" style={{ display: "flex" }}>
+      <div className="option-dndcontainer">
+        <div className="correct-answer-dndssection" style={{ display: "flex" }}>
           <div>
             {options.map((option, idx) => (
               <CheckboxWithFormControl

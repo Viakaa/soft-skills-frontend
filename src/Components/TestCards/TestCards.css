@@ -199,10 +199,6 @@
     color: var(--secondary-color);
 }
 
-.btn-primary {
-    color: var(--secondary-color);
-}
-   
 
 .card{
     padding: -20px !important;

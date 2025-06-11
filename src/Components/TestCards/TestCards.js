@@ -1,20 +1,20 @@
-import "./TestCards.css";
-import { Card, Button } from "react-bootstrap";
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Card, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../../Redux/Actions/userActions.js";
 import FirstTestImage from "../../Assets/Images/FirstTestImage.svg";
 import SecondTestImage from "../../Assets/Images/SecondTestImage.svg";
 import ThirdTestImage from "../../Assets/Images/ThirdTestImage.svg";
 import DescriptionComponent from "../Description/DescriptionComponent";
+import "./TestCards.css";
 
 export default function TestCards() {
   const Skeleton = () => <div className="skeleton"></div>;
 
   const [tests, setTests] = useState([]);
   const [showDescription, setShowDescription] = useState(false);
-  const [selectedTestId, setSelectedTestId] = useState(null);
+  const [selectedTest, setSelectedTest] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
@@ -29,9 +29,7 @@ export default function TestCards() {
     try {
       const response = await axios.get(
         "http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests",
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
 
       const fetchedTests = response.data.map((test) => ({
@@ -40,7 +38,6 @@ export default function TestCards() {
       }));
 
       setTests(fetchedTests);
-
     } catch (error) {
       if (error.response?.status === 429 && retries > 0) {
         console.warn(`Too Many Requests: Retrying in ${delay}ms...`);
@@ -51,14 +48,30 @@ export default function TestCards() {
     }
   };
 
+  const fetchTestById = async (id) => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) return null;
+    const url = id === "belbin" 
+      ? `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/belbin` 
+      : `http://ec2-13-60-83-13.eu-north-1.compute.amazonaws.com:3000/tests/${id}`;
+
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching test details:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
-
     if (!userInfo || !authToken) {
       console.warn("Missing user info or token. Aborting test fetch.");
       return;
     }
-
     fetchTests(authToken);
   }, [userInfo]);
 
@@ -66,13 +79,20 @@ export default function TestCards() {
     return <Skeleton />;
   }
 
-  const handleStartClick = (testId) => {
-    if (testId === "677ffc10bc648d0df2743ff7") {
-      setSelectedTestId(testId);
-      setShowDescription(true);
-    } else {
-      window.location.href = `/test/${testId}`;
+  const handleStartClick = async (testId) => {
+    const testData = await fetchTestById(testId);
+    if (!testData) {
+      alert("Failed to load test details.");
+      return;
     }
+
+    setSelectedTest({
+      id: testData._id,
+      title: testData.title,
+      description: testData.description,
+    });
+
+    setShowDescription(true);
   };
 
   const filteredTests = tests.filter((test) =>
@@ -109,15 +129,15 @@ export default function TestCards() {
                   backgroundColor: "white",
                 }}
               >
-              <Card.Img
-  style={{
-    marginTop: "-2.1%",
-    marginLeft: "-3.4%",
-    width: "107%",
-  }}
-  variant="top"
-  src={images[index % images.length]}
-/>
+                <Card.Img
+                  style={{
+                    marginTop: "-2.1%",
+                    marginLeft: "-3.4%",
+                    width: "107%",
+                  }}
+                  variant="top"
+                  src={images[index % images.length]}
+                />
 
                 <Card.Body className="flex-column align-items-center">
                   <Card.Title
@@ -155,10 +175,11 @@ export default function TestCards() {
         </div>
       </div>
 
-      {showDescription && (
+      {showDescription && selectedTest && (
         <DescriptionComponent
           show={showDescription}
           setShow={setShowDescription}
+          test={selectedTest}
         />
       )}
     </>

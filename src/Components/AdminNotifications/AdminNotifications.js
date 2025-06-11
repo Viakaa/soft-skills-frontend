@@ -76,7 +76,7 @@ const NotificationForm = () => {
         console.error(err);
         setError(err.message || "Failed to load tests");
       });
-  }, []); 
+  }, []);
 
   const handleAddUser = (user) => {
     if (!addedUsers.some((u) => u._id === user._id)) {
@@ -85,9 +85,7 @@ const NotificationForm = () => {
   };
 
   const handleRemoveUser = (user) => {
-    setAddedUsers((prevUsers) =>
-      prevUsers.filter((u) => u._id !== user._id)
-    );
+    setAddedUsers((prevUsers) => prevUsers.filter((u) => u._id !== user._id));
   };
 
   const handleClearForm = () => {
@@ -102,6 +100,7 @@ const NotificationForm = () => {
     });
     setSearch("");
     setAddedUsers([]);
+    setError(null);
   };
 
   const handleInputChange = (e) => {
@@ -141,7 +140,7 @@ const NotificationForm = () => {
           dueDate: formData.dateOfEvent,
           testId: formData.selectedTest,
           message: `${formData.additionalDescription || "No additional message provided."}\n\nTest Link: ${testLink}`,
-        },        
+        },
       };
     } else {
       apiData = {
@@ -176,7 +175,6 @@ const NotificationForm = () => {
       .then((data) => {
         console.log("Notification sent successfully:", data);
         handleClearForm();
-        setError(null);
       })
       .catch((err) => {
         console.error(err);
@@ -195,11 +193,11 @@ const NotificationForm = () => {
             value={formData.type}
             onChange={handleInputChange}
           >
-            <option>Запрошення на тест</option>
-            <option>Оголошення події</option>
+            <option value="testInvitation">Запрошення на тест</option>
+            <option value="event">Оголошення події</option>
           </select>
         </div>
-  
+
         <div className="form-group">
           <label>Назва</label>
           <input
@@ -220,7 +218,7 @@ const NotificationForm = () => {
           />
         </div>
       </div>
-  
+
       <div className="form-group">
         <label>Одержувачі:</label>
         <input
@@ -230,7 +228,7 @@ const NotificationForm = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-  
+
       <div className="recipients">
         <div className="user-list-row">
           <h3>Користувачі:</h3>
@@ -257,7 +255,7 @@ const NotificationForm = () => {
             )}
           </div>
         </div>
-  
+
         <div className="added-users-row">
           <h3>Додані користувачі:</h3>
           <div className="added-users-list">
@@ -274,7 +272,7 @@ const NotificationForm = () => {
           </div>
         </div>
       </div>
-  
+
       {formData.type === "testInvitation" ? (
         <div className="form-group">
           <label>Оберіть тест:</label>
@@ -310,11 +308,13 @@ const NotificationForm = () => {
           />
         </div>
       )}
-  
+
       <div className="form-actions">
         <button onClick={handleClearForm}>Очистити</button>
         <button onClick={handleSendNotification}>Надіслати</button>
       </div>
     </div>
-  );};
+  );
+};
+
 export default NotificationForm;

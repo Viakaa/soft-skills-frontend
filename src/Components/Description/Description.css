@@ -83,10 +83,7 @@
     color: white;
   }
   
-  .start-btn:hover {
-    background-color: #545b62;
-  }
-  
+
   @media (max-width: 768px) {
     .description-modal .modal-body {
       font-size: 14px;
